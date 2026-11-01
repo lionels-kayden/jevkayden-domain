@@ -1,0 +1,57 @@
+{
+  "categoryTree": [
+    {
+      "id": "01_ENGINEERING",
+      "name": {
+        "vi": "Kỹ thuật Vi mạch & Hệ thống Nhúng",
+        "en": "IC Design & Embedded Systems"
+      },
+      "subCategories": [
+        {
+          "id": "IC_DESIGN",
+          "name": {
+            "vi": "Thiết kế Vi mạch & RTL",
+            "en": "IC Design & RTL Architecture"
+          },
+          "description": {
+            "vi": "Nghiên cứu vi mạch số, kiến trúc RISC-V và tổng hợp logic trên FPGA.",
+            "en": "Digital IC research, RISC-V architecture and FPGA synthesis."
+          }
+        }
+      ]
+    }
+  ],
+  "posts": [
+    {
+      "id": "post-01",
+      "slug": "toi-uu-hoa-pipeline-5-stage-riscv-fpga",
+      "paperId": "UET-FET-2026-01",
+      "title": {
+        "vi": "Tối ưu hóa Pipeline 5-Stage cho Vi kiến trúc RISC-V RV32I trên Xilinx Artix-7 FPGA",
+        "en": "5-Stage Pipeline Optimization for RISC-V RV32I Architecture on Xilinx Artix-7 FPGA"
+      },
+      "excerpt": {
+        "vi": "Phân tích kỹ thuật giải quyết Data Hazards và Control Hazards thông qua Forwarding Unit và Dynamic Branch Prediction.",
+        "en": "Technical analysis on resolving Data Hazards and Control Hazards via Forwarding Unit and Dynamic Branch Prediction."
+      },
+      "content": {
+        "vi": "## 1. Đặt vấn đề\n\nTrong thiết kế vi xử lý hiệu năng cao, kỹ thuật phân tầng đường ống (pipelining) là nền tảng cốt lõi...",
+        "en": "## 1. Introduction\n\nIn high-performance processor design, pipelining is the core foundation..."
+      },
+      "parentCategory": "01_ENGINEERING",
+      "subCategory": "IC_DESIGN",
+      "tags": [
+        "RISC-V",
+        "Verilog",
+        "FPGA",
+        "Artix-7"
+      ],
+      "status": "PUBLISHED",
+      "pinned": true,
+      "publishedAt": "2026-10-25T08:00:00.000Z",
+      "updatedAt": "2026-10-30T10:00:00.000Z",
+      "readingTime": "8 min"
+    }
+  ],
+  "lastUpdated": "2026-10-30T15:33:34.826Z"
+}

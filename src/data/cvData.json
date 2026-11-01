@@ -1,0 +1,427 @@
+{
+  "personalInfo": {
+    "fullName": "Nguyễn Quang Thắng",
+    "handle": "Jev Kayden",
+    "title": {
+      "vi": "Kỹ sư Thiết kế Vi mạch & Hệ thống Nhúng IoT",
+      "en": "IC Design & IoT Systems Engineer"
+    },
+    "email": "nguyenquangthang8827@gmail.com",
+    "phone": "+84 (0) 988 278 827",
+    "location": {
+      "vi": "Hà Nội, Việt Nam [UTC+7]",
+      "en": "Hanoi, Vietnam [UTC+7]"
+    },
+    "website": "https://jevkayden.tech",
+    "github": "https://github.com/jevkayden",
+    "linkedin": "https://linkedin.com/in/nguyenquangthang",
+    "summary": {
+      "vi": "Kỹ sư Kỹ thuật Điện tử & Viễn thông chuyên sâu về Thiết kế Vi mạch số (Digital IC Design / Verilog RTL), Kiến trúc Hệ thống Nhúng (Embedded C/FreeRTOS) và Hạ tầng Viễn trắc IoT thời gian thực. Đam mê chuyển đổi từ logic bán dẫn vật lý, tối ưu hóa xung nhịp/năng lượng đến các giải pháp phần mềm tự động hóa full-stack.",
+      "en": "Electronics & Telecommunications Engineering graduate specializing in Digital IC Design (Verilog / RTL synthesis), Embedded Firmware Architecture (C/C++ & FreeRTOS), and Industrial IoT Telemetry. Passionate about bridging physical silicon logic, low-power hardware circuits, and scalable full-stack automation."
+    },
+    "clearanceLevel": "LEVEL-4 ARCHITECT",
+    "dateOfBirth": "2004"
+  },
+  "education": [
+    {
+      "id": "edu-1",
+      "institution": {
+        "vi": "Trường Đại học Công nghệ – Đại học Quốc gia Hà Nội (VNU-UET)",
+        "en": "University of Engineering and Technology – VNU Hanoi (VNU-UET)"
+      },
+      "faculty": {
+        "vi": "Khoa Điện tử Viễn thông (FET)",
+        "en": "Faculty of Electronics and Telecommunications (FET)"
+      },
+      "degree": {
+        "vi": "Kỹ sư Công nghệ Kỹ thuật Điện tử – Viễn thông",
+        "en": "B.Eng. in Electronics and Telecommunications Engineering"
+      },
+      "specialization": {
+        "vi": "Định hướng Thiết kế Vi mạch Bán dẫn (IC Design / VLSI) & Hệ thống Nhúng IoT",
+        "en": "Specialization in Semiconductor IC Design (VLSI/RTL) & Embedded IoT Systems"
+      },
+      "majorDescription": {
+        "vi": "Chương trình đào tạo kỹ sư chất lượng cao tập trung vào thiết kế vi mạch số/tương tự, kiến trúc vi xử lý (ARM/RISC-V), hệ thống nhúng thời gian thực (RTOS) và mạng cảm biến viễn trắc IoT.",
+        "en": "Core engineering program focused on digital/analog integrated circuit design, microprocessor architectures (ARM/RISC-V), real-time embedded firmware, and industrial IoT telemetry networks."
+      },
+      "period": "2025 - 2029",
+      "location": {
+        "vi": "Hà Nội, Việt Nam",
+        "en": "Hanoi, Vietnam"
+      },
+      "gpa": "3.62 / 4.0 [Top Academic Honors]",
+      "honors": {
+        "vi": "Học bổng Khuyến khích Học tập & Nghiên cứu Khoa học",
+        "en": "Academic Merit Scholarship & Research Excellence"
+      },
+      "coursework": {
+        "vi": [
+          "Thiết kế Vi mạch Số & Ngôn ngữ Verilog HDL",
+          "Vật lý Bán dẫn & Cấu kiện Vi điện tử",
+          "Kiến trúc Máy tính & Vi xử lý (ARM/RISC-V)",
+          "Hệ thống Nhúng & Hệ điều hành Thời gian thực (RTOS)",
+          "Xử lý Tín hiệu Số (DSP) & Điện tử Tương tự",
+          "Trường Điện từ & Kỹ thuật Viễn thông",
+          "Đại số Tuyến tính & Giải tích Vector Nâng cao"
+        ],
+        "en": [
+          "Digital IC Design & Verilog HDL Synthesis",
+          "Semiconductor Physics & Microelectronic Devices",
+          "Computer Architecture & Microprocessors (ARM/RISC-V)",
+          "Embedded Systems & Real-Time Operating Systems (RTOS)",
+          "Digital Signal Processing (DSP) & Analog Circuitry",
+          "Electromagnetic Fields & Telecommunication Engineering",
+          "Linear Algebra & Advanced Vector Calculus"
+        ]
+      }
+    }
+  ],
+  "skills": [
+    {
+      "id": "skill-ic",
+      "categoryName": {
+        "vi": "Thiết kế Vi mạch & Phần cứng Bán dẫn",
+        "en": "IC Design & Silicon Hardware"
+      },
+      "iconName": "Cpu",
+      "skills": [
+        "Verilog HDL & SystemVerilog",
+        "VHDL & RTL Modeling",
+        "Digital Logic & State Machine Design (FSM)",
+        "Logic Synthesis (Synopsys DC, Yosys)",
+        "RTL Simulation & Testbench Verification (ModelSim / Questasim)",
+        "Static Timing Analysis (STA) & Clock Domain Crossing (CDC)",
+        "CMOS / VLSI Fundamentals",
+        "FPGA Prototyping (Xilinx Vivado, Intel Quartus)",
+        "Schematic Capture & PCB Layout (KiCad, Altium)",
+        "Circuit Analysis & SPICE Simulation"
+      ]
+    },
+    {
+      "id": "skill-embedded",
+      "categoryName": {
+        "vi": "Hệ thống Nhúng & Công nghệ IoT",
+        "en": "Embedded Firmware & IoT Systems"
+      },
+      "iconName": "Radio",
+      "skills": [
+        "Embedded C / Modern C++ (C++17/20)",
+        "FreeRTOS (Queues, Semaphores, Event Groups)",
+        "Bare-Metal ARM Cortex-M & RISC-V Firmware",
+        "ESP32 (ESP-IDF) & STM32 (HAL / LL Driver)",
+        "Hardware Protocols: UART, SPI, I2C, CAN Bus, DMA",
+        "Low-Power Deep Sleep Optimization (<15µA)",
+        "MQTT, CoAP, HTTP/3, WebSockets Telemetry",
+        "LoRa / LoRaWAN & RF Transceivers",
+        "Linux Embedded, POSIX APIs, Shell & Bash Scripting",
+        "Oscilloscope, Logic Analyzer, SMD Soldering"
+      ]
+    },
+    {
+      "id": "skill-software",
+      "categoryName": {
+        "vi": "Kỹ thuật Phần mềm & Tự động hóa",
+        "en": "Software & Web Engineering"
+      },
+      "iconName": "Code",
+      "skills": [
+        "Python (FastAPI, NumPy, Matplotlib)",
+        "TypeScript & Next.js 16 (App Router)",
+        "Tailwind CSS v4 & Modern UI Architecture",
+        "Docker & Containerized Microservices",
+        "RESTful & Streaming Socket APIs",
+        "Git, GitHub Actions & CI/CD Pipelines",
+        "Linux System Administration & Turbopack",
+        "Obsidian / Markdown Digital Gardens"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-1",
+      "title": {
+        "vi": "Bộ vi xử lý & ALU 32-bit Pipelined (Verilog HDL)",
+        "en": "32-Bit Pipelined ALU & Micro-Controller Core"
+      },
+      "tag": "DIGITAL_IC",
+      "role": {
+        "vi": "Kỹ sư Thiết kế RTL & Kiểm thử",
+        "en": "Lead RTL Design & Verification Engineer"
+      },
+      "period": "10/2024 - 03/2025",
+      "url": "https://github.com/jevkayden/verilog-32bit-alu-core",
+      "description": {
+        "vi": "Thiết kế, mô phỏng và tổng hợp vi mạch số hoàn chỉnh cho khối ALU 32-bit có phân tầng (5-stage pipeline) kết hợp bộ giải mã lệnh vi tuần tự (Micro-sequencer Control Unit). Giải quyết triệt để xung đột dữ liệu (data hazards) và phân nhánh (branch penalties) bằng kỹ thuật operand forwarding.",
+        "en": "Architected, verified, and synthesized a full 32-bit 5-stage pipelined Arithmetic Logic Unit (ALU) with micro-sequencer control core in Verilog HDL. Resolved structural and data hazards via hazard detection logic and operand forwarding pipelines."
+      },
+      "highlights": {
+        "vi": [
+          "Hỗ trợ 32 phép toán số học dấu phẩy tĩnh, phép dịch bit 32-bit barrel shifter và logic so sánh điều kiện",
+          "Xây dựng bộ testbench tự kiểm tra (self-checking testbench) với 50.000 vector ngẫu nhiên đạt 98.7% code coverage",
+          "Tổng hợp logic trên công cụ Synopsys Design Compiler với thư viện 45nm tiêu chuẩn, tối ưu hóa clock-gating giảm 23% công suất tiêu thụ động",
+          "Hiện thực hóa và kiểm tra thực nghiệm trên kit FPGA Xilinx Artix-7 ở tần số xung nhịp 100MHz"
+        ],
+        "en": [
+          "Executed 32 arithmetic/logical instructions with single-cycle 32-bit barrel shifter and condition flag registers",
+          "Engineered self-checking automated testbench running 50,000 randomized verification vectors, achieving 98.7% functional coverage",
+          "Synthesized with Synopsys Design Compiler on 45nm standard cell library; optimized dynamic power consumption by 23% via clock gating",
+          "Prototyped and validated on Xilinx Artix-7 FPGA development board operating stably at 100MHz clock frequency"
+        ]
+      },
+      "technologies": [
+        "Verilog HDL",
+        "ModelSim",
+        "Synopsys DC",
+        "Xilinx Vivado",
+        "FPGA Artix-7",
+        "Digital IC",
+        "STA"
+      ]
+    },
+    {
+      "id": "proj-2",
+      "title": {
+        "vi": "Hệ thống Viễn trắc IoT & Nút Cảm biến Biên Đa năng",
+        "en": "Industrial Multi-Sensor IoT Edge Telemetry System"
+      },
+      "tag": "EMBEDDED_IOT",
+      "role": {
+        "vi": "Kỹ sư Phần cứng & Firmware Nhúng",
+        "en": "Embedded Hardware & Firmware Engineer"
+      },
+      "period": "05/2024 - 11/2024",
+      "url": "https://github.com/jevkayden/industrial-iot-telemetry",
+      "description": {
+        "vi": "Thiết kế mạch in PCB 2 lớp và phát triển firmware FreeRTOS chạy trên vi điều khiển ESP32-S3/STM32 phục vụ giám sát môi trường và viễn trắc thiết bị công nghiệp. Tích hợp giao thức truyền thông an toàn MQTT qua TLS và kênh dự phòng truyền sóng LoRa khoảng cách xa.",
+        "en": "Designed a custom 2-layer PCB and developed FreeRTOS multi-threaded firmware on ESP32-S3 and STM32 MCUs for industrial environmental telemetry. Features TLS-encrypted MQTT transmission over Wi-Fi with LoRa long-range fallback links."
+      },
+      "highlights": {
+        "vi": [
+          "Thiết kế schematic và layout PCB 2 lớp trên KiCad với đường bảo vệ TVS ESD, bộ lọc nguồn LDO/Buck độ ồn thấp",
+          "Firmware FreeRTOS quản lý 4 tác vụ độc lập: lấy mẫu cảm biến qua DMA I2C/SPI, xử lý lọc nhiễu Kalman, mã hóa JSON và đóng gói MQTT",
+          "Tối ưu chế độ ngủ sâu (Deep Sleep) với dòng tĩnh dưới 14.5µA, cho phép thiết bị vận hành liên tục trên 18 tháng với pin Li-ion 2500mAh",
+          "Xây dựng server backend với Python FastAPI và Docker container để thu thập, phân tích và trực quan hóa dữ liệu theo thời gian thực"
+        ],
+        "en": [
+          "Routed 2-layer PCB in KiCad with TVS diode ESD clamping, buck-boost voltage regulation, and isolated analog sensor planes",
+          "Authored multi-task FreeRTOS architecture: DMA-based sensor sampling, discrete Kalman filter, JSON serialization, and TLS MQTT dispatch",
+          "Attained ultra-low power deep sleep current under 14.5µA, achieving 18+ months battery life on single 2500mAh cell",
+          "Deployed real-time telemetry analytics backend using Python FastAPI, TimescaleDB, and Docker containerized dashboards"
+        ]
+      },
+      "technologies": [
+        "Embedded C/C++",
+        "ESP32-S3",
+        "STM32",
+        "FreeRTOS",
+        "MQTT / TLS",
+        "KiCad PCB",
+        "Python FastAPI",
+        "Docker"
+      ]
+    },
+    {
+      "id": "proj-3",
+      "title": {
+        "vi": "Hệ sinh thái Hub Điều hướng & Động cơ CV 6 Giao diện",
+        "en": "JevKayden Modular Ecosystem & 6-Template CV Engine"
+      },
+      "tag": "SYSTEM_PLATFORM",
+      "role": {
+        "vi": "Kiến trúc sư Hệ thống & Lập trình viên Full-Stack",
+        "en": "System Architect & Full-Stack Engineer"
+      },
+      "period": "01/2025 - Hiện tại",
+      "url": "https://jevkayden.tech",
+      "description": {
+        "vi": "Hạ tầng cổng thông tin cá nhân và động cơ hiển thị hồ sơ năng lực đa phân khu tên miền phụ (subdomain routing), hỗ trợ 6 phong cách hiển thị chuẩn in ấn A4 (PDF), đồng bộ dữ liệu thời gian thực và kiến trúc Headless CMS.",
+        "en": "Production-grade personal navigation hub and multi-subdomain ecosystem featuring an interactive 6-template CV print/PDF engine, sub-domain middleware reverse-proxy, and real-time headless CMS."
+      },
+      "highlights": {
+        "vi": [
+          "Thiết kế middleware Next.js 16 xử lý điều hướng thông minh cho tên miền phụ (cv.jevkayden.tech -> /cv, admin.* -> /admin)",
+          "Xây dựng 6 giao diện CV chuyên biệt: Neo-Brutalist, Executive Clean, ATS Classic A4, Apple Silicon Bento, Datasheet Bán dẫn, Swiss Typographic",
+          "Động cơ xuất PDF chuẩn A4 2 chế độ (Color Styled & ATS Black-White) tuân thủ 100% kích thước in ấn chuẩn quốc tế",
+          "Trang quản trị /admin với Live Preview đồng bộ tức thì dưới 0.1 giây và cầu nối định dạng Obsidian Markdown"
+        ],
+        "en": [
+          "Configured Next.js 16 App Router Edge Middleware handling seamless multi-subdomain rewriting (`cv.*` -> `/cv`, `admin.*` -> `/admin`)",
+          "Engineered 6 tailored CV presentations: Neo-Brutalist, Executive Clean, ATS Classic A4, Apple Silicon Bento, Datasheet, Swiss Typographic",
+          "Implemented dual-mode pixel-perfect A4 PDF export with strict `@page` CSS and exact color profile preservation",
+          "Integrated split-screen headless admin CMS with sub-100ms real-time preview and Obsidian Markdown export bridge"
+        ]
+      },
+      "technologies": [
+        "Next.js 16",
+        "TypeScript",
+        "Tailwind CSS v4",
+        "Node.js API",
+        "Turbopack",
+        "Print CSS",
+        "Subdomain Middleware"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "id": "exp-1",
+      "title": {
+        "vi": "Chương trình Định hướng & Trải nghiệm Công nghệ Doanh nghiệp",
+        "en": "Corporate Tech Immersion & Field Program"
+      },
+      "organization": {
+        "vi": "FPT Software (Hola Park - Khu Công nghệ cao Hòa Lạc, Hà Nội)",
+        "en": "FPT Software (Hola Park Campus - Hoa Lac Hi-Tech Park)"
+      },
+      "location": {
+        "vi": "Hà Nội, Việt Nam",
+        "en": "Hanoi, Vietnam"
+      },
+      "period": "2024",
+      "role": {
+        "vi": "Thực tập sinh Trải nghiệm Công nghệ Phần mềm Nhúng",
+        "en": "Engineering Trainee & Corporate Delegate"
+      },
+      "description": {
+        "vi": "Tham gia chuỗi hội thảo chuyên sâu và trải nghiệm trực tiếp quy trình phát triển phần mềm ô tô tiêu chuẩn AUTOSAR, kiểm thử hệ thống nhúng tự động và chu trình DevOps quy mô doanh nghiệp tại trung tâm phần mềm lớn nhất Việt Nam.",
+        "en": "Participated in an intensive corporate immersion program focusing on enterprise automotive software standards (AUTOSAR), automated embedded testing workflows, and large-scale industrial software engineering practices."
+      },
+      "highlights": {
+        "vi": [
+          "Nghiên cứu kiến trúc phân tầng AUTOSAR Classic/Adaptive và mô hình kiểm thử phần mềm trên xe tự hành",
+          "Tìm hiểu quy trình CI/CD cho firmware nhúng, tiêu chuẩn an toàn chức năng ISO 26262 và quy trình làm việc Agile/Scrum"
+        ],
+        "en": [
+          "Analyzed AUTOSAR layered architecture for automotive ECUs and automated software-in-the-loop (SIL) testing",
+          "Explored embedded firmware CI/CD pipelines, ISO 26262 functional safety benchmarks, and enterprise Agile methodologies"
+        ]
+      },
+      "skills": [
+        "AUTOSAR",
+        "Embedded Systems",
+        "Automotive Software",
+        "ISO 26262",
+        "Agile/Scrum"
+      ]
+    },
+    {
+      "id": "exp-2",
+      "title": {
+        "vi": "Phòng Thử nghiệm Phần cứng & Nghiên cứu Bàn phím Cơ học",
+        "en": "Hardware Lab & Custom Mechanical Keyboard Engineering"
+      },
+      "organization": {
+        "vi": "Phòng Lab Nghiên cứu Độc lập & Cộng đồng Maker Kỹ thuật",
+        "en": "Self-Directed Hardware Laboratory & Maker Community"
+      },
+      "location": {
+        "vi": "Hà Nội, Việt Nam",
+        "en": "Hanoi, Vietnam"
+      },
+      "period": "2023 - Hiện tại",
+      "role": {
+        "vi": "Kỹ sư Thiết kế Mạch & Lập trình Firmware",
+        "en": "Hardware & Firmware Maker"
+      },
+      "description": {
+        "vi": "Chế tạo các thiết bị ngoại vi và bàn phím công thái học tùy biến cao. Thiết kế bảng mạch chuyển đổi, hàn chân linh kiện dán SMD và phát triển firmware mã nguồn mở QMK/ZMK tối ưu độ trễ phím dưới 1ms.",
+        "en": "Engineered customized split ergonomic peripherals and mechanical keyboards. Hand-soldered high-density SMD components under microscope and flashed low-latency (<1ms) open-source QMK/ZMK firmware."
+      },
+      "highlights": {
+        "vi": [
+          "Thiết kế mạch in hỗ trợ hotswap và vi điều khiển RP2040 / Pro Micro nạp firmware qua bootloader USB Type-C",
+          "Kỹ thuật hàn chì vi mạch SMD (gói 0805, 0603 và IC QFP/QFN) cùng kiểm tra tính liên tục bằng máy hiện sóng"
+        ],
+        "en": [
+          "Designed custom PCB daughterboards supporting RP2040 / Pro Micro microcontrollers via USB-C bootloaders",
+          "Mastered microscope SMD hand-soldering (0805, 0603 passives, QFN/QFP ICs) and signal debouncing verification"
+        ]
+      },
+      "skills": [
+        "QMK / ZMK",
+        "SMD Soldering",
+        "RP2040",
+        "KiCad",
+        "Signal Debouncing"
+      ]
+    }
+  ],
+  "certifications": [
+    {
+      "id": "cert-1",
+      "name": {
+        "vi": "Chứng chỉ Đào tạo Chuyên sâu Thiết kế Vi mạch & Bán dẫn",
+        "en": "Advanced Semiconductor & Digital IC Design Certification"
+      },
+      "issuer": "National IC Design Collaboration Program",
+      "year": "2024"
+    },
+    {
+      "id": "cert-2",
+      "name": {
+        "vi": "Kiến trúc Hệ điều hành Thời gian thực FreeRTOS cho Hệ thống Nhúng",
+        "en": "FreeRTOS Real-Time Operating Systems Architecture"
+      },
+      "issuer": "Embedded Systems Institute",
+      "year": "2024"
+    },
+    {
+      "id": "cert-3",
+      "name": {
+        "vi": "Chứng chỉ Năng lực Tiếng Anh Chuyên ngành Kỹ thuật (TOEIC 850+)",
+        "en": "Professional Technical English Proficiency (TOEIC 850+)"
+      },
+      "issuer": "ETS",
+      "year": "2023"
+    }
+  ],
+  "keyMetrics": [
+    {
+      "label": {
+        "vi": "TỔNG HỢP RTL",
+        "en": "RTL & SILICON"
+      },
+      "value": "32-BIT",
+      "subtext": {
+        "vi": "Khối ALU 5-stage Pipelined",
+        "en": "Pipelined 5-Stage Core"
+      }
+    },
+    {
+      "label": {
+        "vi": "ĐỘ BAO PHỦ TESTBENCH",
+        "en": "TEST COVERAGE"
+      },
+      "value": "98.7%",
+      "subtext": {
+        "vi": "50.000+ Vector Kiểm thử",
+        "en": "50k+ Test Vectors"
+      }
+    },
+    {
+      "label": {
+        "vi": "DÒNG TIÊU THỤ DEEP SLEEP",
+        "en": "STANDBY CURRENT"
+      },
+      "value": "<14.5µA",
+      "subtext": {
+        "vi": "Nút IoT Pin 18+ Tháng",
+        "en": "18+ Mo. Battery Life"
+      }
+    },
+    {
+      "label": {
+        "vi": "KIẾN TRÚC VI ĐIỀU KHIỂN",
+        "en": "CORE FAMILIES"
+      },
+      "value": "3+ SOCS",
+      "subtext": {
+        "vi": "STM32, ESP32, Artix-7",
+        "en": "ARM, Xtensa, FPGA"
+      }
+    }
+  ],
+  "lastUpdated": "2026-10-30T15:32:37.393Z",
+  "version": "4.19-PRODUCTION"
+}

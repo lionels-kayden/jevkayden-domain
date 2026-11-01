@@ -1,0 +1,170 @@
+{
+  "hero": {
+    "fullName": "Nguyễn Quang Thắng",
+    "alias": "Jev Kayden",
+    "role": {
+      "vi": "Kỹ sư Thiết kế Vi mạch & Phần cứng Nhúng",
+      "en": "Hardware & IC Design Engineer"
+    },
+    "subRole": {
+      "vi": "Chuyên gia Thiết kế RTL, Vi kiến trúc RISC-V & Hệ thống Nhúng",
+      "en": "RTL Architecture, RISC-V & Embedded Systems Specialist"
+    },
+    "faculty": {
+      "vi": "Khoa Điện tử Viễn thông (FET) — Đại học Công nghệ, ĐHQGHN",
+      "en": "Faculty of Electronics & Telecommunications (FET) — VNU-UET"
+    },
+    "location": {
+      "vi": "Hà Nội, Việt Nam",
+      "en": "Hanoi, Vietnam"
+    },
+    "status": {
+      "vi": "SẴN SÀNG HỢP TÁC R&D // LAB VNU-UET",
+      "en": "READY FOR R&D COLLABORATION // VNU-UET LAB"
+    },
+    "bio": {
+      "vi": "Sinh viên Kỹ thuật Điện tử Viễn thông định hướng Thiết kế Vi mạch (IC Design) & Hệ thống Nhúng tại Trường Đại học Công nghệ – ĐHQGHN. Đam mê tối ưu hóa kiến trúc RTL, mô phỏng số và thiết kế bo mạch tốc độ cao.",
+      "en": "Electronics & Telecommunications Engineering student specializing in IC Design and Embedded Systems at VNU-UET. Passionate about RTL architecture optimization, digital simulation, and high-speed PCB design."
+    },
+    "headlinePrefix": {
+      "vi": "XÂY DỰNG PHẦN CỨNG",
+      "en": "ENGINEERING HARDWARE"
+    },
+    "highlight1": {
+      "vi": "TỪ MỨC TRANSISTOR",
+      "en": "FROM TRANSISTOR LEVEL"
+    },
+    "headlineMid": {
+      "vi": "ĐẾN HỆ ĐIỀU HÀNH",
+      "en": "TO EMBEDDED RTOS"
+    },
+    "highlight2": {
+      "vi": "THỜI GIAN THỰC",
+      "en": "REAL-TIME LOGIC"
+    },
+    "headlineSuffix": {
+      "vi": "CHUẨN CÔNG NGHIỆP",
+      "en": "INDUSTRIAL GRADE"
+    }
+  },
+  "subdomains": [
+    {
+      "id": "blog",
+      "name": "02 // BLOG GARDEN",
+      "status": "ONLINE",
+      "subdomain": "blog.jevkayden.tech",
+      "description": {
+        "vi": "Vườn số cá nhân, nhật ký nghiên cứu vi mạch, kiến trúc RTL và hệ thống nhúng.",
+        "en": "Technical digital garden, IC design research logs, RTL architecture, and embedded notes."
+      }
+    },
+    {
+      "id": "cv",
+      "name": "01 // CV DOSSIER",
+      "status": "ONLINE",
+      "subdomain": "cv.jevkayden.tech",
+      "description": {
+        "vi": "Hồ sơ năng lực kỹ thuật số 6 giao diện chuẩn công nghiệp, in ấn A4 chuẩn ATS.",
+        "en": "6-template industrial engineering CV dossier with dual-mode ATS & A4 color export."
+      }
+    },
+    {
+      "id": "app",
+      "name": "03 // APP LAB",
+      "status": "STANDBY",
+      "subdomain": "app.jevkayden.tech",
+      "description": {
+        "vi": "Phòng thí nghiệm ứng dụng vi điều khiển, mô phỏng logic số và công cụ EDA web.",
+        "en": "Micro-applications lab, logic simulation suite, and Web-EDA hardware tools."
+      }
+    }
+  ],
+  "techMarquee": [
+    {
+      "name": "SystemVerilog",
+      "category": "HARDWARE",
+      "tag": "RTL"
+    },
+    {
+      "name": "Verilog HDL",
+      "category": "HARDWARE",
+      "tag": "DIGITAL"
+    },
+    {
+      "name": "VHDL",
+      "category": "HARDWARE",
+      "tag": "SYNTHESIS"
+    },
+    {
+      "name": "RISC-V ISA",
+      "category": "HARDWARE",
+      "tag": "ARCH"
+    },
+    {
+      "name": "Synopsys Design Compiler",
+      "category": "HARDWARE",
+      "tag": "EDA"
+    },
+    {
+      "name": "Cadence Innovus",
+      "category": "HARDWARE",
+      "tag": "P&R"
+    },
+    {
+      "name": "ModelSim / QuestaSim",
+      "category": "HARDWARE",
+      "tag": "SIM"
+    },
+    {
+      "name": "FPGA Vivado",
+      "category": "HARDWARE",
+      "tag": "XILINX"
+    },
+    {
+      "name": "FreeRTOS",
+      "category": "EMBEDDED",
+      "tag": "KERNEL"
+    },
+    {
+      "name": "Embedded C/C++",
+      "category": "EMBEDDED",
+      "tag": "FIRMWARE"
+    },
+    {
+      "name": "ARM Cortex-M4/M7",
+      "category": "EMBEDDED",
+      "tag": "MCU"
+    },
+    {
+      "name": "STM32 HAL / LL",
+      "category": "EMBEDDED",
+      "tag": "BARE-METAL"
+    },
+    {
+      "name": "Altium Designer",
+      "category": "CIRCUIT",
+      "tag": "PCB"
+    },
+    {
+      "name": "KiCad 8",
+      "category": "CIRCUIT",
+      "tag": "SCHEMATIC"
+    },
+    {
+      "name": "Git / GitHub Actions",
+      "category": "DEVOPS",
+      "tag": "CI/CD"
+    }
+  ],
+  "pagerContact": {
+    "email": "thang.electronics.vnu@gmail.com",
+    "pagerId": "JEV-PAGER-8086",
+    "channel": "CH-09 // VNU-UET LABS",
+    "operatingHours": "08:00 - 22:00 UTC+7",
+    "statusMessage": {
+      "vi": "Tín hiệu liên lạc đang mở. Hãy để lại tin nhắn hoặc email để phản hồi kỹ thuật nhanh nhất.",
+      "en": "RF communications channel active. Leave a dispatch or send email for prompt technical response."
+    }
+  },
+  "lastUpdated": "2026-10-30T15:32:37.382Z"
+}

@@ -1,0 +1,382 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+@theme {
+  --font-sans: var(--font-sans), sans-serif;
+  --font-serif: var(--font-serif), serif;
+  --font-mono: var(--font-mono), monospace;
+}
+
+@layer base {
+  :root {
+    --bg-cream: #f4f0ea;
+    --border-black: #000000;
+    --font-heading: var(--font-sans), sans-serif;
+    --font-code: var(--font-mono), monospace;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--bg-cream);
+    color: #121212;
+    font-family: var(--font-code);
+    background-image: 
+      linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: 0 0;
+    min-height: 100vh;
+  }
+
+  /* Custom Retro Scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #e7e2d8;
+    border-left: 2px solid #000000;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #000000;
+    border: 2px solid #e7e2d8;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #333333;
+  }
+}
+
+/* Custom Typography & Neo-Brutalist Utility Classes */
+.font-sans {
+  font-family: var(--font-sans), sans-serif;
+}
+
+.font-serif {
+  font-family: var(--font-serif), serif;
+}
+
+.font-mono {
+  font-family: var(--font-mono), monospace;
+}
+
+.font-display {
+  font-family: var(--font-sans), sans-serif;
+}
+
+.font-terminal {
+  font-family: var(--font-mono), monospace;
+}
+
+/* Mechanical Shadows */
+.neo-shadow-sm {
+  box-shadow: 2px 2px 0px 0px #000000;
+}
+
+.neo-shadow {
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+
+.neo-shadow-md {
+  box-shadow: 6px 6px 0px 0px #000000;
+}
+
+.neo-shadow-lg {
+  box-shadow: 8px 8px 0px 0px #000000;
+}
+
+.neo-shadow-amber {
+  box-shadow: 6px 6px 0px 0px #b45309;
+}
+
+.neo-shadow-emerald {
+  box-shadow: 6px 6px 0px 0px #047857;
+}
+
+.neo-shadow-purple {
+  box-shadow: 6px 6px 0px 0px #6d28d9;
+}
+
+/* Tactile Mechanical Button */
+.neo-btn {
+  border: 2px solid #000000;
+  box-shadow: 4px 4px 0px 0px #000000;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  user-select: none;
+}
+
+.neo-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px 0px #000000;
+}
+
+.neo-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0px 0px #000000;
+}
+
+.neo-btn-lg {
+  border: 3px solid #000000;
+  box-shadow: 6px 6px 0px 0px #000000;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  user-select: none;
+}
+
+.neo-btn-lg:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px 0px #000000;
+}
+
+.neo-btn-lg:active {
+  transform: translate(4px, 4px);
+  box-shadow: 2px 2px 0px 0px #000000;
+}
+
+/* Mechanical Card Hover Effect */
+.neo-card {
+  border: 3px solid #000000;
+  box-shadow: 6px 6px 0px 0px #000000;
+  transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.15s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.neo-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px 0px #000000;
+}
+
+/* Standby Hazard Striping */
+.hazard-stripes-amber {
+  background: repeating-linear-gradient(
+    -45deg,
+    #fef08a,
+    #fef08a 10px,
+    #000000 10px,
+    #000000 20px
+  );
+}
+
+.hazard-stripes-purple {
+  background: repeating-linear-gradient(
+    -45deg,
+    #c4b5fd,
+    #c4b5fd 10px,
+    #1e1b4b 10px,
+    #1e1b4b 20px
+  );
+}
+
+.hazard-stripes-subtle {
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(0, 0, 0, 0.04),
+    rgba(0, 0, 0, 0.04) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+
+/* Subtle CRT Scanline Effect for Terminal */
+.crt-overlay {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+}
+
+/* Infinite Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Blinking cursor and LED animations */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes pulse-led {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 4px #22c55e);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.92);
+    filter: drop-shadow(0 0 1px #22c55e);
+  }
+}
+
+.animate-led {
+  animation: pulse-led 1.8s ease-in-out infinite;
+}
+
+/* Hide Next.js Dev Indicator Portal */
+nextjs-portal {
+  display: none !important;
+}
+
+/* KaTeX Math Responsive Display */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding: 4px 0;
+  margin: 1em 0;
+}
+
+/* Screen: Distinct A4 pages separated by visual workspace gap */
+.a4-pages-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+.a4-sheet {
+  width: 210mm;
+  min-height: 297mm;
+  height: 297mm;
+  background: #ffffff;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Visual Page Number Badge on Screen */
+.a4-page-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 14px;
+  font-family: monospace;
+  font-size: 10px;
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Print Engine & A4 Specification */
+@page {
+  size: A4 portrait;
+  margin: 0mm;
+}
+
+@media print {
+  html, body {
+    width: 210mm !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  .no-print,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  .a4-pages-stack {
+    display: block !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 210mm !important;
+  }
+
+  .a4-sheet {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    overflow: hidden !important;
+  }
+
+  .a4-sheet:last-child {
+    page-break-after: auto !important;
+    break-after: auto !important;
+  }
+
+  #cv-printable-area,
+  #cv-printable-area * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* ATS B&W Filter - ONLY active when explicitly switched to ats-bw-mode */
+  .ats-bw-mode,
+  .ats-bw-mode * {
+    filter: grayscale(100%) contrast(105%) !important;
+  }
+
+  /* Avoid awkward breaks inside cards or sections */
+  .break-inside-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .break-after-avoid {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  /* KaTeX display math print protection */
+  .katex-display {
+    overflow-x: visible !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+  }
+
+  .katex-display > .katex {
+    white-space: normal !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Failsafe to completely hide any Mermaid v12 error bomb containers injected into document.body */
+body > div[id^="dmermaid"],
+body > div[id^="dm_"],
+svg[aria-roledescription="error"] {
+  display: none !important;
+}

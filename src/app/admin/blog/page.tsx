@@ -58,7 +58,7 @@ export default function AdminBlogPage() {
       <BlogWorkspace
         blogData={blogData}
         setBlogData={setBlogData}
-        passcode="2026"
+        passcode={getAdminPasscode()}
       />
     </AdminShell>
   );

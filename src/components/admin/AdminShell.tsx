@@ -40,17 +40,39 @@ export const AdminShell: React.FC<AdminShellProps> = ({
   const pathname = usePathname();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true);
+  const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
   const [passcode, setPasscode] = useState<string>("");
   const [passcodeError, setPasscodeError] = useState<string>("");
 
   // Sync auth state with sessionStorage and localStorage across admin routes
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setTimeout(async () => {
       try {
         const isUnlockedLocal = localStorage.getItem("jevkayden_admin_unlocked") === "true";
         const isUnlockedSession = sessionStorage.getItem("jevkayden_admin_unlocked") === "true";
-        if (isUnlockedLocal || isUnlockedSession) {
-          setIsAuthenticated(true);
+        const storedPasscode =
+          sessionStorage.getItem("jevkayden_admin_passcode") ||
+          localStorage.getItem("jevkayden_admin_passcode");
+
+        if ((isUnlockedLocal || isUnlockedSession) && storedPasscode) {
+          try {
+            const res = await fetch("/api/auth", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ passcode: storedPasscode }),
+            });
+            if (res.ok) {
+              setIsAuthenticated(true);
+            } else {
+              localStorage.removeItem("jevkayden_admin_unlocked");
+              sessionStorage.removeItem("jevkayden_admin_unlocked");
+              localStorage.removeItem("jevkayden_admin_passcode");
+              sessionStorage.removeItem("jevkayden_admin_passcode");
+              setIsAuthenticated(false);
+            }
+          } catch {
+            setIsAuthenticated(true);
+          }
         }
       } catch (e) {
         console.warn("Storage access warning:", e);
@@ -63,20 +85,42 @@ export const AdminShell: React.FC<AdminShellProps> = ({
 
   const [isPublishing, setIsPublishing] = useState<boolean>(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const cleanPass = passcode.trim();
-    if (cleanPass === "2026" || cleanPass === "admin") {
-      try {
-        localStorage.setItem("jevkayden_admin_unlocked", "true");
-        sessionStorage.setItem("jevkayden_admin_unlocked", "true");
-        localStorage.setItem("jevkayden_admin_passcode", cleanPass);
-        sessionStorage.setItem("jevkayden_admin_passcode", cleanPass);
-      } catch { }
-      setIsAuthenticated(true);
-      setPasscodeError("");
-    } else {
-      setPasscodeError("MẬT MÃ KHÔNG CHÍNH XÁC. (Gợi ý dev: '2026' hoặc 'admin')");
+    if (!cleanPass) {
+      setPasscodeError("VUI LÒNG NHẬP MẬT MÃ QUẢN TRỊ.");
+      return;
+    }
+
+    setIsLoggingIn(true);
+    setPasscodeError("");
+
+    try {
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ passcode: cleanPass }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok) {
+        try {
+          localStorage.setItem("jevkayden_admin_unlocked", "true");
+          sessionStorage.setItem("jevkayden_admin_unlocked", "true");
+          localStorage.setItem("jevkayden_admin_passcode", cleanPass);
+          sessionStorage.setItem("jevkayden_admin_passcode", cleanPass);
+        } catch { }
+        setIsAuthenticated(true);
+        setPasscodeError("");
+      } else {
+        setPasscodeError(data.error || "MẬT MÃ XÁC THỰC KHÔNG CHÍNH XÁC.");
+      }
+    } catch {
+      setPasscodeError("KHÔNG THỂ KẾT NỐI ĐẾN CỔNG XÁC THỰC.");
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -163,9 +207,10 @@ export const AdminShell: React.FC<AdminShellProps> = ({
                   type="password"
                   value={passcode}
                   onChange={(e) => setPasscode(e.target.value)}
-                  placeholder="Nhập '2026' hoặc 'admin'..."
+                  placeholder="Nhập mật mã quản trị..."
                   autoFocus
-                  className="w-full p-2.5 bg-zinc-50 border-2 border-black font-mono text-sm font-bold text-black outline-none focus:bg-amber-50"
+                  disabled={isLoggingIn}
+                  className="w-full p-2.5 bg-zinc-50 border-2 border-black font-mono text-sm font-bold text-black outline-none focus:bg-amber-50 disabled:opacity-50"
                 />
               </div>
 
@@ -177,10 +222,20 @@ export const AdminShell: React.FC<AdminShellProps> = ({
 
               <button
                 type="submit"
-                className="w-full py-3 bg-black hover:bg-zinc-800 text-amber-300 font-bold text-xs uppercase border-2 border-black shadow-[4px_4px_0px_0px_#000] active:translate-y-0.5 cursor-pointer flex items-center justify-center gap-2"
+                disabled={isLoggingIn}
+                className="w-full py-3 bg-black hover:bg-zinc-800 disabled:bg-zinc-700 text-amber-300 font-bold text-xs uppercase border-2 border-black shadow-[4px_4px_0px_0px_#000] active:translate-y-0.5 cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                <Unlock className="w-4 h-4" />
-                <span>MỞ KHÓA TRUY CẬP [ENTER]</span>
+                {isLoggingIn ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin text-amber-300" />
+                    <span>ĐANG XÁC THỰC...</span>
+                  </>
+                ) : (
+                  <>
+                    <Unlock className="w-4 h-4" />
+                    <span>MỞ KHÓA TRUY CẬP [ENTER]</span>
+                  </>
+                )}
               </button>
             </form>
 

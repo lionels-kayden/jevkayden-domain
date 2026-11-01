@@ -10,6 +10,7 @@ import { HubData } from "@/types/hub";
 import { BlogData, CategoryTreeNode } from "@/types/blog";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { LaunchpadView, AdminTenant } from "@/components/admin/LaunchpadView";
+import { getAdminPasscode } from "@/lib/adminAuth";
 
 function AdminDashboardContent() {
   const router = useRouter();
@@ -267,10 +268,7 @@ function AdminDashboardContent() {
         );
       }
 
-      const passcode =
-        sessionStorage.getItem("jevkayden_admin_passcode") ||
-        localStorage.getItem("jevkayden_admin_passcode") ||
-        "2026";
+      const passcode = getAdminPasscode();
 
       const restoredModules: string[] = [];
 
@@ -371,10 +369,7 @@ function AdminDashboardContent() {
 
   // 1-Click Git Commit & Push to Vercel
   const handleGitPublish = async () => {
-    const passcode =
-      sessionStorage.getItem("jevkayden_admin_passcode") ||
-      localStorage.getItem("jevkayden_admin_passcode") ||
-      "2026";
+    const passcode = getAdminPasscode();
 
     setIsPublishing(true);
     setPublishStatus({

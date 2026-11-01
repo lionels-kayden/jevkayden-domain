@@ -37,7 +37,7 @@ interface BlogWorkspaceProps {
   passcode?: string;
 }
 
-export const BlogWorkspace: React.FC<BlogWorkspaceProps> = ({ blogData, setBlogData, passcode = "2026" }) => {
+export const BlogWorkspace: React.FC<BlogWorkspaceProps> = ({ blogData, setBlogData, passcode = "" }) => {
   const [selectedPostId, setSelectedPostId] = useState<string>(
     blogData.posts[0]?.id || "post-01"
   );
@@ -381,7 +381,7 @@ export const BlogWorkspace: React.FC<BlogWorkspaceProps> = ({ blogData, setBlogD
   // Immediate persistence to /api/blog (persists directly into src/data/blogData.json)
   const persistBlogData = async (dataToPersist: BlogData): Promise<boolean> => {
     try {
-      const authCode = getAdminPasscode() || passcode || "2026";
+      const authCode = getAdminPasscode() || passcode;
       const res = await fetch("/api/blog", {
         method: "POST",
         headers: {

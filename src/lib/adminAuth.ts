@@ -9,6 +9,28 @@ export interface AdminAuthResult {
 }
 
 /**
+ * Returns the array of valid passcodes for server validation.
+ * If process.env.ADMIN_PASSCODE is configured (e.g. on Vercel), ONLY that passcode is accepted.
+ * Falls back to ["2026", "admin"] only when ADMIN_PASSCODE is undefined (local development).
+ */
+export function getValidServerPasscodes(): string[] {
+  const envPasscode = process.env.ADMIN_PASSCODE?.trim();
+  if (envPasscode) {
+    return [envPasscode];
+  }
+  return ["2026", "admin"];
+}
+
+/**
+ * Validates a given passcode against the server's authorized passcodes.
+ */
+export function isPasscodeValid(passcode: string): boolean {
+  if (!passcode) return false;
+  const validPasscodes = getValidServerPasscodes();
+  return validPasscodes.includes(passcode.trim());
+}
+
+/**
  * Validates admin authentication on server-side API routes.
  * Checks header "x-admin-passcode", body "passcode", or body "data.passcode".
  */
@@ -23,14 +45,7 @@ export function validateAdminAuth(
 
   const providedPasscode = (headerPasscode || bodyPasscode || "").trim();
 
-  // Valid passcodes configured in environment or default credentials
-  const validPasscodes = [
-    process.env.ADMIN_PASSCODE,
-    "2026",
-    "admin",
-  ].filter(Boolean) as string[];
-
-  if (!providedPasscode || !validPasscodes.includes(providedPasscode)) {
+  if (!providedPasscode || !isPasscodeValid(providedPasscode)) {
     return {
       authorized: false,
       error:
@@ -46,15 +61,14 @@ export function validateAdminAuth(
  * Safe to call in browser environments.
  */
 export function getAdminPasscode(): string {
-  if (typeof window === "undefined") return "2026";
+  if (typeof window === "undefined") return "";
   try {
     return (
       sessionStorage.getItem("jevkayden_admin_passcode") ||
       localStorage.getItem("jevkayden_admin_passcode") ||
-      "2026"
+      ""
     );
   } catch {
-    return "2026";
+    return "";
   }
 }
-

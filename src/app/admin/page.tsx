@@ -11,6 +11,7 @@ import { BlogData, CategoryTreeNode } from "@/types/blog";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { LaunchpadView, AdminTenant } from "@/components/admin/LaunchpadView";
 import { getAdminPasscode } from "@/lib/adminAuth";
+import { readLiveClientCache } from "@/lib/liveClientSync";
 
 function AdminDashboardContent() {
   const router = useRouter();
@@ -378,21 +379,33 @@ function AdminDashboardContent() {
     });
 
     try {
-      const res = await fetch("/api/publish", {
+      const siteSnapshot = readLiveClientCache("jev_live_hub_data")?.data;
+      const cvSnapshot = readLiveClientCache("jev_live_cv_data")?.data;
+      const blogSnapshot = readLiveClientCache("jev_live_blog_data")?.data;
+
+      const res = await fetch(`/api/publish?t=${Date.now()}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-admin-passcode": passcode,
         },
-        body: JSON.stringify({ passcode }),
+        body: JSON.stringify({
+          passcode,
+          ...(siteSnapshot ? { siteData: siteSnapshot } : {}),
+          ...(cvSnapshot ? { cvData: cvSnapshot } : {}),
+          ...(blogSnapshot ? { blogData: blogSnapshot } : {}),
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         throw new Error(data.error || res.statusText || "Lỗi đồng bộ");
       }
       setPublishStatus({
-        type: "success",
-        text: data.message || "✓ Đã đồng bộ & đẩy lên GitHub thành công!",
+        type: data.githubCommitted === false ? "info" : "success",
+        text:
+          data.githubCommitted === false && data.status === "VERCEL_INSTANT_CACHE"
+            ? "ĐÃ LƯU TRÊN TRÌNH DUYỆT & BỘ ĐỆM! (Thêm GITHUB_TOKEN trên Vercel để commit vĩnh viễn lên GitHub)"
+            : data.message || "✓ Đã đồng bộ & đẩy lên GitHub thành công!",
       });
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Lỗi không xác định";

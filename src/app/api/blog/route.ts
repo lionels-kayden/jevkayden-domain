@@ -90,11 +90,14 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         status: "OK",
+        ok: true,
         syncedAt: updatedData.lastUpdated,
         categoryCount: updatedData.categoryTree.length,
         postCount: updatedData.posts.length,
         mode: persistResult.mode,
         syncedToGithub: persistResult.syncedToGithub,
+        githubCommitted: persistResult.githubCommitted,
+        githubError: persistResult.githubError,
         message: persistResult.message,
         commitUrl: persistResult.commitUrl,
       },

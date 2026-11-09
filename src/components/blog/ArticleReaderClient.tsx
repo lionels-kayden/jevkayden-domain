@@ -7,6 +7,11 @@ import initialBlogData from "@/data/blogData.json";
 import { BlogData, BlogPost, BlogLanguage } from "@/types/blog";
 import { MarkdownRenderer, formatIeeeSection, slugifyHeading } from "@/components/blog/MarkdownRenderer";
 import {
+  readLiveClientCache,
+  fetchFreshestData,
+  subscribeToLiveSync,
+} from "@/lib/liveClientSync";
+import {
   ArrowLeft,
   Printer,
   Download,
@@ -49,17 +54,37 @@ export const ArticleReaderClient: React.FC<ArticleReaderClientProps> = ({
   const [copiedCitation, setCopiedCitation] = useState<boolean>(false);
   const [copiedShare, setCopiedShare] = useState<boolean>(false);
 
-  // Fetch latest dynamic blogData from /api/blog on client mount
+  // Fetch latest dynamic blogData from localStorage + /api/blog on client mount
   useEffect(() => {
-    fetch("/api/blog", { cache: "no-store" })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: BlogData | null) => {
-        if (data && Array.isArray(data.posts)) {
-          setBlogData(data);
+    const localSnapshot = readLiveClientCache<BlogData>(
+      "jev_live_blog_data",
+      initialData || (initialBlogData as BlogData)
+    );
+    if (localSnapshot?.data && Array.isArray(localSnapshot.data.posts)) {
+      setBlogData(localSnapshot.data);
+    }
+
+    fetchFreshestData<BlogData>(
+      "/api/blog",
+      "jev_live_blog_data",
+      initialData || (initialBlogData as BlogData)
+    ).then((freshest) => {
+      if (freshest && Array.isArray(freshest.posts)) {
+        setBlogData(freshest);
+      }
+    });
+
+    return subscribeToLiveSync<BlogData>(
+      "jev_live_blog_data",
+      "/api/blog",
+      initialData || (initialBlogData as BlogData),
+      (freshest) => {
+        if (freshest && Array.isArray(freshest.posts)) {
+          setBlogData(freshest);
         }
-      })
-      .catch((err) => console.warn("Failed to fetch /api/blog in reader:", err));
-  }, []);
+      }
+    );
+  }, [initialData]);
 
   // Auto trigger print if ?print=true is in URL (wait 500ms for KaTeX & Mermaid, then cleanup query param)
   useEffect(() => {

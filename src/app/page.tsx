@@ -9,6 +9,11 @@ import { PagerContact } from "@/components/PagerContact";
 import { Language } from "@/data/siteConfig";
 import initialHubData from "@/data/hubData.json";
 import { HubData } from "@/types/hub";
+import {
+  readLiveClientCache,
+  fetchFreshestData,
+  subscribeToLiveSync,
+} from "@/lib/liveClientSync";
 
 export default function Home() {
   const [lang, setLang] = useState<Language>("en");
@@ -16,16 +21,36 @@ export default function Home() {
   const [isStandbyModalOpen, setIsStandbyModalOpen] = useState<boolean>(false);
   const [hubData, setHubData] = useState<HubData>(initialHubData as HubData);
 
-  // Fetch latest dynamic hubData from /api/site on mount
+  // Instant 0ms live sync from localStorage + cache-busted /api/site fetch + BroadcastChannel listener
   useEffect(() => {
-    fetch("/api/site", { cache: "no-store" })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: HubData | null) => {
-        if (data && data.hero) {
-          setHubData(data);
+    const localSnapshot = readLiveClientCache<HubData>(
+      "jev_live_hub_data",
+      initialHubData as HubData
+    );
+    if (localSnapshot?.data?.hero) {
+      setHubData(localSnapshot.data);
+    }
+
+    fetchFreshestData<HubData>(
+      "/api/site",
+      "jev_live_hub_data",
+      initialHubData as HubData
+    ).then((freshest) => {
+      if (freshest && freshest.hero) {
+        setHubData(freshest);
+      }
+    });
+
+    return subscribeToLiveSync<HubData>(
+      "jev_live_hub_data",
+      "/api/site",
+      initialHubData as HubData,
+      (freshest) => {
+        if (freshest && freshest.hero) {
+          setHubData(freshest);
         }
-      })
-      .catch((err) => console.warn("Using bundled fallback Hub data:", err));
+      }
+    );
   }, []);
 
   const toggleLanguage = () => {

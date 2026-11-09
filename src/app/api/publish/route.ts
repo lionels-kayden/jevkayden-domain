@@ -90,11 +90,16 @@ export async function POST(request: Request) {
         );
       }
 
-      if (hasGithubToken) {
+      const allCommitted = Boolean(
+        siteRes.githubCommitted && cvRes.githubCommitted && blogRes.githubCommitted
+      );
+
+      if (allCommitted) {
         return NextResponse.json({
           ok: true,
           status: "PUSHED",
           syncedToGithub: true,
+          githubCommitted: true,
           commitUrl: blogRes.commitUrl || cvRes.commitUrl || siteRes.commitUrl,
           message: `✓ Đã đồng bộ & commit toàn bộ dữ liệu (Hub, CV, Blog) trực tiếp lên GitHub Cloud (${GITHUB_OWNER}/${GITHUB_REPO}@${GITHUB_BRANCH})! Vercel đang tự động cập nhật bản triển khai.`,
         });
@@ -104,8 +109,11 @@ export async function POST(request: Request) {
         ok: true,
         status: "VERCEL_INSTANT_CACHE",
         syncedToGithub: false,
+        githubCommitted: false,
+        githubError:
+          siteRes.githubError || cvRes.githubError || blogRes.githubError || "MISSING_GITHUB_TOKEN",
         message:
-          "⚡ Đã đồng bộ toàn bộ dữ liệu vào bộ nhớ đệm tức thời trên Vercel (trang web đã cập nhật ngay lập tức). Lưu ý: Để đẩy commit vĩnh viễn lên GitHub từ Vercel, hãy thêm biến môi trường GITHUB_TOKEN trong Vercel Settings -> Environment Variables.",
+          "ĐÃ LƯU TRÊN TRÌNH DUYỆT & BỘ ĐỆM! (Thêm GITHUB_TOKEN trên Vercel để commit vĩnh viễn lên GitHub)",
       });
     }
 

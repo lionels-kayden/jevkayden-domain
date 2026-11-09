@@ -10,6 +10,11 @@ import { AtsClassicTemplate } from "@/components/cv/AtsClassicTemplate";
 import { BentoSiliconTemplate } from "@/components/cv/BentoSiliconTemplate";
 import { DatasheetTemplate } from "@/components/cv/DatasheetTemplate";
 import { SwissTypoTemplate } from "@/components/cv/SwissTypoTemplate";
+import {
+  readLiveClientCache,
+  fetchFreshestData,
+  subscribeToLiveSync,
+} from "@/lib/liveClientSync";
 
 export default function CvPage() {
   const [cvData, setCvData] = useState<CvData>(initialCvData as CvData);
@@ -18,21 +23,36 @@ export default function CvPage() {
   const [printMode, setPrintMode] = useState<"color" | "bw">("color");
   const [showColorToast, setShowColorToast] = useState(false);
 
-  // Fetch latest data from /api/cv on mount in case edited via /admin
+  // Instant 0ms live sync from localStorage/cookie + cache-busted /api/cv fetch + BroadcastChannel listener
   useEffect(() => {
-    fetch("/api/cv", { cache: "no-store" })
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw new Error("Failed to fetch fresh CV data");
-      })
-      .then((data: CvData) => {
-        if (data && data.personalInfo) {
-          setCvData(data);
+    const localSnapshot = readLiveClientCache<CvData>(
+      "jev_live_cv_data",
+      initialCvData as CvData
+    );
+    if (localSnapshot?.data?.personalInfo) {
+      setCvData(localSnapshot.data);
+    }
+
+    fetchFreshestData<CvData>(
+      "/api/cv",
+      "jev_live_cv_data",
+      initialCvData as CvData
+    ).then((freshest) => {
+      if (freshest && freshest.personalInfo) {
+        setCvData(freshest);
+      }
+    });
+
+    return subscribeToLiveSync<CvData>(
+      "jev_live_cv_data",
+      "/api/cv",
+      initialCvData as CvData,
+      (freshest) => {
+        if (freshest && freshest.personalInfo) {
+          setCvData(freshest);
         }
-      })
-      .catch((err) => {
-        console.warn("Using bundled fallback CV data:", err);
-      });
+      }
+    );
   }, []);
 
   const toggleLanguage = () => {

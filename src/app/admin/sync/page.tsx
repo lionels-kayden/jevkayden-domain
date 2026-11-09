@@ -10,6 +10,10 @@ import { BlogData } from "@/types/blog";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { SyncWorkspace } from "@/components/admin/SyncWorkspace";
 import { getAdminPasscode } from "@/lib/adminAuth";
+import {
+  fetchFreshestData,
+  saveLiveClientCache,
+} from "@/lib/liveClientSync";
 
 export default function AdminSyncPage() {
   const [cvData, setCvData] = useState<CvData>(initialCvData as CvData);
@@ -19,23 +23,32 @@ export default function AdminSyncPage() {
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/cv", { cache: "no-store" })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: CvData | null) => {
+    fetchFreshestData<CvData>(
+      "/api/cv",
+      "jev_live_cv_data",
+      initialCvData as CvData
+    )
+      .then((data) => {
         if (data && data.personalInfo) setCvData(data);
       })
       .catch((err) => console.warn("Could not fetch /api/cv:", err));
 
-    fetch("/api/hub", { cache: "no-store" })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: HubData | null) => {
+    fetchFreshestData<HubData>(
+      "/api/site",
+      "jev_live_hub_data",
+      initialHubData as HubData
+    )
+      .then((data) => {
         if (data && data.hero) setHubData(data);
       })
-      .catch((err) => console.warn("Could not fetch /api/hub:", err));
+      .catch((err) => console.warn("Could not fetch /api/site:", err));
 
-    fetch("/api/blog", { cache: "no-store" })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: BlogData | null) => {
+    fetchFreshestData<BlogData>(
+      "/api/blog",
+      "jev_live_blog_data",
+      initialBlogData as BlogData
+    )
+      .then((data) => {
         if (data && Array.isArray(data.posts)) setBlogData(data);
       })
       .catch((err) => console.warn("Could not fetch /api/blog:", err));
@@ -45,30 +58,53 @@ export default function AdminSyncPage() {
     setIsSaving(true);
     setSaveStatus(null);
     try {
+      const stampedCv = saveLiveClientCache<CvData>("jev_live_cv_data", cvData);
+      const stampedHub = saveLiveClientCache<HubData>(
+        "jev_live_hub_data",
+        hubData
+      );
+      const stampedBlog = saveLiveClientCache<BlogData>(
+        "jev_live_blog_data",
+        blogData
+      );
+      setCvData(stampedCv);
+      setHubData(stampedHub);
+      setBlogData(stampedBlog);
+
       const authCode = getAdminPasscode();
       const headers = {
         "Content-Type": "application/json",
         "x-admin-passcode": authCode,
       };
-      await Promise.all([
-        fetch("/api/cv", {
+      const [cvRes, hubRes, blogRes] = await Promise.all([
+        fetch(`/api/cv?t=${Date.now()}`, {
           method: "POST",
           headers,
-          body: JSON.stringify({ passcode: authCode, data: cvData }),
-        }),
-        fetch("/api/hub", {
+          body: JSON.stringify({ passcode: authCode, data: stampedCv }),
+        }).then((r) => r.json().catch(() => ({}))),
+        fetch(`/api/site?t=${Date.now()}`, {
           method: "POST",
           headers,
-          body: JSON.stringify({ passcode: authCode, data: hubData }),
-        }),
-        fetch("/api/blog", {
+          body: JSON.stringify({ passcode: authCode, data: stampedHub }),
+        }).then((r) => r.json().catch(() => ({}))),
+        fetch(`/api/blog?t=${Date.now()}`, {
           method: "POST",
           headers,
-          body: JSON.stringify({ passcode: authCode, data: blogData }),
-        }),
+          body: JSON.stringify({ passcode: authCode, data: stampedBlog }),
+        }).then((r) => r.json().catch(() => ({}))),
       ]);
-      setSaveStatus(`✔ ĐÃ ĐỒNG BỘ TOÀN BỘ 3 PHÂN HỆ — ${new Date().toLocaleTimeString()}`);
-      setTimeout(() => setSaveStatus(null), 3500);
+
+      const timeStr = new Date().toLocaleTimeString();
+      if (cvRes.githubCommitted && hubRes.githubCommitted && blogRes.githubCommitted) {
+        setSaveStatus(`✔ ĐÃ ĐỒNG BỘ & COMMIT 3 PHÂN HỆ LÊN GITHUB CLOUD — ${timeStr}`);
+      } else if (cvRes.mode === "VERCEL_INSTANT_CACHE") {
+        setSaveStatus(
+          "ĐÃ LƯU TRÊN TRÌNH DUYỆT & BỘ ĐỆM! (Thêm GITHUB_TOKEN trên Vercel để commit vĩnh viễn lên GitHub)"
+        );
+      } else {
+        setSaveStatus(`✔ ĐÃ ĐỒNG BỘ TOÀN BỘ 3 PHÂN HỆ — ${timeStr}`);
+      }
+      setTimeout(() => setSaveStatus(null), 7000);
     } catch {
       setSaveStatus("✖ LỖI KHI ĐỒNG BỘ TOÀN CỤC");
     } finally {
@@ -109,4 +145,3 @@ export default function AdminSyncPage() {
     </AdminShell>
   );
 }
-

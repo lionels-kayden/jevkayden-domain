@@ -62,10 +62,13 @@ export function resolveCanonicalFilename(
 }
 
 function getTimestampFromData(data: unknown): number {
-  if (data && typeof data === "object" && "lastUpdated" in data) {
-    const raw = (data as { lastUpdated?: unknown }).lastUpdated;
-    if (typeof raw === "string") {
-      const parsed = Date.parse(raw);
+  if (data && typeof data === "object") {
+    const obj = data as Record<string, unknown>;
+    if (typeof obj._updatedAt === "number" && !Number.isNaN(obj._updatedAt)) {
+      return obj._updatedAt;
+    }
+    if (typeof obj.lastUpdated === "string") {
+      const parsed = Date.parse(obj.lastUpdated);
       if (!Number.isNaN(parsed)) return parsed;
     }
   }
@@ -77,6 +80,9 @@ function getGithubHeaders(token?: string): Record<string, string> {
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
     "User-Agent": "JevKayden-CMS-DataStore",
+    "If-None-Match": "",
+    "Cache-Control": "no-cache, no-store",
+    Pragma: "no-cache",
   };
   if (token) {
     headers.Authorization = `Bearer ${token}`;
@@ -119,7 +125,7 @@ async function writeTmpCache(
  * - Localhost (!process.env.VERCEL): Reads directly from src/data/{filename}.
  * - Vercel (process.env.VERCEL):
  *   1. Checks in-memory globalThis.__JEV_DATA_CACHE__ and /tmp/{filename} for instant read-after-write consistency.
- *   2. Fetches latest committed file from GitHub REST API if GITHUB_TOKEN is configured (or public repo).
+ *   2. Fetches latest committed file from GitHub REST API with cache-busting query string & If-None-Match: "".
  *   3. Returns whichever state is freshest (comparing timestamps), falling back to bundled src/data/{filename}.
  */
 export async function readJsonData<T = unknown>(
@@ -142,7 +148,7 @@ export async function readJsonData<T = unknown>(
       const parsed = JSON.parse(raw) as T;
       memCache[canonicalFile] = {
         data: parsed,
-        updatedAt: Date.now(),
+        updatedAt: getTimestampFromData(parsed) || Date.now(),
       };
       return parsed;
     } catch (err) {
@@ -168,9 +174,9 @@ export async function readJsonData<T = unknown>(
     memCache[canonicalFile] = tmpEntry;
   }
 
-  // 3. VERCEL PRODUCTION: Fetch latest from GitHub REST API
+  // 3. VERCEL PRODUCTION: Fetch latest from GitHub REST API with cache-busting
   const githubToken = process.env.GITHUB_TOKEN?.trim();
-  const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/src/data/${canonicalFile}?ref=${GITHUB_BRANCH}`;
+  const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/src/data/${canonicalFile}?ref=${GITHUB_BRANCH}&t=${Date.now()}`;
 
   try {
     const res = await fetch(apiUrl, {
@@ -193,8 +199,8 @@ export async function readJsonData<T = unknown>(
             )
           : 0;
 
-        // Prefer instant cache if it was written more recently than the GitHub file
-        if (freshestCache && cacheTs > githubTs && Date.now() - freshestCache.updatedAt < 60_000) {
+        // Prefer instant cache if it has a newer timestamp than GitHub
+        if (freshestCache && cacheTs > githubTs) {
           return freshestCache.data as T;
         }
 
@@ -235,6 +241,8 @@ export interface WriteDataResult {
   ok: boolean;
   mode: "LOCAL_FS" | "GITHUB_COMMIT" | "VERCEL_INSTANT_CACHE";
   syncedToGithub: boolean;
+  githubCommitted: boolean;
+  githubError?: string;
   message: string;
   error?: string;
   commitUrl?: string;
@@ -242,16 +250,28 @@ export interface WriteDataResult {
 
 /**
  * Writes JSON data to instant cache (/tmp + globalThis) AND persists to Local Disk or GitHub REST API:
- * 1. Updates globalThis.__JEV_DATA_CACHE__ and /tmp/{filename} (on Vercel) or src/data/{filename} (on Localhost).
- * 2. If GITHUB_TOKEN is configured, commits the updated JSON file directly to GitHub via PUT /repos/{owner}/{repo}/contents/src/data/{filename}.
+ * 1. Automatically injects _updatedAt: Date.now() into the saved JSON object.
+ * 2. Updates globalThis.__JEV_DATA_CACHE__ and /tmp/{filename} (on Vercel) or src/data/{filename} (on Localhost).
+ * 3. If GITHUB_TOKEN is configured, commits the updated JSON file directly to GitHub via PUT /repos/{owner}/{repo}/contents/src/data/{filename}.
  */
 export async function writeJsonData(
   filename: DataStoreFilename,
-  data: unknown,
+  rawData: unknown,
   commitMessage?: string
 ): Promise<WriteDataResult> {
   const canonicalFile = resolveCanonicalFilename(filename);
   const isVercel = process.env.VERCEL === "1" || !!process.env.VERCEL;
+  const now = Date.now();
+
+  const data =
+    rawData && typeof rawData === "object"
+      ? {
+          ...(rawData as Record<string, unknown>),
+          _updatedAt: now,
+          lastUpdated: new Date(now).toISOString(),
+        }
+      : rawData;
+
   const jsonString = JSON.stringify(data, null, 2).normalize("NFC");
   const memCache = getMemoryCache();
 
@@ -259,7 +279,7 @@ export async function writeJsonData(
   const previousSha = memCache[canonicalFile]?.sha;
   memCache[canonicalFile] = {
     data,
-    updatedAt: Date.now(),
+    updatedAt: now,
     sha: previousSha,
   };
 
@@ -290,12 +310,15 @@ export async function writeJsonData(
     const headers = getGithubHeaders(githubToken);
 
     try {
-      // Fetch latest SHA from GitHub branch
+      // Fetch latest SHA from GitHub branch with cache-busting
       let existingSha: string | undefined = previousSha;
-      const getRes = await fetch(`${apiUrl}?ref=${GITHUB_BRANCH}`, {
-        headers,
-        cache: "no-store",
-      });
+      const getRes = await fetch(
+        `${apiUrl}?ref=${GITHUB_BRANCH}&t=${Date.now()}`,
+        {
+          headers,
+          cache: "no-store",
+        }
+      );
       if (getRes.ok) {
         const fileInfo = await getRes.json();
         if (fileInfo?.sha) {
@@ -341,8 +364,9 @@ export async function writeJsonData(
         ok: true,
         mode: "GITHUB_COMMIT",
         syncedToGithub: true,
+        githubCommitted: true,
         commitUrl: commitHtmlUrl,
-        message: `✔ Đã lưu & đồng bộ trực tiếp lên GitHub Cloud (${GITHUB_OWNER}/${GITHUB_REPO}@${GITHUB_BRANCH}).`,
+        message: `✔ ĐÃ LƯU & COMMIT LÊN GITHUB CLOUD (${GITHUB_OWNER}/${GITHUB_REPO}@${GITHUB_BRANCH}).`,
       };
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : String(err);
@@ -353,16 +377,19 @@ export async function writeJsonData(
           ok: true,
           mode: "LOCAL_FS",
           syncedToGithub: false,
+          githubCommitted: false,
+          githubError: errMsg,
           message: `✔ Đã lưu tệp cục bộ (src/data/${canonicalFile}), nhưng lỗi đẩy GitHub API: ${errMsg}`,
         };
       }
 
       return {
-        ok: false,
-        mode: "GITHUB_COMMIT",
+        ok: true,
+        mode: "VERCEL_INSTANT_CACHE",
         syncedToGithub: false,
-        error: `Lỗi đồng bộ GitHub API (${GITHUB_OWNER}/${GITHUB_REPO}): ${errMsg}`,
-        message: `Không thể commit src/data/${canonicalFile} lên GitHub: ${errMsg}`,
+        githubCommitted: false,
+        githubError: errMsg,
+        message: `ĐÃ LƯU TRÊN TRÌNH DUYỆT & BỘ ĐỆM! (Lỗi GitHub API: ${errMsg} — Kiểm tra GITHUB_TOKEN trên Vercel)`,
       };
     }
   }
@@ -374,6 +401,8 @@ export async function writeJsonData(
         ok: false,
         mode: "LOCAL_FS",
         syncedToGithub: false,
+        githubCommitted: false,
+        githubError: localWriteError,
         error: `Lỗi ghi tệp cục bộ: ${localWriteError}`,
         message: `Không thể ghi src/data/${canonicalFile}.`,
       };
@@ -382,16 +411,19 @@ export async function writeJsonData(
       ok: true,
       mode: "LOCAL_FS",
       syncedToGithub: false,
+      githubCommitted: false,
       message: `✔ Đã lưu trực tiếp vào tệp cục bộ [src/data/${canonicalFile}].`,
     };
   }
 
-  // 5. Vercel without GITHUB_TOKEN -> Instant Cache active + instruction to add GITHUB_TOKEN
+  // 5. Vercel without GITHUB_TOKEN -> Instant Cache active + realistic warning
   return {
     ok: true,
     mode: "VERCEL_INSTANT_CACHE",
     syncedToGithub: false,
+    githubCommitted: false,
+    githubError: "MISSING_GITHUB_TOKEN",
     message:
-      "⚡ Đã lưu tức thời vào bộ nhớ đệm Vercel (hiển thị ngay lập tức trên web). Để lưu vĩnh viễn lên GitHub sau khi rebuild, hãy thêm biến môi trường GITHUB_TOKEN trên Vercel.",
+      "ĐÃ LƯU TRÊN TRÌNH DUYỆT & BỘ ĐỆM! (Thêm GITHUB_TOKEN trên Vercel để commit vĩnh viễn lên GitHub)",
   };
 }

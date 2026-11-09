@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { getAdminPasscode } from "@/lib/adminAuth";
 import { BrandLogo } from "@/components/BrandLogo";
+import { readLiveClientCache } from "@/lib/liveClientSync";
 
 export interface AdminShellProps {
   children: React.ReactNode;
@@ -143,20 +144,31 @@ export const AdminShell: React.FC<AdminShellProps> = ({
         await onSave();
       }
       const authCode = getAdminPasscode();
-      const res = await fetch("/api/publish", {
+      const siteSnapshot = readLiveClientCache("jev_live_hub_data")?.data;
+      const cvSnapshot = readLiveClientCache("jev_live_cv_data")?.data;
+      const blogSnapshot = readLiveClientCache("jev_live_blog_data")?.data;
+
+      const res = await fetch(`/api/publish?t=${Date.now()}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-admin-passcode": authCode,
         },
-        body: JSON.stringify({ passcode: authCode }),
+        body: JSON.stringify({
+          passcode: authCode,
+          ...(siteSnapshot ? { siteData: siteSnapshot } : {}),
+          ...(cvSnapshot ? { cvData: cvSnapshot } : {}),
+          ...(blogSnapshot ? { blogData: blogSnapshot } : {}),
+        }),
       });
       const data = await res.json().catch(() => ({}));
       const msg =
-        data.message ||
-        (data.ok ? "✓ Đã đồng bộ lên GitHub thành công!" : data.error || "Lỗi khi đồng bộ.");
+        data.githubCommitted === false && data.status === "VERCEL_INSTANT_CACHE"
+          ? "ĐÃ LƯU TRÊN TRÌNH DUYỆT & BỘ ĐỆM! (Thêm GITHUB_TOKEN trên Vercel để commit vĩnh viễn lên GitHub)"
+          : data.message ||
+            (data.ok ? "✓ Đã đồng bộ lên GitHub thành công!" : data.error || "Lỗi khi đồng bộ.");
       setPublishBanner(msg);
-      setTimeout(() => setPublishBanner(null), 8000);
+      setTimeout(() => setPublishBanner(null), 9000);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       setPublishBanner(`✖ Lỗi kết nối tới /api/publish: ${msg}`);

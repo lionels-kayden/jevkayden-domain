@@ -4,6 +4,7 @@ import React, { useState, useRef, useMemo, useEffect, useCallback } from "react"
 import { BlogPost, BlogData, BlogLanguage, CategoryTreeNode, CategorySubNode } from "@/types/blog";
 import { MarkdownRenderer } from "@/components/blog/MarkdownRenderer";
 import { getAdminPasscode } from "@/lib/adminAuth";
+import { saveLiveClientCache } from "@/lib/liveClientSync";
 import {
   Plus,
   Trash2,
@@ -378,11 +379,15 @@ export const BlogWorkspace: React.FC<BlogWorkspaceProps> = ({ blogData, setBlogD
       .replace(/^_+|_+$/g, "");
   };
 
-  // Immediate persistence to /api/blog (persists directly into src/data/blogData.json)
+  // Immediate persistence to /api/blog (persists directly into src/data/blogData.json + client live cache)
   const persistBlogData = async (dataToPersist: BlogData): Promise<boolean> => {
     try {
+      const stamped = saveLiveClientCache<BlogData>(
+        "jev_live_blog_data",
+        dataToPersist
+      );
       const authCode = getAdminPasscode() || passcode;
-      const res = await fetch("/api/blog", {
+      const res = await fetch(`/api/blog?t=${Date.now()}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -390,7 +395,7 @@ export const BlogWorkspace: React.FC<BlogWorkspaceProps> = ({ blogData, setBlogD
         },
         body: JSON.stringify({
           passcode: authCode,
-          data: dataToPersist,
+          data: stamped,
         }),
       });
       if (!res.ok) {

@@ -6,6 +6,11 @@ import { BrandLogo } from "@/components/BrandLogo";
 import initialBlogData from "@/data/blogData.json";
 import { BlogData, BlogPost, BlogLanguage } from "@/types/blog";
 import {
+  readLiveClientCache,
+  fetchFreshestData,
+  subscribeToLiveSync,
+} from "@/lib/liveClientSync";
+import {
   ArrowLeft,
   Search,
   Tag,
@@ -32,16 +37,36 @@ export default function BlogHomePage() {
   const [blogData, setBlogData] = useState<BlogData>(initialBlogData as BlogData);
   const [lang, setLang] = useState<BlogLanguage>("vi");
 
-  // Fetch latest dynamic blogData from /api/blog to immediately reflect new categoryTree or posts
+  // Instant 0ms live sync from localStorage + cache-busted /api/blog fetch + BroadcastChannel listener
   useEffect(() => {
-    fetch("/api/blog", { cache: "no-store" })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: BlogData | null) => {
-        if (data && Array.isArray(data.posts) && Array.isArray(data.categoryTree)) {
-          setBlogData(data);
+    const localSnapshot = readLiveClientCache<BlogData>(
+      "jev_live_blog_data",
+      initialBlogData as BlogData
+    );
+    if (localSnapshot?.data && Array.isArray(localSnapshot.data.posts)) {
+      setBlogData(localSnapshot.data);
+    }
+
+    fetchFreshestData<BlogData>(
+      "/api/blog",
+      "jev_live_blog_data",
+      initialBlogData as BlogData
+    ).then((freshest) => {
+      if (freshest && Array.isArray(freshest.posts)) {
+        setBlogData(freshest);
+      }
+    });
+
+    return subscribeToLiveSync<BlogData>(
+      "jev_live_blog_data",
+      "/api/blog",
+      initialBlogData as BlogData,
+      (freshest) => {
+        if (freshest && Array.isArray(freshest.posts)) {
+          setBlogData(freshest);
         }
-      })
-      .catch((err) => console.warn("Failed to fetch /api/blog in public blog:", err));
+      }
+    );
   }, []);
 
   // Synchronize language state across pages via localStorage and URL

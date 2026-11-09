@@ -414,8 +414,8 @@ export const BlogWorkspace: React.FC<BlogWorkspaceProps> = ({ blogData, setBlogD
   const handleResetAllToZero = async () => {
     const confirmed = window.confirm(
       "CẢNH BÁO // RESET TOÀN BỘ VỀ 0:\n\n" +
-        "Bạn có chắc chắn muốn DỌN SẠCH TOÀN BỘ bài viết và nhánh chuyên mục mẫu trong hệ thống?\n" +
-        "Dữ liệu sẽ được đưa về trạng thái 0 bài viết, 0 chuyên mục (trang trắng hoàn toàn)."
+      "Bạn có chắc chắn muốn DỌN SẠCH TOÀN BỘ bài viết và nhánh chuyên mục mẫu trong hệ thống?\n" +
+      "Dữ liệu sẽ được đưa về trạng thái 0 bài viết, 0 chuyên mục (trang trắng hoàn toàn)."
     );
     if (!confirmed) return;
 
@@ -452,8 +452,8 @@ export const BlogWorkspace: React.FC<BlogWorkspaceProps> = ({ blogData, setBlogD
       const confirmMessage =
         postsInParent.length > 0
           ? `BẠN CÓ CHẮC CHẮN MUỐN XÓA CHUYÊN MỤC GỐC:\n"${parentNode.name.vi}" (${parentNode.id})?\n\n` +
-            `⚠️ LƯU Ý: Có ${postsInParent.length} bài viết trong chuyên mục này. Tất cả sẽ được chuyển sang:\n` +
-            `→ "${fallbackSubName}".`
+          `⚠️ LƯU Ý: Có ${postsInParent.length} bài viết trong chuyên mục này. Tất cả sẽ được chuyển sang:\n` +
+          `→ "${fallbackSubName}".`
           : `BẠN CÓ CHẮC CHẮN MUỐN XÓA CHUYÊN MỤC GỐC:\n"${parentNode.name.vi}" (${parentNode.id})?\n(Chuyên mục này hiện có 0 bài viết)`;
 
       if (!window.confirm(confirmMessage)) return;
@@ -536,8 +536,8 @@ export const BlogWorkspace: React.FC<BlogWorkspaceProps> = ({ blogData, setBlogD
       const confirmMessage =
         postsInSub.length > 0
           ? `BẠN CÓ CHẮC CHẮN MUỐN XÓA NHÁNH CON:\n"${subNode.name.vi}" (${subNode.id})?\n\n` +
-            `⚠️ LƯU Ý: Có ${postsInSub.length} bài viết trong nhánh con này. Tất cả sẽ được chuyển sang:\n` +
-            `→ "${fallbackSubName}".`
+          `⚠️ LƯU Ý: Có ${postsInSub.length} bài viết trong nhánh con này. Tất cả sẽ được chuyển sang:\n` +
+          `→ "${fallbackSubName}".`
           : `BẠN CÓ CHẮC CHẮN MUỐN XÓA NHÁNH CON:\n"${subNode.name.vi}" (${subNode.id})?\n(Nhánh này hiện có 0 bài viết)`;
 
       if (!window.confirm(confirmMessage)) return;
@@ -899,9 +899,8 @@ updatedAt: "${activePost.updatedAt || new Date().toISOString()}"
       {/* PANE 1 (LEFT SIDEBAR): COLLAPSIBLE TREE EXPLORER & POST SWITCHER */}
       {/* ========================================================= */}
       <aside
-        className={`${
-          isSidebarOpen ? "w-72 sm:w-80" : "w-0"
-        } shrink-0 border-r border-slate-300 bg-[#F8FAFC] flex flex-col h-full transition-all duration-200 overflow-hidden select-none z-20`}
+        className={`${isSidebarOpen ? "w-72 sm:w-80" : "w-0"
+          } shrink-0 border-r border-slate-300 bg-[#F8FAFC] flex flex-col h-full transition-all duration-200 overflow-hidden select-none z-20`}
       >
         {/* Top Header & Search */}
         <div className="p-3 border-b border-slate-200 bg-white shrink-0 space-y-2">
@@ -974,11 +973,10 @@ updatedAt: "${activePost.updatedAt || new Date().toISOString()}"
           <button
             type="button"
             onClick={() => setSelectedTreeCategory("ALL")}
-            className={`w-full text-left px-2.5 py-1.5 rounded text-xs flex items-center justify-between font-medium cursor-pointer transition-colors ${
-              selectedTreeCategory === "ALL" && !searchTreeQuery
+            className={`w-full text-left px-2.5 py-1.5 rounded text-xs flex items-center justify-between font-medium cursor-pointer transition-colors ${selectedTreeCategory === "ALL" && !searchTreeQuery
                 ? "bg-slate-200 text-slate-900 font-bold"
                 : "text-slate-600 hover:bg-slate-100"
-            }`}
+              }`}
           >
             <span>Tất cả bài viết</span>
             <span className="text-[10px] font-mono px-1.5 py-0.2 bg-white rounded border border-slate-200">
@@ -1006,144 +1004,139 @@ updatedAt: "${activePost.updatedAt || new Date().toISOString()}"
             </div>
           ) : (
             blogData.categoryTree.map((parent) => {
-            const isCollapsed = collapsedCategories[parent.id];
-            const parentPosts = blogData.posts.filter((p) => p.parentCategory === parent.id);
+              const isCollapsed = collapsedCategories[parent.id];
+              const parentPosts = blogData.posts.filter((p) => p.parentCategory === parent.id);
 
-            return (
-              <div key={parent.id} className="space-y-1">
-                {/* Parent Node */}
-                <div
-                  onClick={() => toggleCategoryCollapse(parent.id)}
-                  className="group flex items-center justify-between px-2 py-1.5 text-xs font-bold text-slate-800 hover:bg-slate-200/70 rounded cursor-pointer select-none"
-                >
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    {isCollapsed ? (
-                      <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                    ) : (
-                      <ChevronDown className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                    )}
-                    <span className="truncate">{parent.name[activeEditLang] || parent.name.vi}</span>
+              return (
+                <div key={parent.id} className="space-y-1">
+                  {/* Parent Node */}
+                  <div
+                    onClick={() => toggleCategoryCollapse(parent.id)}
+                    className="group flex items-center justify-between px-2 py-1.5 text-xs font-bold text-slate-800 hover:bg-slate-200/70 rounded cursor-pointer select-none"
+                  >
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      {isCollapsed ? (
+                        <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      ) : (
+                        <ChevronDown className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                      )}
+                      <span className="truncate">{parent.name[activeEditLang] || parent.name.vi}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteCategory("PARENT", parent.id);
+                        }}
+                        className="opacity-60 hover:opacity-100 p-0.5 hover:bg-rose-100 text-slate-400 hover:text-red-600 rounded transition-all cursor-pointer"
+                        title={`Xóa nhánh mẹ "${parent.name.vi}" (${parentPosts.length} bài)`}
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                      <span className="text-[10px] font-mono text-slate-400">
+                        {parentPosts.length}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1.5 shrink-0">
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteCategory("PARENT", parent.id);
-                      }}
-                      className="opacity-60 hover:opacity-100 p-0.5 hover:bg-rose-100 text-slate-400 hover:text-red-600 rounded transition-all cursor-pointer"
-                      title={`Xóa nhánh mẹ "${parent.name.vi}" (${parentPosts.length} bài)`}
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </button>
-                    <span className="text-[10px] font-mono text-slate-400">
-                      {parentPosts.length}
-                    </span>
-                  </div>
-                </div>
 
-                {/* Sub-Categories & Posts */}
-                {!isCollapsed && (
-                  <div className="pl-3.5 border-l border-slate-200 space-y-1.5 mt-1">
-                    {parent.subCategories.map((sub) => {
-                      const totalSubPostsCount = blogData.posts.filter(
-                        (p) => p.parentCategory === parent.id && p.subCategory === sub.id
-                      ).length;
-                      const subPosts = filteredTreePosts.filter(
-                        (p) => p.parentCategory === parent.id && p.subCategory === sub.id
-                      );
-                      if (subPosts.length === 0 && searchTreeQuery) return null;
+                  {/* Sub-Categories & Posts */}
+                  {!isCollapsed && (
+                    <div className="pl-3.5 border-l border-slate-200 space-y-1.5 mt-1">
+                      {parent.subCategories.map((sub) => {
+                        const totalSubPostsCount = blogData.posts.filter(
+                          (p) => p.parentCategory === parent.id && p.subCategory === sub.id
+                        ).length;
+                        const subPosts = filteredTreePosts.filter(
+                          (p) => p.parentCategory === parent.id && p.subCategory === sub.id
+                        );
+                        if (subPosts.length === 0 && searchTreeQuery) return null;
 
-                      return (
-                        <div key={sub.id} className="space-y-1">
-                          <div className="group flex items-center justify-between text-[11px] font-semibold text-slate-500 px-2 py-0.5 uppercase tracking-wide">
-                            <span className="truncate">{sub.name[activeEditLang] || sub.name.vi}</span>
-                            <div className="flex items-center gap-1 shrink-0">
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleDeleteCategory("CHILD", sub.id, parent.id);
-                                }}
-                                className="opacity-60 hover:opacity-100 p-0.5 hover:bg-rose-100 text-slate-400 hover:text-red-600 rounded transition-all cursor-pointer"
-                                title={`Xóa nhánh con "${sub.name.vi}" (${totalSubPostsCount} bài)`}
-                              >
-                                <Trash2 className="w-2.5 h-2.5" />
-                              </button>
-                              <span className="text-[9px] font-mono text-slate-400">
-                                {totalSubPostsCount}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="space-y-0.5">
-                            {subPosts.map((post) => {
-                              const isSelected = post.id === activePost?.id;
-                              const postTitle = post.title[activeEditLang] || post.title.vi;
-
-                              return (
+                        return (
+                          <div key={sub.id} className="space-y-1">
+                            <div className="group flex items-center justify-between text-[11px] font-semibold text-slate-500 px-2 py-0.5 uppercase tracking-wide">
+                              <span className="truncate">{sub.name[activeEditLang] || sub.name.vi}</span>
+                              <div className="flex items-center gap-1 shrink-0">
                                 <button
-                                  key={post.id}
                                   type="button"
-                                  onClick={() => setSelectedPostId(post.id)}
-                                  className={`w-full text-left p-2 rounded transition-all cursor-pointer flex flex-col gap-0.5 ${
-                                    isSelected
-                                      ? "bg-[#00629B] text-white shadow-sm"
-                                      : "hover:bg-slate-200/60 text-slate-800"
-                                  }`}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteCategory("CHILD", sub.id, parent.id);
+                                  }}
+                                  className="opacity-60 hover:opacity-100 p-0.5 hover:bg-rose-100 text-slate-400 hover:text-red-600 rounded transition-all cursor-pointer"
+                                  title={`Xóa nhánh con "${sub.name.vi}" (${totalSubPostsCount} bài)`}
                                 >
-                                  <div className="flex items-center justify-between gap-1.5">
-                                    <div className="flex items-center gap-1.5 min-w-0">
+                                  <Trash2 className="w-2.5 h-2.5" />
+                                </button>
+                                <span className="text-[9px] font-mono text-slate-400">
+                                  {totalSubPostsCount}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="space-y-0.5">
+                              {subPosts.map((post) => {
+                                const isSelected = post.id === activePost?.id;
+                                const postTitle = post.title[activeEditLang] || post.title.vi;
+
+                                return (
+                                  <button
+                                    key={post.id}
+                                    type="button"
+                                    onClick={() => setSelectedPostId(post.id)}
+                                    className={`w-full text-left p-2 rounded transition-all cursor-pointer flex flex-col gap-0.5 ${isSelected
+                                        ? "bg-[#00629B] text-white shadow-sm"
+                                        : "hover:bg-slate-200/60 text-slate-800"
+                                      }`}
+                                  >
+                                    <div className="flex items-center justify-between gap-1.5">
+                                      <div className="flex items-center gap-1.5 min-w-0">
+                                        <span
+                                          className={`w-2 h-2 rounded-full shrink-0 ${post.status === "PUBLISHED"
+                                              ? isSelected
+                                                ? "bg-emerald-300"
+                                                : "bg-emerald-500"
+                                              : isSelected
+                                                ? "bg-amber-300"
+                                                : "bg-amber-500"
+                                            }`}
+                                        />
+                                        <span
+                                          className={`font-mono text-[10px] font-bold truncate ${isSelected ? "text-sky-100" : "text-slate-500"
+                                            }`}
+                                        >
+                                          {post.paperId}
+                                        </span>
+                                      </div>
                                       <span
-                                        className={`w-2 h-2 rounded-full shrink-0 ${
-                                          post.status === "PUBLISHED"
-                                            ? isSelected
-                                              ? "bg-emerald-300"
-                                              : "bg-emerald-500"
-                                            : isSelected
-                                            ? "bg-amber-300"
-                                            : "bg-amber-500"
-                                        }`}
-                                      />
-                                      <span
-                                        className={`font-mono text-[10px] font-bold truncate ${
-                                          isSelected ? "text-sky-100" : "text-slate-500"
-                                        }`}
+                                        className={`text-[9px] font-mono uppercase px-1 py-0.2 rounded ${isSelected
+                                            ? "bg-white/20 text-white"
+                                            : post.status === "PUBLISHED"
+                                              ? "bg-emerald-50 text-emerald-700"
+                                              : "bg-amber-50 text-amber-700"
+                                          }`}
                                       >
-                                        {post.paperId}
+                                        {post.status}
                                       </span>
                                     </div>
-                                    <span
-                                      className={`text-[9px] font-mono uppercase px-1 py-0.2 rounded ${
-                                        isSelected
-                                          ? "bg-white/20 text-white"
-                                          : post.status === "PUBLISHED"
-                                          ? "bg-emerald-50 text-emerald-700"
-                                          : "bg-amber-50 text-amber-700"
-                                      }`}
+                                    <div
+                                      className={`text-xs font-serif font-medium line-clamp-1 leading-snug ${isSelected ? "text-white" : "text-slate-800"
+                                        }`}
                                     >
-                                      {post.status}
-                                    </span>
-                                  </div>
-                                  <div
-                                    className={`text-xs font-serif font-medium line-clamp-1 leading-snug ${
-                                      isSelected ? "text-white" : "text-slate-800"
-                                    }`}
-                                  >
-                                    {postTitle}
-                                  </div>
-                                </button>
-                              );
-                            })}
+                                      {postTitle}
+                                    </div>
+                                  </button>
+                                );
+                              })}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          })
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })
           )}
 
           {/* Uncategorized posts (if any exist outside current categoryTree) */}
@@ -1163,49 +1156,44 @@ updatedAt: "${activePost.updatedAt || new Date().toISOString()}"
                         key={post.id}
                         type="button"
                         onClick={() => setSelectedPostId(post.id)}
-                        className={`w-full text-left p-2 rounded transition-all cursor-pointer flex flex-col gap-0.5 ${
-                          isSelected
+                        className={`w-full text-left p-2 rounded transition-all cursor-pointer flex flex-col gap-0.5 ${isSelected
                             ? "bg-[#00629B] text-white shadow-sm"
                             : "hover:bg-slate-200/60 text-slate-800"
-                        }`}
+                          }`}
                       >
                         <div className="flex items-center justify-between gap-1.5">
                           <div className="flex items-center gap-1.5 min-w-0">
                             <span
-                              className={`w-2 h-2 rounded-full shrink-0 ${
-                                post.status === "PUBLISHED"
+                              className={`w-2 h-2 rounded-full shrink-0 ${post.status === "PUBLISHED"
                                   ? isSelected
                                     ? "bg-emerald-300"
                                     : "bg-emerald-500"
                                   : isSelected
-                                  ? "bg-amber-300"
-                                  : "bg-amber-500"
-                              }`}
+                                    ? "bg-amber-300"
+                                    : "bg-amber-500"
+                                }`}
                             />
                             <span
-                              className={`font-mono text-[10px] font-bold truncate ${
-                                isSelected ? "text-sky-100" : "text-slate-500"
-                              }`}
+                              className={`font-mono text-[10px] font-bold truncate ${isSelected ? "text-sky-100" : "text-slate-500"
+                                }`}
                             >
                               {post.paperId}
                             </span>
                           </div>
                           <span
-                            className={`text-[9px] font-mono uppercase px-1 py-0.2 rounded ${
-                              isSelected
+                            className={`text-[9px] font-mono uppercase px-1 py-0.2 rounded ${isSelected
                                 ? "bg-white/20 text-white"
                                 : post.status === "PUBLISHED"
-                                ? "bg-emerald-50 text-emerald-700"
-                                : "bg-amber-50 text-amber-700"
-                            }`}
+                                  ? "bg-emerald-50 text-emerald-700"
+                                  : "bg-amber-50 text-amber-700"
+                              }`}
                           >
                             {post.status}
                           </span>
                         </div>
                         <div
-                          className={`text-xs font-serif font-medium line-clamp-1 leading-snug ${
-                            isSelected ? "text-white" : "text-slate-800"
-                          }`}
+                          className={`text-xs font-serif font-medium line-clamp-1 leading-snug ${isSelected ? "text-white" : "text-slate-800"
+                            }`}
                         >
                           {postTitle}
                         </div>
@@ -1297,539 +1285,534 @@ updatedAt: "${activePost.updatedAt || new Date().toISOString()}"
           {/* PANE 2 (CENTER PANE): DISTRACTION-FREE EDITOR + COLLAPSIBLE METADATA DRAWER */}
           {/* ========================================================= */}
           <section className="flex-1 flex flex-col h-full bg-white border-r border-slate-300 min-w-0 min-h-0 overflow-hidden">
-        {/* Top Editor Header Bar */}
-        <div className="shrink-0 border-b border-slate-200 px-3.5 py-2 flex flex-wrap items-center justify-between bg-slate-50 gap-2 select-none z-10">
-          <div className="flex items-center gap-2">
-            {!isSidebarOpen && (
-              <button
-                type="button"
-                onClick={() => setIsSidebarOpen(true)}
-                className="px-2 py-1 text-xs font-semibold border border-slate-300 rounded bg-white hover:bg-slate-100 text-slate-700 flex items-center gap-1 shadow-xs cursor-pointer transition-colors"
-                title="Mở cây thư mục bài viết"
-              >
-                <Menu className="w-3.5 h-3.5 text-[#00629B]" />
-                <span className="hidden sm:inline">Cây bài viết</span>
-              </button>
-            )}
+            {/* Top Editor Header Bar */}
+            <div className="shrink-0 border-b border-slate-200 px-3.5 py-2 flex flex-wrap items-center justify-between bg-slate-50 gap-2 select-none z-10">
+              <div className="flex items-center gap-2">
+                {!isSidebarOpen && (
+                  <button
+                    type="button"
+                    onClick={() => setIsSidebarOpen(true)}
+                    className="px-2 py-1 text-xs font-semibold border border-slate-300 rounded bg-white hover:bg-slate-100 text-slate-700 flex items-center gap-1 shadow-xs cursor-pointer transition-colors"
+                    title="Mở cây thư mục bài viết"
+                  >
+                    <Menu className="w-3.5 h-3.5 text-[#00629B]" />
+                    <span className="hidden sm:inline">Cây bài viết</span>
+                  </button>
+                )}
 
-            {/* Language Switcher */}
-            <div className="inline-flex border border-slate-300 bg-white rounded overflow-hidden shadow-xs font-sans">
-              <button
-                type="button"
-                onClick={() => setActiveEditLang("vi")}
-                className={`px-2.5 py-1 text-xs font-bold cursor-pointer transition-colors ${
-                  activeEditLang === "vi"
-                    ? "bg-[#00629B] text-white"
-                    : "text-slate-700 hover:bg-slate-100"
-                }`}
-              >
-                🇻🇳 Tiếng Việt (VI)
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveEditLang("en")}
-                className={`px-2.5 py-1 text-xs font-bold cursor-pointer transition-colors ${
-                  activeEditLang === "en"
-                    ? "bg-[#00629B] text-white"
-                    : "text-slate-700 hover:bg-slate-100"
-                }`}
-              >
-                🇺🇸 English (EN)
-              </button>
-            </div>
+                {/* Language Switcher */}
+                <div className="inline-flex border border-slate-300 bg-white rounded overflow-hidden shadow-xs font-sans">
+                  <button
+                    type="button"
+                    onClick={() => setActiveEditLang("vi")}
+                    className={`px-2.5 py-1 text-xs font-bold cursor-pointer transition-colors ${activeEditLang === "vi"
+                        ? "bg-[#00629B] text-white"
+                        : "text-slate-700 hover:bg-slate-100"
+                      }`}
+                  >
+                    🇻🇳 Tiếng Việt (VI)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveEditLang("en")}
+                    className={`px-2.5 py-1 text-xs font-bold cursor-pointer transition-colors ${activeEditLang === "en"
+                        ? "bg-[#00629B] text-white"
+                        : "text-slate-700 hover:bg-slate-100"
+                      }`}
+                  >
+                    🇺🇸 English (EN)
+                  </button>
+                </div>
 
-            {/* Status Toggle Pill */}
-            <button
-              type="button"
-              onClick={() =>
-                updateActivePost(
-                  "status",
-                  activePost.status === "PUBLISHED" ? "DRAFT" : "PUBLISHED"
-                )
-              }
-              className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold border cursor-pointer transition-colors select-none ${
-                activePost.status === "PUBLISHED"
-                  ? "bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100"
-                  : "bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100"
-              }`}
-              title="Nhấn để đổi trạng thái Xuất bản / Bản nháp"
-            >
-              {activePost.status === "PUBLISHED" ? "✓ PUBLISHED" : "✎ DRAFT"}
-            </button>
-          </div>
-
-          {/* Right Action Tools: Metadata Drawer Toggle & Preview Toggle */}
-          <div className="flex items-center gap-1.5">
-            <button
-              type="button"
-              onClick={() => setIsMetaOpen(!isMetaOpen)}
-              className={`px-2.5 py-1 text-xs font-medium rounded border flex items-center gap-1.5 cursor-pointer transition-colors ${
-                isMetaOpen
-                  ? "bg-[#00629B] text-white border-[#00629B] shadow-xs"
-                  : "bg-white hover:bg-slate-100 text-slate-700 border-slate-300"
-              }`}
-              title="Đóng / Mở ngăn thông tin tài liệu & Abstract"
-            >
-              <Settings className="w-3.5 h-3.5" />
-              <span>
-                {isMetaOpen
-                  ? "Đóng thuộc tính ▲"
-                  : `Thuộc tính & Abstract (${activePost.paperId}${
-                      activeSubCategory
-                        ? ` • ${activeSubCategory.name[activeEditLang] || activeSubCategory.name.vi}`
-                        : ""
-                    }) ▼`}
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsPreviewOpen(!isPreviewOpen)}
-              className="px-2.5 py-1 text-xs font-medium bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded flex items-center gap-1.5 cursor-pointer transition-colors"
-              title="Ẩn / Hiện cột Xem trước IEEE Xplore"
-            >
-              <Eye className="w-3.5 h-3.5 text-slate-500" />
-              <span className="hidden sm:inline">
-                {isPreviewOpen ? "Ẩn Preview" : "Hiện Preview"}
-              </span>
-            </button>
-          </div>
-        </div>
-
-        {/* Collapsible Properties & Abstract Drawer */}
-        {isMetaOpen && (
-          <div className="bg-slate-50/95 border-b border-slate-200 p-4 space-y-3.5 max-h-[42vh] overflow-y-auto shrink-0 shadow-inner">
-            {/* Row 1: Paper ID, Slug, Published Date */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div>
-                <label className="font-mono text-[10px] font-bold uppercase text-slate-500 block mb-1">
-                  MÃ TÀI LIỆU (PAPER ID):
-                </label>
-                <input
-                  type="text"
-                  value={activePost.paperId || ""}
-                  onChange={(e) => updateActivePost("paperId", e.target.value)}
-                  placeholder="UET-FET-2026-01"
-                  className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-[#00629B]"
-                />
-              </div>
-
-              <div>
-                <label className="font-mono text-[10px] font-bold uppercase text-slate-500 block mb-1">
-                  URL SLUG:
-                </label>
-                <input
-                  type="text"
-                  value={activePost.slug}
-                  onChange={(e) => updateActivePost("slug", e.target.value)}
-                  placeholder="bai-viet-slug"
-                  className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-[#00629B]"
-                />
-              </div>
-
-              <div>
-                <label className="font-mono text-[10px] font-bold uppercase text-slate-500 block mb-1">
-                  NGÀY ĐĂNG (DATE):
-                </label>
-                <input
-                  type="date"
-                  value={activePost.publishedAt.slice(0, 10)}
-                  onChange={(e) => {
-                    if (e.target.value) {
-                      updateActivePost("publishedAt", new Date(e.target.value).toISOString());
-                    }
-                  }}
-                  className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-[#00629B]"
-                />
-              </div>
-            </div>
-
-            {/* Row 2: Parent Category, Sub-Category, Tags */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div>
-                <label className="font-mono text-[10px] font-bold uppercase text-slate-500 block mb-1">
-                  CHUYÊN MỤC GỐC (PARENT):
-                </label>
-                <select
-                  value={activePost.parentCategory}
-                  onChange={(e) => {
-                    const newParent = e.target.value;
-                    const parentNode = blogData.categoryTree.find((c) => c.id === newParent);
-                    const firstSub = parentNode?.subCategories[0]?.id || "IC_DESIGN";
-                    updateActivePost("parentCategory", newParent);
-                    updateActivePost("subCategory", firstSub);
-                  }}
-                  className="w-full p-1.5 border border-slate-300 rounded bg-white text-xs font-sans font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
-                >
-                  {blogData.categoryTree.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name[activeEditLang] || c.name.vi}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="font-mono text-[10px] font-bold uppercase text-slate-500 block mb-1">
-                  NHÁNH CON (SUB-CATEGORY):
-                </label>
-                <select
-                  value={activePost.subCategory}
-                  onChange={(e) => updateActivePost("subCategory", e.target.value)}
-                  className="w-full p-1.5 border border-slate-300 rounded bg-white text-xs font-sans font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
-                >
-                  {activeParentCategory?.subCategories.map((sub) => (
-                    <option key={sub.id} value={sub.id}>
-                      {sub.name[activeEditLang] || sub.name.vi}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="font-mono text-[10px] font-bold uppercase text-slate-500 block mb-1">
-                  TỪ KHÓA (INDEX TERMS - PHÂN CÁCH BẰNG DẤU PHẨY):
-                </label>
-                <input
-                  type="text"
-                  value={activePost.tags.map((t) => t.replace(/^#+/, "")).join(", ")}
-                  onChange={(e) =>
+                {/* Status Toggle Pill */}
+                <button
+                  type="button"
+                  onClick={() =>
                     updateActivePost(
-                      "tags",
-                      e.target.value
-                        .split(",")
-                        .map((t) => t.trim().replace(/^#+/, ""))
-                        .filter(Boolean)
+                      "status",
+                      activePost.status === "PUBLISHED" ? "DRAFT" : "PUBLISHED"
                     )
                   }
-                  placeholder="RISC-V, Verilog, FPGA, Vivado"
-                  className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-mono font-medium text-slate-900 focus:outline-none focus:border-[#00629B]"
-                />
+                  className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold border cursor-pointer transition-colors select-none ${activePost.status === "PUBLISHED"
+                      ? "bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100"
+                      : "bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100"
+                    }`}
+                  title="Nhấn để đổi trạng thái Xuất bản / Bản nháp"
+                >
+                  {activePost.status === "PUBLISHED" ? "✓ PUBLISHED" : "✎ DRAFT"}
+                </button>
+              </div>
+
+              {/* Right Action Tools: Metadata Drawer Toggle & Preview Toggle */}
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setIsMetaOpen(!isMetaOpen)}
+                  className={`px-2.5 py-1 text-xs font-medium rounded border flex items-center gap-1.5 cursor-pointer transition-colors ${isMetaOpen
+                      ? "bg-[#00629B] text-white border-[#00629B] shadow-xs"
+                      : "bg-white hover:bg-slate-100 text-slate-700 border-slate-300"
+                    }`}
+                  title="Đóng / Mở ngăn thông tin tài liệu & Abstract"
+                >
+                  <Settings className="w-3.5 h-3.5" />
+                  <span>
+                    {isMetaOpen
+                      ? "Đóng thuộc tính ▲"
+                      : `Thuộc tính & Abstract (${activePost.paperId}${activeSubCategory
+                        ? ` • ${activeSubCategory.name[activeEditLang] || activeSubCategory.name.vi}`
+                        : ""
+                      }) ▼`}
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsPreviewOpen(!isPreviewOpen)}
+                  className="px-2.5 py-1 text-xs font-medium bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded flex items-center gap-1.5 cursor-pointer transition-colors"
+                  title="Ẩn / Hiện cột Xem trước IEEE Xplore"
+                >
+                  <Eye className="w-3.5 h-3.5 text-slate-500" />
+                  <span className="hidden sm:inline">
+                    {isPreviewOpen ? "Ẩn Preview" : "Hiện Preview"}
+                  </span>
+                </button>
               </div>
             </div>
 
-            {/* Row 3: Abstract (Excerpt) */}
-            <div>
-              <div className="flex items-center justify-between mb-1">
-                <label className="font-mono text-[10px] font-bold uppercase text-slate-500">
-                  TÓM TẮT BÀI BÁO / ABSTRACT [{activeEditLang.toUpperCase()}]:
-                </label>
-                <span className="font-mono text-[10px] text-slate-400">
-                  Hiển thị dưới dạng Abstract chuẩn IEEE
-                </span>
+            {/* Collapsible Properties & Abstract Drawer */}
+            {isMetaOpen && (
+              <div className="bg-slate-50/95 border-b border-slate-200 p-4 space-y-3.5 max-h-[42vh] overflow-y-auto shrink-0 shadow-inner">
+                {/* Row 1: Paper ID, Slug, Published Date */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="font-mono text-[10px] font-bold uppercase text-slate-500 block mb-1">
+                      MÃ TÀI LIỆU (PAPER ID):
+                    </label>
+                    <input
+                      type="text"
+                      value={activePost.paperId || ""}
+                      onChange={(e) => updateActivePost("paperId", e.target.value)}
+                      placeholder="UET-FET-2026-01"
+                      className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-[#00629B]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="font-mono text-[10px] font-bold uppercase text-slate-500 block mb-1">
+                      URL SLUG:
+                    </label>
+                    <input
+                      type="text"
+                      value={activePost.slug}
+                      onChange={(e) => updateActivePost("slug", e.target.value)}
+                      placeholder="bai-viet-slug"
+                      className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-[#00629B]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="font-mono text-[10px] font-bold uppercase text-slate-500 block mb-1">
+                      NGÀY ĐĂNG (DATE):
+                    </label>
+                    <input
+                      type="date"
+                      value={activePost.publishedAt.slice(0, 10)}
+                      onChange={(e) => {
+                        if (e.target.value) {
+                          updateActivePost("publishedAt", new Date(e.target.value).toISOString());
+                        }
+                      }}
+                      className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-[#00629B]"
+                    />
+                  </div>
+                </div>
+
+                {/* Row 2: Parent Category, Sub-Category, Tags */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="font-mono text-[10px] font-bold uppercase text-slate-500 block mb-1">
+                      CHUYÊN MỤC GỐC (PARENT):
+                    </label>
+                    <select
+                      value={activePost.parentCategory}
+                      onChange={(e) => {
+                        const newParent = e.target.value;
+                        const parentNode = blogData.categoryTree.find((c) => c.id === newParent);
+                        const firstSub = parentNode?.subCategories[0]?.id || "IC_DESIGN";
+                        updateActivePost("parentCategory", newParent);
+                        updateActivePost("subCategory", firstSub);
+                      }}
+                      className="w-full p-1.5 border border-slate-300 rounded bg-white text-xs font-sans font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
+                    >
+                      {blogData.categoryTree.map((c) => (
+                        <option key={c.id} value={c.id}>
+                          {c.name[activeEditLang] || c.name.vi}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="font-mono text-[10px] font-bold uppercase text-slate-500 block mb-1">
+                      NHÁNH CON (SUB-CATEGORY):
+                    </label>
+                    <select
+                      value={activePost.subCategory}
+                      onChange={(e) => updateActivePost("subCategory", e.target.value)}
+                      className="w-full p-1.5 border border-slate-300 rounded bg-white text-xs font-sans font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
+                    >
+                      {activeParentCategory?.subCategories.map((sub) => (
+                        <option key={sub.id} value={sub.id}>
+                          {sub.name[activeEditLang] || sub.name.vi}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="font-mono text-[10px] font-bold uppercase text-slate-500 block mb-1">
+                      TỪ KHÓA (INDEX TERMS - PHÂN CÁCH BẰNG DẤU PHẨY):
+                    </label>
+                    <input
+                      type="text"
+                      value={activePost.tags.map((t) => t.replace(/^#+/, "")).join(", ")}
+                      onChange={(e) =>
+                        updateActivePost(
+                          "tags",
+                          e.target.value
+                            .split(",")
+                            .map((t) => t.trim().replace(/^#+/, ""))
+                            .filter(Boolean)
+                        )
+                      }
+                      placeholder="RISC-V, Verilog, FPGA, Vivado"
+                      className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-mono font-medium text-slate-900 focus:outline-none focus:border-[#00629B]"
+                    />
+                  </div>
+                </div>
+
+                {/* Row 3: Abstract (Excerpt) */}
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="font-mono text-[10px] font-bold uppercase text-slate-500">
+                      TÓM TẮT BÀI BÁO / ABSTRACT [{activeEditLang.toUpperCase()}]:
+                    </label>
+                    <span className="font-mono text-[10px] text-slate-400">
+                      Hiển thị dưới dạng Abstract chuẩn IEEE
+                    </span>
+                  </div>
+                  <textarea
+                    rows={3}
+                    value={activePost.excerpt[activeEditLang] || ""}
+                    onChange={(e) => updateActivePostBilingual("excerpt", e.target.value)}
+                    placeholder="Nhập phần tóm tắt (Abstract) bài báo..."
+                    className="w-full p-2.5 border border-slate-300 rounded bg-white text-xs font-serif leading-relaxed text-slate-900 focus:outline-none focus:border-[#00629B] resize-y"
+                  />
+                </div>
               </div>
-              <textarea
-                rows={3}
-                value={activePost.excerpt[activeEditLang] || ""}
-                onChange={(e) => updateActivePostBilingual("excerpt", e.target.value)}
-                placeholder="Nhập phần tóm tắt (Abstract) bài báo..."
-                className="w-full p-2.5 border border-slate-300 rounded bg-white text-xs font-serif leading-relaxed text-slate-900 focus:outline-none focus:border-[#00629B] resize-y"
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Pinned Title Input (Clean & Prominent) */}
-        <input
-          type="text"
-          value={activePost.title[activeEditLang] || ""}
-          onChange={(e) => updateActivePostBilingual("title", e.target.value)}
-          placeholder={
-            activeEditLang === "vi"
-              ? "Nhập tiêu đề bài báo kỹ thuật..."
-              : "Enter formal academic paper title..."
-          }
-          className="w-full px-4 py-3 border-b border-slate-200 bg-white font-serif text-lg font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-amber-50/20 shrink-0 transition-colors"
-        />
-
-        {/* Sticky Markdown Formatting Toolbar (Clean single icons, zero duplicate symbols) */}
-        <div className="px-3 py-1.5 bg-slate-100 border-b border-slate-200 flex flex-wrap items-center gap-1.5 shrink-0 select-none">
-          <button
-            type="button"
-            onClick={() => insertSmartSyntax("\n## ", "\n")}
-            className="px-2 py-0.5 text-xs font-bold font-serif bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded cursor-pointer transition-colors"
-            title="Thêm đề mục cấp 2 (Section)"
-          >
-            H2
-          </button>
-          <button
-            type="button"
-            onClick={() => insertSmartSyntax("\n### ", "\n")}
-            className="px-2 py-0.5 text-xs font-bold font-serif bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded cursor-pointer transition-colors"
-            title="Thêm tiểu mục cấp 3 (Subsection)"
-          >
-            H3
-          </button>
-          <button
-            type="button"
-            onClick={() => insertSmartSyntax("**", "**")}
-            className="px-2 py-0.5 text-xs font-bold font-serif bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded cursor-pointer transition-colors"
-            title="In đậm (Bold)"
-          >
-            B
-          </button>
-          <button
-            type="button"
-            onClick={() => insertSmartSyntax("*", "*")}
-            className="px-2 py-0.5 text-xs italic font-serif bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded cursor-pointer transition-colors"
-            title="In nghiêng (Italic)"
-          >
-            I
-          </button>
-
-          <span className="w-[1px] h-4 bg-slate-300 mx-0.5"></span>
-
-          {/* Code block with language selector */}
-          <div className="inline-flex items-center border border-slate-300 rounded bg-white shadow-2xs overflow-hidden">
-            <button
-              type="button"
-              onClick={() => insertSmartSyntax(`\n\`\`\`${codeLang}\n`, "\n```\n")}
-              className="px-2 py-0.5 text-xs font-mono hover:bg-slate-100 text-slate-800 flex items-center gap-1 cursor-pointer transition-colors"
-              title={`Chèn khối mã nguồn ${codeLang.toUpperCase()} rỗng`}
-            >
-              <Code className="w-3 h-3 text-[#00629B]" />
-              <span>Code</span>
-            </button>
-            <select
-              value={codeLang}
-              onChange={(e) => setCodeLang(e.target.value)}
-              className="text-[10px] font-mono bg-slate-50 text-slate-600 border-l border-slate-200 py-0.5 px-1 focus:outline-none cursor-pointer"
-              title="Chọn ngôn ngữ mã nguồn"
-            >
-              <option value="verilog">verilog</option>
-              <option value="c">c</option>
-              <option value="python">python</option>
-              <option value="bash">bash</option>
-              <option value="cpp">cpp</option>
-            </select>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => {
-              const el = contentTextareaRef.current;
-              const hasSelection = el && el.selectionStart !== el.selectionEnd;
-              if (hasSelection) {
-                insertSmartSyntax("$", "$");
-              } else {
-                insertSmartSyntax("\n$$\n", "\n$$\n");
-              }
-            }}
-            className="px-2 py-0.5 text-xs font-serif bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded flex items-center gap-1 cursor-pointer transition-colors"
-            title="Chèn công thức toán LaTeX ($inline$ khi bôi đen, $$display$$ khi để trống)"
-          >
-            <Sigma className="w-3 h-3 text-indigo-600" />
-            <span>LaTeX</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              const el = contentTextareaRef.current;
-              const current = activePost.content[activeEditLang] || "";
-              let insertPos = el ? el.selectionStart : current.length;
-
-              // Check if cursor is inside an unclosed code/mermaid block (odd number of ``` before cursor)
-              const textBefore = current.substring(0, insertPos);
-              const fenceMatches = textBefore.match(/```/g) || [];
-              const isInsideBlock = fenceMatches.length % 2 === 1;
-
-              let closePrefix = "";
-              if (isInsideBlock && el) {
-                const textAfter = current.substring(insertPos);
-                const nextFenceIdx = textAfter.indexOf("```");
-                if (nextFenceIdx !== -1) {
-                  // Move cursor after the closing fence
-                  insertPos = insertPos + nextFenceIdx + 3;
-                  el.selectionStart = insertPos;
-                  el.selectionEnd = insertPos;
-                } else {
-                  // No closing fence found; close the unclosed block
-                  closePrefix = "\n```";
-                }
-              }
-
-              const template = `${closePrefix}\n\n\`\`\`mermaid\ngraph LR\n  A[Tín hiệu vào] --> B[Khối xử lý]\n\`\`\`\n\n`;
-              insertSmartSyntax(template, "");
-            }}
-            className="px-2 py-0.5 text-xs font-mono bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded flex items-center gap-1 cursor-pointer transition-colors"
-            title="Chèn sơ đồ kiến trúc Mermaid"
-          >
-            <GitBranch className="w-3 h-3 text-emerald-600" />
-            <span>Mermaid</span>
-          </button>
-
-          <span className="w-[1px] h-4 bg-slate-300 mx-0.5"></span>
-
-          {/* Image Insertion via /api/upload */}
-          <input
-            type="file"
-            ref={imageUploadRef}
-            onChange={handleImageFileChange}
-            accept="image/*"
-            className="hidden"
-          />
-          <button
-            type="button"
-            onClick={() => imageUploadRef.current?.click()}
-            disabled={isUploadingImage}
-            className="px-2 py-0.5 text-xs bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded flex items-center gap-1 cursor-pointer transition-colors disabled:opacity-50"
-            title="Chèn hình ảnh hoặc dán ảnh trực tiếp từ clipboard (Ctrl+V) – tự động lưu vào /uploads/blog/"
-          >
-            {isUploadingImage ? (
-              <Loader2 className="w-3 h-3 text-sky-600 animate-spin" />
-            ) : (
-              <ImageIcon className="w-3 h-3 text-sky-600" />
             )}
-            <span>{isUploadingImage ? "Đang tải ảnh..." : "Ảnh / Waveform"}</span>
-          </button>
 
-          <button
-            type="button"
-            onClick={() =>
-              insertSmartSyntax("\n| Thông số | Giá trị |\n| :--- | :--- |\n| ", " |  |\n")
-            }
-            className="px-2 py-0.5 text-xs bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded flex items-center gap-1 cursor-pointer transition-colors"
-            title="Chèn khung bảng chuẩn IEEE 2 cột (con trỏ vào ô đầu)"
-          >
-            <Table className="w-3 h-3 text-amber-600" />
-            <span>Bảng IEEE</span>
-          </button>
+            {/* Pinned Title Input (Clean & Prominent) */}
+            <input
+              type="text"
+              value={activePost.title[activeEditLang] || ""}
+              onChange={(e) => updateActivePostBilingual("title", e.target.value)}
+              placeholder={
+                activeEditLang === "vi"
+                  ? "Nhập tiêu đề bài báo kỹ thuật..."
+                  : "Enter formal academic paper title..."
+              }
+              className="w-full px-4 py-3 border-b border-slate-200 bg-white font-serif text-lg font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-amber-50/20 shrink-0 transition-colors"
+            />
 
-          <button
-            type="button"
-            onClick={() => insertSmartSyntax("\n> [!NOTE]\n> ", "\n")}
-            className="px-2 py-0.5 text-[11px] font-mono bg-white hover:bg-slate-200 text-sky-700 border border-slate-300 rounded cursor-pointer transition-colors"
-            title="Chèn hộp ghi chú học thuật [!NOTE]"
-          >
-            [!NOTE]
-          </button>
+            {/* Sticky Markdown Formatting Toolbar (Clean single icons, zero duplicate symbols) */}
+            <div className="px-3 py-1.5 bg-slate-100 border-b border-slate-200 flex flex-wrap items-center gap-1.5 shrink-0 select-none">
+              <button
+                type="button"
+                onClick={() => insertSmartSyntax("\n## ", "\n")}
+                className="px-2 py-0.5 text-xs font-bold font-serif bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded cursor-pointer transition-colors"
+                title="Thêm đề mục cấp 2 (Section)"
+              >
+                H2
+              </button>
+              <button
+                type="button"
+                onClick={() => insertSmartSyntax("\n### ", "\n")}
+                className="px-2 py-0.5 text-xs font-bold font-serif bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded cursor-pointer transition-colors"
+                title="Thêm tiểu mục cấp 3 (Subsection)"
+              >
+                H3
+              </button>
+              <button
+                type="button"
+                onClick={() => insertSmartSyntax("**", "**")}
+                className="px-2 py-0.5 text-xs font-bold font-serif bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded cursor-pointer transition-colors"
+                title="In đậm (Bold)"
+              >
+                B
+              </button>
+              <button
+                type="button"
+                onClick={() => insertSmartSyntax("*", "*")}
+                className="px-2 py-0.5 text-xs italic font-serif bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded cursor-pointer transition-colors"
+                title="In nghiêng (Italic)"
+              >
+                I
+              </button>
 
-          <button
-            type="button"
-            onClick={() => insertSmartSyntax("\n> [!WARNING]\n> ", "\n")}
-            className="px-2 py-0.5 text-[11px] font-mono bg-white hover:bg-slate-200 text-amber-700 border border-slate-300 rounded cursor-pointer transition-colors"
-            title="Chèn hộp cảnh báo kỹ thuật [!WARNING]"
-          >
-            [!WARNING]
-          </button>
-        </div>
+              <span className="w-[1px] h-4 bg-slate-300 mx-0.5"></span>
 
-        {/* Full-Height Markdown Editor Textarea */}
-        <textarea
-          ref={contentTextareaRef}
-          value={activePost.content[activeEditLang] || ""}
-          onChange={(e) => updateActivePostBilingual("content", e.target.value)}
-          onPaste={handlePaste}
-          placeholder="Viết nội dung bài báo khoa học bằng Markdown, LaTeX ($$...$$), Mermaid... Hỗ trợ phím tắt Ctrl+V để dán trực tiếp ảnh chụp màn hình mạch số hoặc dạng sóng."
-          className="flex-1 w-full p-4 font-mono text-[13.5px] leading-relaxed resize-none focus:outline-none overflow-y-auto text-slate-900 bg-white"
-        />
-      </section>
-
-      {/* ========================================================= */}
-      {/* PANE 3 (RIGHT PANE): INDEPENDENT IEEE LIVE PREVIEW */}
-      {/* ========================================================= */}
-      {isPreviewOpen && (
-        <section className="flex-1 min-w-[340px] flex flex-col h-full bg-[#F4F6F9] border-l border-slate-300 min-h-0 overflow-hidden">
-          {/* Top Preview Bar */}
-          <div className="px-4 py-2 bg-slate-100 border-b border-slate-200 flex items-center justify-between text-xs font-mono text-slate-600 shrink-0 select-none">
-            <span className="font-bold text-[#00629B] flex items-center gap-1.5">
-              <BookOpen className="w-3.5 h-3.5" />
-              <span>IEEE XPLORE PREPRINT PREVIEW</span>
-            </span>
-            <button
-              type="button"
-              onClick={() => setIsPreviewOpen(false)}
-              className="hover:text-slate-900 p-0.5 rounded cursor-pointer"
-              title="Ẩn cột Preview để mở rộng khung soạn thảo"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* Preview Scrollable Body */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-7 space-y-4">
-            <div className="bg-white border border-slate-200 shadow-sm p-6 sm:p-8 rounded-sm">
-              {/* Top Preprint Identifier */}
-              <div className="flex items-center justify-between text-xs font-mono text-slate-500 pb-2 mb-4 border-b border-slate-100">
-                <span className="font-bold text-[#00629B]">
-                  IEEE / VNU-UET RESEARCH REPOSITORY // PREPRINT
-                </span>
-                <span className="bg-slate-100 px-2 py-0.5 border border-slate-200 font-bold text-slate-800 rounded">
-                  {activePost.paperId}
-                </span>
+              {/* Code block with language selector */}
+              <div className="inline-flex items-center border border-slate-300 rounded bg-white shadow-2xs overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => insertSmartSyntax(`\n\`\`\`${codeLang}\n`, "\n```\n")}
+                  className="px-2 py-0.5 text-xs font-mono hover:bg-slate-100 text-slate-800 flex items-center gap-1 cursor-pointer transition-colors"
+                  title={`Chèn khối mã nguồn ${codeLang.toUpperCase()} rỗng`}
+                >
+                  <Code className="w-3 h-3 text-[#00629B]" />
+                  <span>Code</span>
+                </button>
+                <select
+                  value={codeLang}
+                  onChange={(e) => setCodeLang(e.target.value)}
+                  className="text-[10px] font-mono bg-slate-50 text-slate-600 border-l border-slate-200 py-0.5 px-1 focus:outline-none cursor-pointer"
+                  title="Chọn ngôn ngữ mã nguồn"
+                >
+                  <option value="verilog">verilog</option>
+                  <option value="c">c</option>
+                  <option value="python">python</option>
+                  <option value="bash">bash</option>
+                  <option value="cpp">cpp</option>
+                </select>
               </div>
 
-              {/* Title in Serif */}
-              <h1 className="text-xl sm:text-2xl font-bold font-serif text-slate-900 text-center leading-snug mb-3">
-                {activePost.title[activeEditLang] || activePost.title.vi || "Chưa có tiêu đề bài viết"}
-              </h1>
-
-              {/* Author Affiliation */}
-              <div className="text-center font-serif py-2 border-t border-b border-slate-100 my-3">
-                <div className="text-sm font-bold text-slate-900">
-                  Nguyễn Quang Thắng (Jev Kayden)
-                </div>
-                <div className="text-xs text-slate-600 italic mt-0.5 leading-relaxed">
-                  Khoa Điện tử Viễn thông (FET) — Trường Đại học Công nghệ, ĐHQGHN (VNU-UET)
-                </div>
-                <div className="text-[11px] text-slate-500 font-mono mt-0.5">
-                  nguyenquangthang8827@gmail.com • DOI: 10.1109/VNU-UET.{activePost.paperId}
-                </div>
-              </div>
-
-              {/* Classic IEEE Double Rule Top */}
-              <div className="space-y-0.5 my-4">
-                <div className="h-[1.5px] bg-slate-900"></div>
-                <div className="h-[0.5px] bg-slate-900"></div>
-              </div>
-
-              {/* Abstract & Index Terms (Authentic Unboxed IEEE Format) */}
-              {(activePost.excerpt[activeEditLang] || activePost.excerpt.vi) && (
-                <div className="my-4 text-xs leading-relaxed text-slate-800 space-y-2 font-serif">
-                  <p className="text-justify">
-                    <span className="font-bold italic mr-1.5">
-                      {activeEditLang === "vi" ? "Tóm tắt—" : "Abstract—"}
-                    </span>
-                    <span>
-                      {activePost.excerpt[activeEditLang] || activePost.excerpt.vi}
-                    </span>
-                  </p>
-
-                  {activePost.tags.length > 0 && (
-                    <p className="text-justify">
-                      <span className="font-bold italic mr-1.5">
-                        {activeEditLang === "vi" ? "Từ khóa—" : "Index Terms—"}
-                      </span>
-                      <span className="font-serif italic text-slate-700">
-                        {activePost.tags.map((t) => t.replace(/^#+/, "")).join("; ")}.
-                      </span>
-                    </p>
-                  )}
-                </div>
-              )}
-
-              {/* Classic IEEE Double Rule Bottom */}
-              <div className="space-y-0.5 my-4">
-                <div className="h-[0.5px] bg-slate-900"></div>
-                <div className="h-[1.5px] bg-slate-900"></div>
-              </div>
-
-              {/* Rendered Markdown Content (suppressLeadingH1 prevents duplicate main title) */}
-              <div className="mt-5 text-sm leading-relaxed text-justify font-sans">
-                <MarkdownRenderer
-                  content={
-                    activePost.content[activeEditLang] ||
-                    activePost.content.vi ||
-                    "# Chưa có nội dung"
+              <button
+                type="button"
+                onClick={() => {
+                  const el = contentTextareaRef.current;
+                  const hasSelection = el && el.selectionStart !== el.selectionEnd;
+                  if (hasSelection) {
+                    insertSmartSyntax("$", "$");
+                  } else {
+                    insertSmartSyntax("\n$$\n", "\n$$\n");
                   }
-                  suppressLeadingH1={true}
-                />
-              </div>
+                }}
+                className="px-2 py-0.5 text-xs font-serif bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded flex items-center gap-1 cursor-pointer transition-colors"
+                title="Chèn công thức toán LaTeX ($inline$ khi bôi đen, $$display$$ khi để trống)"
+              >
+                <Sigma className="w-3 h-3 text-indigo-600" />
+                <span>LaTeX</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const el = contentTextareaRef.current;
+                  const current = activePost.content[activeEditLang] || "";
+                  let insertPos = el ? el.selectionStart : current.length;
+
+                  // Check if cursor is inside an unclosed code/mermaid block (odd number of ``` before cursor)
+                  const textBefore = current.substring(0, insertPos);
+                  const fenceMatches = textBefore.match(/```/g) || [];
+                  const isInsideBlock = fenceMatches.length % 2 === 1;
+
+                  let closePrefix = "";
+                  if (isInsideBlock && el) {
+                    const textAfter = current.substring(insertPos);
+                    const nextFenceIdx = textAfter.indexOf("```");
+                    if (nextFenceIdx !== -1) {
+                      // Move cursor after the closing fence
+                      insertPos = insertPos + nextFenceIdx + 3;
+                      el.selectionStart = insertPos;
+                      el.selectionEnd = insertPos;
+                    } else {
+                      // No closing fence found; close the unclosed block
+                      closePrefix = "\n```";
+                    }
+                  }
+
+                  const template = `${closePrefix}\n\n\`\`\`mermaid\ngraph LR\n  A[Tín hiệu vào] --> B[Khối xử lý]\n\`\`\`\n\n`;
+                  insertSmartSyntax(template, "");
+                }}
+                className="px-2 py-0.5 text-xs font-mono bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded flex items-center gap-1 cursor-pointer transition-colors"
+                title="Chèn sơ đồ kiến trúc Mermaid"
+              >
+                <GitBranch className="w-3 h-3 text-emerald-600" />
+                <span>Mermaid</span>
+              </button>
+
+              <span className="w-[1px] h-4 bg-slate-300 mx-0.5"></span>
+
+              {/* Image Insertion via /api/upload */}
+              <input
+                type="file"
+                ref={imageUploadRef}
+                onChange={handleImageFileChange}
+                accept="image/*"
+                className="hidden"
+              />
+              <button
+                type="button"
+                onClick={() => imageUploadRef.current?.click()}
+                disabled={isUploadingImage}
+                className="px-2 py-0.5 text-xs bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded flex items-center gap-1 cursor-pointer transition-colors disabled:opacity-50"
+                title="Chèn hình ảnh hoặc dán ảnh trực tiếp từ clipboard (Ctrl+V) – tự động lưu vào /uploads/blog/"
+              >
+                {isUploadingImage ? (
+                  <Loader2 className="w-3 h-3 text-sky-600 animate-spin" />
+                ) : (
+                  <ImageIcon className="w-3 h-3 text-sky-600" />
+                )}
+                <span>{isUploadingImage ? "Đang tải ảnh..." : "Ảnh / Waveform"}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  insertSmartSyntax("\n| Thông số | Giá trị |\n| :--- | :--- |\n| ", " |  |\n")
+                }
+                className="px-2 py-0.5 text-xs bg-white hover:bg-slate-200 text-slate-800 border border-slate-300 rounded flex items-center gap-1 cursor-pointer transition-colors"
+                title="Chèn khung bảng chuẩn IEEE 2 cột (con trỏ vào ô đầu)"
+              >
+                <Table className="w-3 h-3 text-amber-600" />
+                <span>Bảng IEEE</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => insertSmartSyntax("\n> [!NOTE]\n> ", "\n")}
+                className="px-2 py-0.5 text-[11px] font-mono bg-white hover:bg-slate-200 text-sky-700 border border-slate-300 rounded cursor-pointer transition-colors"
+                title="Chèn hộp ghi chú học thuật [!NOTE]"
+              >
+                [!NOTE]
+              </button>
+
+              <button
+                type="button"
+                onClick={() => insertSmartSyntax("\n> [!WARNING]\n> ", "\n")}
+                className="px-2 py-0.5 text-[11px] font-mono bg-white hover:bg-slate-200 text-amber-700 border border-slate-300 rounded cursor-pointer transition-colors"
+                title="Chèn hộp cảnh báo kỹ thuật [!WARNING]"
+              >
+                [!WARNING]
+              </button>
             </div>
-          </div>
-        </section>
-      )}
+
+            {/* Full-Height Markdown Editor Textarea */}
+            <textarea
+              ref={contentTextareaRef}
+              value={activePost.content[activeEditLang] || ""}
+              onChange={(e) => updateActivePostBilingual("content", e.target.value)}
+              onPaste={handlePaste}
+              placeholder="Viết nội dung bài báo khoa học bằng Markdown, LaTeX ($$...$$), Mermaid... Hỗ trợ phím tắt Ctrl+V để dán trực tiếp ảnh chụp màn hình mạch số hoặc dạng sóng."
+              className="flex-1 w-full p-4 font-mono text-[13.5px] leading-relaxed resize-none focus:outline-none overflow-y-auto text-slate-900 bg-white"
+            />
+          </section>
+
+          {/* ========================================================= */}
+          {/* PANE 3 (RIGHT PANE): INDEPENDENT IEEE LIVE PREVIEW */}
+          {/* ========================================================= */}
+          {isPreviewOpen && (
+            <section className="flex-1 min-w-[340px] flex flex-col h-full bg-[#F4F6F9] border-l border-slate-300 min-h-0 overflow-hidden">
+              {/* Top Preview Bar */}
+              <div className="px-4 py-2 bg-slate-100 border-b border-slate-200 flex items-center justify-between text-xs font-mono text-slate-600 shrink-0 select-none">
+                <span className="font-bold text-[#00629B] flex items-center gap-1.5">
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>IEEE XPLORE PREPRINT PREVIEW</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setIsPreviewOpen(false)}
+                  className="hover:text-slate-900 p-0.5 rounded cursor-pointer"
+                  title="Ẩn cột Preview để mở rộng khung soạn thảo"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Preview Scrollable Body */}
+              <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-7 space-y-4">
+                <div className="bg-white border border-slate-200 shadow-sm p-6 sm:p-8 rounded-sm">
+                  {/* Top Preprint Identifier */}
+                  <div className="flex items-center justify-between text-xs font-mono text-slate-500 pb-2 mb-4 border-b border-slate-100">
+                    <span className="font-bold text-[#00629B]">
+                      IEEE / VNU-UET RESEARCH REPOSITORY // PREPRINT
+                    </span>
+                    <span className="bg-slate-100 px-2 py-0.5 border border-slate-200 font-bold text-slate-800 rounded">
+                      {activePost.paperId}
+                    </span>
+                  </div>
+
+                  {/* Title in Serif */}
+                  <h1 className="text-xl sm:text-2xl font-bold font-serif text-slate-900 text-center leading-snug mb-3">
+                    {activePost.title[activeEditLang] || activePost.title.vi || "Chưa có tiêu đề bài viết"}
+                  </h1>
+
+                  {/* Author Affiliation */}
+                  <div className="text-center font-serif py-2 border-t border-b border-slate-100 my-3">
+                    <div className="text-sm font-bold text-slate-900">
+                      Nguyễn Quang Thắng (Jev Kayden)
+                    </div>
+                    <div className="text-xs text-slate-600 italic mt-0.5 leading-relaxed">
+                      Khoa Điện tử Viễn thông (FET) — Trường Đại học Công nghệ, ĐHQGHN (VNU-UET)
+                    </div>
+                    <div className="text-[11px] text-slate-500 font-mono mt-0.5">
+                      nguyenquangthang8827@gmail.com • DOI: 10.1109/VNU-UET.{activePost.paperId}
+                    </div>
+                  </div>
+
+                  {/* Classic IEEE Double Rule Top */}
+                  <div className="space-y-0.5 my-4">
+                    <div className="h-[1.5px] bg-slate-900"></div>
+                    <div className="h-[0.5px] bg-slate-900"></div>
+                  </div>
+
+                  {/* Abstract & Index Terms (Authentic Unboxed IEEE Format) */}
+                  {(activePost.excerpt[activeEditLang] || activePost.excerpt.vi) && (
+                    <div className="my-4 text-xs leading-relaxed text-slate-800 space-y-2 font-serif">
+                      <p className="text-justify">
+                        <span className="font-bold italic mr-1.5">
+                          {activeEditLang === "vi" ? "Tóm tắt—" : "Abstract—"}
+                        </span>
+                        <span>
+                          {activePost.excerpt[activeEditLang] || activePost.excerpt.vi}
+                        </span>
+                      </p>
+
+                      {activePost.tags.length > 0 && (
+                        <p className="text-justify">
+                          <span className="font-bold italic mr-1.5">
+                            {activeEditLang === "vi" ? "Từ khóa—" : "Index Terms—"}
+                          </span>
+                          <span className="font-serif italic text-slate-700">
+                            {activePost.tags.map((t) => t.replace(/^#+/, "")).join("; ")}.
+                          </span>
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Classic IEEE Double Rule Bottom */}
+                  <div className="space-y-0.5 my-4">
+                    <div className="h-[0.5px] bg-slate-900"></div>
+                    <div className="h-[1.5px] bg-slate-900"></div>
+                  </div>
+
+                  {/* Rendered Markdown Content (suppressLeadingH1 prevents duplicate main title) */}
+                  <div className="mt-5 text-sm leading-relaxed text-justify font-sans">
+                    <MarkdownRenderer
+                      content={
+                        activePost.content[activeEditLang] ||
+                        activePost.content.vi ||
+                        "# Chưa có nội dung"
+                      }
+                      suppressLeadingH1={true}
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
         </>
       )}
 
@@ -1859,11 +1842,10 @@ updatedAt: "${activePost.updatedAt || new Date().toISOString()}"
               <button
                 type="button"
                 onClick={() => setCategoryModalMode("NEW_PARENT")}
-                className={`py-2 px-2 rounded font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all ${
-                  categoryModalMode === "NEW_PARENT"
+                className={`py-2 px-2 rounded font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all ${categoryModalMode === "NEW_PARENT"
                     ? "bg-white text-[#00629B] shadow-2xs border border-slate-200"
                     : "text-slate-600 hover:text-slate-900"
-                }`}
+                  }`}
               >
                 <FolderPlus className="w-3.5 h-3.5 shrink-0" />
                 <span className="truncate">Tạo Nhánh Mẹ</span>
@@ -1871,11 +1853,10 @@ updatedAt: "${activePost.updatedAt || new Date().toISOString()}"
               <button
                 type="button"
                 onClick={() => setCategoryModalMode("NEW_CHILD")}
-                className={`py-2 px-2 rounded font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all ${
-                  categoryModalMode === "NEW_CHILD"
+                className={`py-2 px-2 rounded font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all ${categoryModalMode === "NEW_CHILD"
                     ? "bg-white text-[#00629B] shadow-2xs border border-slate-200"
                     : "text-slate-600 hover:text-slate-900"
-                }`}
+                  }`}
               >
                 <FolderTree className="w-3.5 h-3.5 shrink-0" />
                 <span className="truncate">Thêm Nhánh Con</span>
@@ -1883,11 +1864,10 @@ updatedAt: "${activePost.updatedAt || new Date().toISOString()}"
               <button
                 type="button"
                 onClick={() => setCategoryModalMode("MANAGE")}
-                className={`py-2 px-2 rounded font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all ${
-                  categoryModalMode === "MANAGE"
+                className={`py-2 px-2 rounded font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all ${categoryModalMode === "MANAGE"
                     ? "bg-white text-rose-600 shadow-2xs border border-slate-200"
                     : "text-slate-600 hover:text-slate-900"
-                }`}
+                  }`}
               >
                 <Trash2 className="w-3.5 h-3.5 shrink-0 text-rose-500" />
                 <span className="truncate">Quản lý & Xóa</span>
@@ -2029,179 +2009,91 @@ updatedAt: "${activePost.updatedAt || new Date().toISOString()}"
                 </div>
               </div>
             ) : (
-            <form onSubmit={handleSaveCategory} className="space-y-4">
-              {categoryModalMode === "NEW_PARENT" ? (
-                <>
-                  {/* Section A: Thông tin Nhánh Mẹ */}
-                  <div className="space-y-3 p-3.5 bg-slate-50 border border-slate-200 rounded">
-                    <div className="flex items-center gap-1.5 pb-2 border-b border-slate-200">
-                      <Folder className="w-3.5 h-3.5 text-[#00629B]" />
-                      <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-slate-700">
-                        PHẦN A — THÔNG TIN NHÁNH MẸ (PARENT CATEGORY)
-                      </span>
-                    </div>
-
-                    <div>
-                      <label className="font-mono text-[10px] font-bold uppercase text-slate-600 block mb-1">
-                        TÊN NHÁNH MẸ (TIẾNG VIỆT) *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={newParentNameVi}
-                        onChange={(e) => setNewParentNameVi(e.target.value)}
-                        placeholder="VD: Hạ tầng Đám mây & AI"
-                        className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-sans font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="font-mono text-[10px] font-bold uppercase text-slate-600 block mb-1">
-                        TÊN NHÁNH MẸ (TIẾNG ANH):
-                      </label>
-                      <input
-                        type="text"
-                        value={newParentNameEn}
-                        onChange={(e) => setNewParentNameEn(e.target.value)}
-                        placeholder="VD: Cloud Infrastructure & AI (tự động theo TV nếu trống)"
-                        className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-sans font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
-                      />
-                    </div>
-
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="font-mono text-[10px] font-bold uppercase text-slate-500">
-                          MÃ ĐỊNH DANH (ID NHÁNH MẸ):
-                        </label>
-                        <span className="text-[10px] font-mono text-slate-400">
-                          Tự sinh: {String(blogData.categoryTree.length + 1).padStart(2, "0")}_{toSlugId(newParentNameVi) || "CATEGORY"}
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        value={customParentId}
-                        onChange={(e) => setCustomParentId(e.target.value)}
-                        placeholder={
-                          newParentNameVi.trim()
-                            ? `${String(blogData.categoryTree.length + 1).padStart(2, "0")}_${toSlugId(newParentNameVi)}`
-                            : "Tự động tạo mã số thứ tự và tên viết hoa..."
-                        }
-                        className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-[#00629B]"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Section B: Nhánh Con đầu tiên */}
-                  <div className="space-y-3 p-3.5 bg-sky-50/60 border border-sky-200/80 rounded">
-                    <div className="flex items-center justify-between pb-2 border-b border-sky-200/60">
-                      <div className="flex items-center gap-1.5">
-                        <FolderTree className="w-3.5 h-3.5 text-sky-700" />
-                        <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-sky-800">
-                          PHẦN B — TẠO KÈM NHÁNH CON ĐẦU TIÊN
-                        </span>
-                      </div>
-                      <span className="text-[10px] font-sans text-sky-600 italic">
-                        Khuyên dùng
-                      </span>
-                    </div>
-
-                    <div>
-                      <label className="font-mono text-[10px] font-bold uppercase text-slate-600 block mb-1">
-                        TÊN NHÁNH CON (TIẾNG VIỆT):
-                      </label>
-                      <input
-                        type="text"
-                        value={newChildNameVi}
-                        onChange={(e) => setNewChildNameVi(e.target.value)}
-                        placeholder="VD: Kiến trúc Cloud & Bảo mật (mặc định: 'Tổng quan & Chuyên đề')"
-                        className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-sans font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="font-mono text-[10px] font-bold uppercase text-slate-600 block mb-1">
-                        TÊN NHÁNH CON (TIẾNG ANH):
-                      </label>
-                      <input
-                        type="text"
-                        value={newChildNameEn}
-                        onChange={(e) => setNewChildNameEn(e.target.value)}
-                        placeholder="VD: Cloud Architecture & Security"
-                        className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-sans font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
-                      />
-                    </div>
-
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="font-mono text-[10px] font-bold uppercase text-slate-500">
-                          MÃ NHÁNH CON (ID):
-                        </label>
-                        <span className="text-[10px] font-mono text-slate-400">
-                          Tự sinh: {toSlugId(newChildNameVi) || "GENERAL"}
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        value={customChildId}
-                        onChange={(e) => setCustomChildId(e.target.value)}
-                        placeholder={
-                          newChildNameVi.trim()
-                            ? toSlugId(newChildNameVi)
-                            : "GENERAL (Mặc định)"
-                        }
-                        className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-[#00629B]"
-                      />
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  {/* Mode: NEW_CHILD */}
-                  {blogData.categoryTree.length === 0 ? (
-                    <div className="p-5 bg-amber-50 border border-amber-200 rounded text-center space-y-2.5">
-                      <p className="text-xs font-bold text-amber-900">
-                        Chưa có Nhánh Mẹ nào trong hệ thống
-                      </p>
-                      <p className="text-[11px] text-amber-700 leading-relaxed">
-                        Bạn cần tạo ít nhất 1 Nhánh Mẹ (Parent Category) trước khi có thể gắn nhánh con vào. Vui lòng chuyển sang tab <strong>Tạo Nhánh Mẹ</strong>.
-                      </p>
-                      <button
-                        type="button"
-                        onClick={() => setCategoryModalMode("NEW_PARENT")}
-                        className="px-3.5 py-1.5 bg-[#00629B] text-white text-xs font-bold rounded shadow-xs cursor-pointer hover:bg-[#004e7c] transition-colors"
-                      >
-                        Chuyển sang Tạo Nhánh Mẹ
-                      </button>
-                    </div>
-                  ) : (
+              <form onSubmit={handleSaveCategory} className="space-y-4">
+                {categoryModalMode === "NEW_PARENT" ? (
+                  <>
+                    {/* Section A: Thông tin Nhánh Mẹ */}
                     <div className="space-y-3 p-3.5 bg-slate-50 border border-slate-200 rounded">
-                      <div>
-                        <label className="font-mono text-[10px] font-bold uppercase text-slate-600 block mb-1">
-                          CHỌN NHÁNH MẸ (PARENT CATEGORY) *
-                        </label>
-                        <select
-                          value={newCategoryTargetParent}
-                          onChange={(e) => setNewCategoryTargetParent(e.target.value)}
-                          className="w-full p-2 border border-slate-300 rounded bg-white text-xs font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
-                        >
-                          {blogData.categoryTree.map((c) => (
-                            <option key={c.id} value={c.id}>
-                              {c.name.vi} ({c.id})
-                            </option>
-                          ))}
-                        </select>
+                      <div className="flex items-center gap-1.5 pb-2 border-b border-slate-200">
+                        <Folder className="w-3.5 h-3.5 text-[#00629B]" />
+                        <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-slate-700">
+                          PHẦN A — THÔNG TIN NHÁNH MẸ (PARENT CATEGORY)
+                        </span>
                       </div>
 
                       <div>
                         <label className="font-mono text-[10px] font-bold uppercase text-slate-600 block mb-1">
-                          TÊN NHÁNH CON (TIẾNG VIỆT) *
+                          TÊN NHÁNH MẸ (TIẾNG VIỆT) *
                         </label>
                         <input
                           type="text"
                           required
+                          value={newParentNameVi}
+                          onChange={(e) => setNewParentNameVi(e.target.value)}
+                          placeholder="VD: Hạ tầng Đám mây & AI"
+                          className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-sans font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="font-mono text-[10px] font-bold uppercase text-slate-600 block mb-1">
+                          TÊN NHÁNH MẸ (TIẾNG ANH):
+                        </label>
+                        <input
+                          type="text"
+                          value={newParentNameEn}
+                          onChange={(e) => setNewParentNameEn(e.target.value)}
+                          placeholder="VD: Cloud Infrastructure & AI (tự động theo TV nếu trống)"
+                          className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-sans font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
+                        />
+                      </div>
+
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <label className="font-mono text-[10px] font-bold uppercase text-slate-500">
+                            MÃ ĐỊNH DANH (ID NHÁNH MẸ):
+                          </label>
+                          <span className="text-[10px] font-mono text-slate-400">
+                            Tự sinh: {String(blogData.categoryTree.length + 1).padStart(2, "0")}_{toSlugId(newParentNameVi) || "CATEGORY"}
+                          </span>
+                        </div>
+                        <input
+                          type="text"
+                          value={customParentId}
+                          onChange={(e) => setCustomParentId(e.target.value)}
+                          placeholder={
+                            newParentNameVi.trim()
+                              ? `${String(blogData.categoryTree.length + 1).padStart(2, "0")}_${toSlugId(newParentNameVi)}`
+                              : "Tự động tạo mã số thứ tự và tên viết hoa..."
+                          }
+                          className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-[#00629B]"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Section B: Nhánh Con đầu tiên */}
+                    <div className="space-y-3 p-3.5 bg-sky-50/60 border border-sky-200/80 rounded">
+                      <div className="flex items-center justify-between pb-2 border-b border-sky-200/60">
+                        <div className="flex items-center gap-1.5">
+                          <FolderTree className="w-3.5 h-3.5 text-sky-700" />
+                          <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-sky-800">
+                            PHẦN B — TẠO KÈM NHÁNH CON ĐẦU TIÊN
+                          </span>
+                        </div>
+                        <span className="text-[10px] font-sans text-sky-600 italic">
+                          Khuyên dùng
+                        </span>
+                      </div>
+
+                      <div>
+                        <label className="font-mono text-[10px] font-bold uppercase text-slate-600 block mb-1">
+                          TÊN NHÁNH CON (TIẾNG VIỆT):
+                        </label>
+                        <input
+                          type="text"
                           value={newChildNameVi}
                           onChange={(e) => setNewChildNameVi(e.target.value)}
-                          placeholder="VD: Xử lý Tín hiệu Số (DSP)"
+                          placeholder="VD: Kiến trúc Cloud & Bảo mật (mặc định: 'Tổng quan & Chuyên đề')"
                           className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-sans font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
                         />
                       </div>
@@ -2214,7 +2106,7 @@ updatedAt: "${activePost.updatedAt || new Date().toISOString()}"
                           type="text"
                           value={newChildNameEn}
                           onChange={(e) => setNewChildNameEn(e.target.value)}
-                          placeholder="VD: Digital Signal Processing (DSP)"
+                          placeholder="VD: Cloud Architecture & Security"
                           className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-sans font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
                         />
                       </div>
@@ -2225,7 +2117,7 @@ updatedAt: "${activePost.updatedAt || new Date().toISOString()}"
                             MÃ NHÁNH CON (ID):
                           </label>
                           <span className="text-[10px] font-mono text-slate-400">
-                            Tự sinh: {toSlugId(newChildNameVi) || "SUB_CATEGORY"}
+                            Tự sinh: {toSlugId(newChildNameVi) || "GENERAL"}
                           </span>
                         </div>
                         <input
@@ -2235,51 +2127,139 @@ updatedAt: "${activePost.updatedAt || new Date().toISOString()}"
                           placeholder={
                             newChildNameVi.trim()
                               ? toSlugId(newChildNameVi)
-                              : "Tự động tạo mã viết hoa..."
+                              : "GENERAL (Mặc định)"
                           }
                           className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-[#00629B]"
                         />
                       </div>
                     </div>
-                  )}
-                </>
-              )}
-
-              <div className="pt-3 border-t border-slate-200 flex items-center justify-between">
-                <span className="text-[11px] font-sans text-slate-500">
-                  Tự động gán bài viết hiện tại vào nhánh mới
-                </span>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setIsCategoryModalOpen(false)}
-                    disabled={isSavingCategory}
-                    className="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded cursor-pointer transition-colors disabled:opacity-50"
-                  >
-                    HỦY BỎ
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={
-                      isSavingCategory ||
-                      (categoryModalMode === "NEW_CHILD" &&
-                        blogData.categoryTree.length === 0)
-                    }
-                    className="px-4 py-1.5 bg-[#00629B] hover:bg-[#004e7c] text-white text-xs font-bold rounded shadow-sm cursor-pointer transition-colors flex items-center gap-1.5 disabled:opacity-50"
-                  >
-                    {isSavingCategory ? (
-                      <>
-                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                        <span>ĐANG LƯU...</span>
-                      </>
+                  </>
+                ) : (
+                  <>
+                    {/* Mode: NEW_CHILD */}
+                    {blogData.categoryTree.length === 0 ? (
+                      <div className="p-5 bg-amber-50 border border-amber-200 rounded text-center space-y-2.5">
+                        <p className="text-xs font-bold text-amber-900">
+                          Chưa có Nhánh Mẹ nào trong hệ thống
+                        </p>
+                        <p className="text-[11px] text-amber-700 leading-relaxed">
+                          Bạn cần tạo ít nhất 1 Nhánh Mẹ (Parent Category) trước khi có thể gắn nhánh con vào. Vui lòng chuyển sang tab <strong>Tạo Nhánh Mẹ</strong>.
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => setCategoryModalMode("NEW_PARENT")}
+                          className="px-3.5 py-1.5 bg-[#00629B] text-white text-xs font-bold rounded shadow-xs cursor-pointer hover:bg-[#004e7c] transition-colors"
+                        >
+                          Chuyển sang Tạo Nhánh Mẹ
+                        </button>
+                      </div>
                     ) : (
-                      <span>XÁC NHẬN THÊM</span>
+                      <div className="space-y-3 p-3.5 bg-slate-50 border border-slate-200 rounded">
+                        <div>
+                          <label className="font-mono text-[10px] font-bold uppercase text-slate-600 block mb-1">
+                            CHỌN NHÁNH MẸ (PARENT CATEGORY) *
+                          </label>
+                          <select
+                            value={newCategoryTargetParent}
+                            onChange={(e) => setNewCategoryTargetParent(e.target.value)}
+                            className="w-full p-2 border border-slate-300 rounded bg-white text-xs font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
+                          >
+                            {blogData.categoryTree.map((c) => (
+                              <option key={c.id} value={c.id}>
+                                {c.name.vi} ({c.id})
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="font-mono text-[10px] font-bold uppercase text-slate-600 block mb-1">
+                            TÊN NHÁNH CON (TIẾNG VIỆT) *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={newChildNameVi}
+                            onChange={(e) => setNewChildNameVi(e.target.value)}
+                            placeholder="VD: Xử lý Tín hiệu Số (DSP)"
+                            className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-sans font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="font-mono text-[10px] font-bold uppercase text-slate-600 block mb-1">
+                            TÊN NHÁNH CON (TIẾNG ANH):
+                          </label>
+                          <input
+                            type="text"
+                            value={newChildNameEn}
+                            onChange={(e) => setNewChildNameEn(e.target.value)}
+                            placeholder="VD: Digital Signal Processing (DSP)"
+                            className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-sans font-semibold text-slate-900 focus:outline-none focus:border-[#00629B]"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex items-center justify-between mb-1">
+                            <label className="font-mono text-[10px] font-bold uppercase text-slate-500">
+                              MÃ NHÁNH CON (ID):
+                            </label>
+                            <span className="text-[10px] font-mono text-slate-400">
+                              Tự sinh: {toSlugId(newChildNameVi) || "SUB_CATEGORY"}
+                            </span>
+                          </div>
+                          <input
+                            type="text"
+                            value={customChildId}
+                            onChange={(e) => setCustomChildId(e.target.value)}
+                            placeholder={
+                              newChildNameVi.trim()
+                                ? toSlugId(newChildNameVi)
+                                : "Tự động tạo mã viết hoa..."
+                            }
+                            className="w-full px-2.5 py-1.5 border border-slate-300 rounded bg-white text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-[#00629B]"
+                          />
+                        </div>
+                      </div>
                     )}
-                  </button>
+                  </>
+                )}
+
+                <div className="pt-3 border-t border-slate-200 flex items-center justify-between">
+                  <span className="text-[11px] font-sans text-slate-500">
+                    Tự động gán bài viết hiện tại vào nhánh mới
+                  </span>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setIsCategoryModalOpen(false)}
+                      disabled={isSavingCategory}
+                      className="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded cursor-pointer transition-colors disabled:opacity-50"
+                    >
+                      HỦY BỎ
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={
+                        isSavingCategory ||
+                        (categoryModalMode === "NEW_CHILD" &&
+                          blogData.categoryTree.length === 0)
+                      }
+                      className="px-4 py-1.5 bg-[#00629B] hover:bg-[#004e7c] text-white text-xs font-bold rounded shadow-sm cursor-pointer transition-colors flex items-center gap-1.5 disabled:opacity-50"
+                    >
+                      {isSavingCategory ? (
+                        <>
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          <span>ĐANG LƯU...</span>
+                        </>
+                      ) : (
+                        <span>XÁC NHẬN THÊM</span>
+                      )}
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </form>
+              </form>
             )}
           </div>
         </div>

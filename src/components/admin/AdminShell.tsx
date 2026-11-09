@@ -84,6 +84,7 @@ export const AdminShell: React.FC<AdminShellProps> = ({
   }, []);
 
   const [isPublishing, setIsPublishing] = useState<boolean>(false);
+  const [publishBanner, setPublishBanner] = useState<string | null>(null);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -136,7 +137,11 @@ export const AdminShell: React.FC<AdminShellProps> = ({
 
   const handleGitPublish = async () => {
     setIsPublishing(true);
+    setPublishBanner("⏳ Đang lưu thay đổi và đồng bộ dữ liệu lên Cloud / GitHub...");
     try {
+      if (onSave) {
+        await onSave();
+      }
       const authCode = getAdminPasscode();
       const res = await fetch("/api/publish", {
         method: "POST",
@@ -147,14 +152,14 @@ export const AdminShell: React.FC<AdminShellProps> = ({
         body: JSON.stringify({ passcode: authCode }),
       });
       const data = await res.json().catch(() => ({}));
-      if (data.message) {
-        alert(data.message);
-      } else {
-        alert(data.ok ? "Đã đồng bộ lên GitHub thành công!" : "Lỗi khi đồng bộ.");
-      }
+      const msg =
+        data.message ||
+        (data.ok ? "✓ Đã đồng bộ lên GitHub thành công!" : data.error || "Lỗi khi đồng bộ.");
+      setPublishBanner(msg);
+      setTimeout(() => setPublishBanner(null), 8000);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
-      alert(`Lỗi kết nối tới /api/publish: ${msg}`);
+      setPublishBanner(`✖ Lỗi kết nối tới /api/publish: ${msg}`);
     } finally {
       setIsPublishing(false);
     }
@@ -414,6 +419,18 @@ export const AdminShell: React.FC<AdminShellProps> = ({
           </button>
         </div>
       </header>
+
+      {publishBanner && (
+        <div
+          onClick={() => setPublishBanner(null)}
+          className="bg-amber-300 text-black border-b-2 border-black px-4 py-2 text-xs font-mono font-bold flex items-center justify-between gap-3 cursor-pointer shrink-0 z-40"
+        >
+          <span>{publishBanner}</span>
+          <span className="text-[10px] bg-black text-amber-300 px-2 py-0.5 uppercase font-black shrink-0">
+            ĐÓNG [×]
+          </span>
+        </div>
+      )}
 
       {/* ========================================================= */}
       {/* 2. MAIN WORKSPACE VIEWPORT */}

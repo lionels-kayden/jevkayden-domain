@@ -1,6 +1,41 @@
 import { NextResponse } from "next/server";
 import { execSync } from "child_process";
 import { validateAdminAuth } from "@/lib/adminAuth";
+import {
+  readJsonData,
+  writeJsonData,
+  GITHUB_OWNER,
+  GITHUB_REPO,
+  GITHUB_BRANCH,
+} from "@/lib/dataStore";
+
+export const dynamic = "force-dynamic";
+
+export async function GET() {
+  const [siteData, cvData, blogData] = await Promise.all([
+    readJsonData("site.json"),
+    readJsonData("cv.json"),
+    readJsonData("blog.json"),
+  ]);
+
+  return NextResponse.json(
+    {
+      ok: true,
+      hasGithubToken: Boolean(process.env.GITHUB_TOKEN?.trim()),
+      isVercel: Boolean(process.env.VERCEL),
+      repo: `${GITHUB_OWNER}/${GITHUB_REPO}@${GITHUB_BRANCH}`,
+      siteData,
+      cvData,
+      blogData,
+    },
+    {
+      status: 200,
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+      },
+    }
+  );
+}
 
 export async function POST(request: Request) {
   try {
@@ -15,20 +50,66 @@ export async function POST(request: Request) {
       );
     }
 
-    // Guard: Only allow local machine to execute shell git commands
-    if (process.env.VERCEL === "1" || !!process.env.VERCEL) {
-      return NextResponse.json(
-        {
-          ok: false,
-          status: "VERCEL_ENV",
-          message:
-            "Tính năng Git Publish trực tiếp từ shell chỉ hoạt động khi chạy trên Localhost. Trên Vercel, dữ liệu được tự động commit qua GitHub API.",
-        },
-        { status: 200 }
+    const isVercel = process.env.VERCEL === "1" || !!process.env.VERCEL;
+    const hasGithubToken = Boolean(process.env.GITHUB_TOKEN?.trim());
+
+    // 1. VERCEL PRODUCTION OR GITHUB API CLOUD SYNC
+    if (isVercel || hasGithubToken) {
+      const siteData = body?.siteData || body?.hubData || (await readJsonData("site.json"));
+      const cvData = body?.cvData || (await readJsonData("cv.json"));
+      const blogData = body?.blogData || (await readJsonData("blog.json"));
+
+      const timestamp = new Date().toLocaleString("vi-VN");
+      const siteRes = await writeJsonData(
+        "site.json",
+        siteData,
+        `chore(cms): sync hubData.json via Admin Studio (${timestamp})`
       );
+      const cvRes = await writeJsonData(
+        "cv.json",
+        cvData,
+        `chore(cms): sync cvData.json via Admin Studio (${timestamp})`
+      );
+      const blogRes = await writeJsonData(
+        "blog.json",
+        blogData,
+        `chore(cms): sync blogData.json via Admin Studio (${timestamp})`
+      );
+
+      if (!siteRes.ok || !cvRes.ok || !blogRes.ok) {
+        const errText =
+          siteRes.error || cvRes.error || blogRes.error || "Lỗi đồng bộ GitHub API.";
+        return NextResponse.json(
+          {
+            ok: false,
+            status: "GITHUB_API_ERROR",
+            error: errText,
+            message: `Lỗi đồng bộ GitHub Cloud: ${errText}`,
+          },
+          { status: 500 }
+        );
+      }
+
+      if (hasGithubToken) {
+        return NextResponse.json({
+          ok: true,
+          status: "PUSHED",
+          syncedToGithub: true,
+          commitUrl: blogRes.commitUrl || cvRes.commitUrl || siteRes.commitUrl,
+          message: `✓ Đã đồng bộ & commit toàn bộ dữ liệu (Hub, CV, Blog) trực tiếp lên GitHub Cloud (${GITHUB_OWNER}/${GITHUB_REPO}@${GITHUB_BRANCH})! Vercel đang tự động cập nhật bản triển khai.`,
+        });
+      }
+
+      return NextResponse.json({
+        ok: true,
+        status: "VERCEL_INSTANT_CACHE",
+        syncedToGithub: false,
+        message:
+          "⚡ Đã đồng bộ toàn bộ dữ liệu vào bộ nhớ đệm tức thời trên Vercel (trang web đã cập nhật ngay lập tức). Lưu ý: Để đẩy commit vĩnh viễn lên GitHub từ Vercel, hãy thêm biến môi trường GITHUB_TOKEN trong Vercel Settings -> Environment Variables.",
+      });
     }
 
-    // 1. Check if git repository is initialized
+    // 2. LOCALHOST SHELL GIT PUSH
     let isRepo = false;
     try {
       execSync("git rev-parse --is-inside-work-tree", {
@@ -41,42 +122,14 @@ export async function POST(request: Request) {
     }
 
     if (!isRepo) {
-      return NextResponse.json(
-        {
-          ok: false,
-          status: "NO_GIT_REPO",
-          message:
-            "Thư mục dự án chưa khởi tạo Git repository. Vui lòng mở terminal và chạy 'git init' rồi 'git remote add origin <url>' để liên kết với GitHub.",
-        },
-        { status: 200 }
-      );
-    }
-
-    // 2. Check if git remote origin is configured
-    let hasRemote = false;
-    try {
-      const remotes = execSync("git remote -v", {
-        encoding: "utf-8",
-        stdio: "pipe",
+      return NextResponse.json({
+        ok: false,
+        status: "NO_GIT_REPO",
+        message:
+          "Thư mục dự án chưa khởi tạo Git repository. Vui lòng chạy 'git init' và cấu hình remote origin.",
       });
-      hasRemote = !!remotes && remotes.trim().length > 0;
-    } catch {
-      hasRemote = false;
     }
 
-    if (!hasRemote) {
-      return NextResponse.json(
-        {
-          ok: false,
-          status: "NO_REMOTE",
-          message:
-            "Chưa cấu hình Git Remote. Vui lòng chạy lệnh: git remote add origin https://github.com/username/repo.git để kích hoạt tính năng tự động đẩy lên GitHub & Vercel.",
-        },
-        { status: 200 }
-      );
-    }
-
-    // 3. Stage changes in data and uploads directories
     try {
       execSync("git add src/data public/uploads", {
         encoding: "utf-8",
@@ -86,7 +139,6 @@ export async function POST(request: Request) {
       console.warn("Git add warning:", stageErr);
     }
 
-    // 4. Check if there are staged changes
     let statusOutput = "";
     try {
       statusOutput = execSync(
@@ -104,12 +156,12 @@ export async function POST(request: Request) {
       return NextResponse.json({
         ok: true,
         status: "UP_TO_DATE",
+        syncedToGithub: true,
         message:
-          "Toàn bộ dữ liệu (src/data và public/uploads) đã ở trạng thái mới nhất trên Git, không có thay đổi cần commit.",
+          "✓ Toàn bộ dữ liệu (src/data và public/uploads) đã ở trạng thái mới nhất trên Git.",
       });
     }
 
-    // 5. Commit changes
     const timestamp = new Date().toLocaleString("vi-VN");
     const commitMsg = `content: update portfolio & blog data via Admin Studio (${timestamp})`;
     try {
@@ -129,30 +181,27 @@ export async function POST(request: Request) {
       );
     }
 
-    // 6. Push to remote repository
     let pushOutput = "";
     try {
-      pushOutput = execSync("git push", {
+      pushOutput = execSync("git push origin main", {
         encoding: "utf-8",
         stdio: "pipe",
       });
     } catch (pushErr: unknown) {
       const msg = pushErr instanceof Error ? pushErr.message : String(pushErr);
-      return NextResponse.json(
-        {
-          ok: false,
-          status: "PUSH_FAILED",
-          message: `Đã commit thành công nhưng không thể git push: ${msg}. Vui lòng kiểm tra quyền truy cập GitHub (SSH/Personal Access Token).`,
-        },
-        { status: 200 }
-      );
+      return NextResponse.json({
+        ok: false,
+        status: "PUSH_FAILED",
+        message: `Đã commit cục bộ nhưng không thể git push: ${msg}.`,
+      });
     }
 
     return NextResponse.json({
       ok: true,
       status: "PUSHED",
+      syncedToGithub: true,
       message:
-        "✓ Đã đồng bộ và đẩy toàn bộ dữ liệu lên GitHub thành công! Vercel đang tự động biên dịch và triển khai phiên bản mới nhất.",
+        "✓ Đã đồng bộ và đẩy toàn bộ dữ liệu lên GitHub thành công! Vercel đang tự động biên dịch phiên bản mới nhất.",
       output: pushOutput,
     });
   } catch (error: unknown) {
@@ -167,4 +216,3 @@ export async function POST(request: Request) {
     );
   }
 }
-

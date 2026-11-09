@@ -1,17 +1,14 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
 import defaultCvData from "@/data/cvData.json";
 import { CvData } from "@/types/cv";
 import { validateAdminAuth } from "@/lib/adminAuth";
-import { persistDataPayload } from "@/lib/serverPersistence";
+import { readJsonData, writeJsonData } from "@/lib/dataStore";
 
-const CV_DATA_PATH = path.join(process.cwd(), "src", "data", "cvData.json");
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const fileContent = (await fs.readFile(CV_DATA_PATH, "utf-8")).normalize("NFC");
-    const data: CvData = JSON.parse(fileContent);
+    const data = await readJsonData<CvData>("cv.json");
     return NextResponse.json(data, {
       status: 200,
       headers: {
@@ -21,7 +18,7 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.warn("Failed to read cvData.json from disk, falling back to bundled default:", error);
+    console.warn("Failed to read CV data, falling back to bundled default:", error);
     return NextResponse.json(defaultCvData, {
       status: 200,
       headers: {
@@ -52,17 +49,16 @@ export async function POST(request: Request) {
       );
     }
 
-    // Attach updated timestamp
     const updatedData: CvData = {
       ...payload,
       lastUpdated: new Date().toISOString(),
     };
 
-    const normalizedJson = JSON.stringify(updatedData, null, 2);
-    const persistResult = await persistDataPayload({
-      relativePath: "src/data/cvData.json",
-      content: normalizedJson,
-    });
+    const persistResult = await writeJsonData(
+      "cv.json",
+      updatedData,
+      "chore(cms): update cvData.json via Admin Studio"
+    );
 
     if (!persistResult.ok && persistResult.error) {
       return NextResponse.json(
@@ -76,6 +72,7 @@ export async function POST(request: Request) {
         status: "OK",
         syncedAt: updatedData.lastUpdated,
         mode: persistResult.mode,
+        syncedToGithub: persistResult.syncedToGithub,
         message: persistResult.message,
         commitUrl: persistResult.commitUrl,
       },

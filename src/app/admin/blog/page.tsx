@@ -34,9 +34,20 @@ export default function AdminBlogPage() {
         },
         body: JSON.stringify({ passcode: authCode, data: blogData }),
       });
-      if (!res.ok) throw new Error((await res.json()).error || "Save failed");
-      setSaveStatus(`✔ ĐÃ ĐỒNG BỘ BLOG GARDEN [200 OK] — ${new Date().toLocaleTimeString()}`);
-      setTimeout(() => setSaveStatus(null), 3500);
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(result.error || "Save failed");
+
+      const timeStr = new Date().toLocaleTimeString();
+      if (result.mode === "GITHUB_COMMIT" || result.syncedToGithub) {
+        setSaveStatus(`✔ ĐÃ LƯU & COMMIT LÊN GITHUB CLOUD [200 OK] — ${timeStr}`);
+      } else if (result.mode === "VERCEL_INSTANT_CACHE") {
+        setSaveStatus(
+          `⚡ ĐÃ CẬP NHẬT TRỰC TIẾP TRÊN VERCEL (${timeStr}) — Thêm GITHUB_TOKEN vào Vercel Env để lưu vĩnh viễn lên GitHub`
+        );
+      } else {
+        setSaveStatus(`✔ ĐÃ LƯU CỤC BỘ (src/data/blogData.json) — ${timeStr}`);
+      }
+      setTimeout(() => setSaveStatus(null), 6000);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Sync error";
       setSaveStatus(`✖ LỖI ĐỒNG BỘ: ${msg}`);
@@ -63,4 +74,3 @@ export default function AdminBlogPage() {
     </AdminShell>
   );
 }
-

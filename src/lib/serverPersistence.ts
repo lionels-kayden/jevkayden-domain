@@ -61,8 +61,10 @@ export async function persistDataPayload({
   }
 
   // 2. VERCEL SERVERLESS: Check GitHub Auto-Commit credentials
-  const githubToken = process.env.GITHUB_TOKEN;
-  const githubRepo = process.env.GITHUB_REPO; // e.g. "jevkayden/portfolio"
+  const githubToken = process.env.GITHUB_TOKEN?.trim();
+  const githubOwner = process.env.GITHUB_OWNER || "lionels-kayden";
+  const rawRepo = (process.env.GITHUB_REPO || "jevkayden-domain").replace(/^[^/]+\//, "");
+  const githubRepo = `${githubOwner}/${rawRepo}`;
   const githubBranch = process.env.GITHUB_BRANCH || "main";
 
   if (githubToken && githubRepo) {

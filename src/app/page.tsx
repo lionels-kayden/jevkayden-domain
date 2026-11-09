@@ -1,17 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TopSystemBar } from "@/components/TopSystemBar";
 import { HeroTerminal } from "@/components/HeroTerminal";
 import { TechMarquee } from "@/components/TechMarquee";
 import { SubdomainGrid } from "@/components/SubdomainGrid";
 import { PagerContact } from "@/components/PagerContact";
 import { Language } from "@/data/siteConfig";
+import initialHubData from "@/data/hubData.json";
+import { HubData } from "@/types/hub";
 
 export default function Home() {
   const [lang, setLang] = useState<Language>("en");
   const [isProductionRoute, setIsProductionRoute] = useState<boolean>(true);
   const [isStandbyModalOpen, setIsStandbyModalOpen] = useState<boolean>(false);
+  const [hubData, setHubData] = useState<HubData>(initialHubData as HubData);
+
+  // Fetch latest dynamic hubData from /api/site on mount
+  useEffect(() => {
+    fetch("/api/site", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: HubData | null) => {
+        if (data && data.hero) {
+          setHubData(data);
+        }
+      })
+      .catch((err) => console.warn("Using bundled fallback Hub data:", err));
+  }, []);
 
   const toggleLanguage = () => {
     setLang((prev) => (prev === "en" ? "vi" : "en"));
@@ -54,17 +69,19 @@ export default function Home() {
         {/* MODULE 2: Builder ID & TERMINAL.EXE */}
         <HeroTerminal
           lang={lang}
+          hubData={hubData}
           onScrollToPortals={scrollToPortals}
           onScrollToContact={scrollToContact}
           onOpenStandbyModal={() => setIsStandbyModalOpen(true)}
         />
 
         {/* MODULE 4: Infinite Scrolling Mechanical Tech Marquee */}
-        <TechMarquee />
+        <TechMarquee hubData={hubData} />
 
         {/* MODULE 3: 3 Hardware Cartridges (blog, cv, app with STANDBY modal) */}
         <SubdomainGrid
           lang={lang}
+          hubData={hubData}
           isProductionRoute={isProductionRoute}
           isStandbyModalOpen={isStandbyModalOpen}
           onOpenStandbyModal={() => setIsStandbyModalOpen(true)}
@@ -75,6 +92,7 @@ export default function Home() {
       {/* MODULE 5: Retro Pager Footer & Contact Transmission */}
       <PagerContact
         lang={lang}
+        hubData={hubData}
         onScrollToTop={scrollToTop}
         onOpenStandbyModal={() => setIsStandbyModalOpen(true)}
       />

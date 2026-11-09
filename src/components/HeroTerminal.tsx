@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { siteConfig, Language } from "@/data/siteConfig";
+import { HubData } from "@/types/hub";
 import {
   Terminal as TerminalIcon,
   ArrowDown,
@@ -18,6 +19,7 @@ interface TerminalLine {
 
 interface HeroTerminalProps {
   lang: Language;
+  hubData?: HubData;
   onScrollToPortals: () => void;
   onScrollToContact: () => void;
   onOpenStandbyModal: () => void;
@@ -25,10 +27,12 @@ interface HeroTerminalProps {
 
 export const HeroTerminal: React.FC<HeroTerminalProps> = ({
   lang,
+  hubData,
   onScrollToPortals,
   onScrollToContact,
   onOpenStandbyModal,
 }) => {
+  const hero = hubData?.hero || siteConfig.profile;
   const [inputVal, setInputVal] = useState<string>("");
   const [terminalHistory, setTerminalHistory] = useState<TerminalLine[]>([
     {
@@ -256,13 +260,13 @@ export const HeroTerminal: React.FC<HeroTerminalProps> = ({
           <div className="flex flex-wrap items-center gap-3">
             <div className="inline-flex items-center gap-2 bg-black text-amber-300 px-3.5 py-1.5 border-2 border-black font-mono text-xs sm:text-sm font-black neo-shadow-sm uppercase tracking-wider">
               <span className="w-2 h-2 bg-amber-400 rounded-full animate-ping"></span>
-              {siteConfig.profile.role[lang]}
+              {hero.role[lang]}
             </div>
 
             <div className="inline-flex items-center gap-1.5 bg-white px-3 py-1.5 border-2 border-black font-mono text-xs font-bold neo-shadow-sm text-zinc-800">
               <span className="text-zinc-500">ID:</span>
               <span className="font-extrabold text-black">
-                {siteConfig.profile.fullName}
+                {hero.fullName}
               </span>
             </div>
           </div>
@@ -270,19 +274,19 @@ export const HeroTerminal: React.FC<HeroTerminalProps> = ({
           {/* Main Headline with Neo-Brutalist Highlight Boxes */}
           <div className="space-y-3">
             <h1 className="font-display text-3xl sm:text-4xl lg:text-[40px] xl:text-[48px] font-extrabold tracking-tight leading-[1.2] text-black">
-              {siteConfig.profile.headlinePrefix[lang]}
+              {hero.headlinePrefix[lang]}
               <span className="inline-block bg-[#fde047] text-black px-2 py-0.5 border-3 border-black neo-shadow-sm rotate-[-1deg]">
-                {siteConfig.profile.highlight1[lang]}
+                {hero.highlight1[lang]}
               </span>
-              {siteConfig.profile.headlineMid[lang]}
+              {hero.headlineMid[lang]}
               <span className="inline-block bg-[#34d399] text-black px-2 py-0.5 border-3 border-black neo-shadow-sm rotate-[1deg]">
-                {siteConfig.profile.highlight2[lang]}
+                {hero.highlight2[lang]}
               </span>
-              {siteConfig.profile.headlineSuffix[lang]}
+              {hero.headlineSuffix[lang]}
             </h1>
 
             <p className="font-mono text-sm sm:text-base text-zinc-800 font-semibold leading-relaxed bg-white/80 p-3.5 border-2 border-black neo-shadow-sm">
-              {siteConfig.profile.bio[lang]}
+              {hero.bio[lang]}
             </p>
           </div>
 
@@ -293,7 +297,7 @@ export const HeroTerminal: React.FC<HeroTerminalProps> = ({
                 {"// BASE LOCALE"}
               </span>
               <span className="font-extrabold text-black">
-                {siteConfig.profile.location[lang]}
+                {hero.location[lang]}
               </span>
             </div>
 
@@ -302,7 +306,7 @@ export const HeroTerminal: React.FC<HeroTerminalProps> = ({
                 {"// FACULTY"}
               </span>
               <span className="font-extrabold text-black">
-                {siteConfig.profile.faculty[lang]}
+                {hero.faculty[lang]}
               </span>
             </div>
 
@@ -312,7 +316,7 @@ export const HeroTerminal: React.FC<HeroTerminalProps> = ({
               </span>
               <span className="font-extrabold text-emerald-900 flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                {siteConfig.profile.status[lang]}
+                {hero.status[lang]}
               </span>
             </div>
           </div>

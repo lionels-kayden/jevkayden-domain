@@ -27,6 +27,7 @@ interface TocItem {
 
 interface ArticleReaderClientProps {
   slug: string;
+  initialData?: BlogData;
 }
 
 const formatPublishDate = (dateStr: string, currentLang: BlogLanguage) => {
@@ -37,11 +38,28 @@ const formatPublishDate = (dateStr: string, currentLang: BlogLanguage) => {
   return currentLang === "vi" ? `${day}/${month}/${year}` : `${year}-${month}-${day}`;
 };
 
-export const ArticleReaderClient: React.FC<ArticleReaderClientProps> = ({ slug }) => {
-  const [blogData] = useState<BlogData>(initialBlogData as BlogData);
+export const ArticleReaderClient: React.FC<ArticleReaderClientProps> = ({
+  slug,
+  initialData,
+}) => {
+  const [blogData, setBlogData] = useState<BlogData>(
+    initialData || (initialBlogData as BlogData)
+  );
   const [lang, setLang] = useState<BlogLanguage>("vi");
   const [copiedCitation, setCopiedCitation] = useState<boolean>(false);
   const [copiedShare, setCopiedShare] = useState<boolean>(false);
+
+  // Fetch latest dynamic blogData from /api/blog on client mount
+  useEffect(() => {
+    fetch("/api/blog", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: BlogData | null) => {
+        if (data && Array.isArray(data.posts)) {
+          setBlogData(data);
+        }
+      })
+      .catch((err) => console.warn("Failed to fetch /api/blog in reader:", err));
+  }, []);
 
   // Auto trigger print if ?print=true is in URL (wait 500ms for KaTeX & Mermaid, then cleanup query param)
   useEffect(() => {

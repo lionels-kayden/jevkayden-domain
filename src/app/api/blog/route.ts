@@ -1,17 +1,14 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
 import defaultBlogData from "@/data/blogData.json";
 import { BlogData, CategoryTreeNode } from "@/types/blog";
 import { validateAdminAuth } from "@/lib/adminAuth";
-import { persistDataPayload } from "@/lib/serverPersistence";
+import { readJsonData, writeJsonData } from "@/lib/dataStore";
 
-const BLOG_DATA_PATH = path.join(process.cwd(), "src", "data", "blogData.json");
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const fileContent = (await fs.readFile(BLOG_DATA_PATH, "utf-8")).normalize("NFC");
-    const data: BlogData = JSON.parse(fileContent);
+    const data = await readJsonData<BlogData>("blog.json");
     return NextResponse.json(data, {
       status: 200,
       headers: {
@@ -21,7 +18,7 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.warn("Failed to read blogData.json from disk, falling back to bundled default:", error);
+    console.warn("Failed to read Blog data, falling back to bundled default:", error);
     return NextResponse.json(defaultBlogData, {
       status: 200,
       headers: {
@@ -52,19 +49,23 @@ export async function POST(request: Request) {
       );
     }
 
-    // Read current disk data to ensure categoryTree is preserved if not supplied
-    let currentCategoryTree: CategoryTreeNode[] = (defaultBlogData as unknown as BlogData).categoryTree;
+    // Read current data to ensure categoryTree is preserved if not supplied
+    let currentCategoryTree: CategoryTreeNode[] = (
+      defaultBlogData as unknown as BlogData
+    ).categoryTree;
     try {
-      const diskContent = await fs.readFile(BLOG_DATA_PATH, "utf-8");
-      const diskData: BlogData = JSON.parse(diskContent.normalize("NFC"));
-      if (Array.isArray(diskData.categoryTree) && diskData.categoryTree.length > 0) {
-        currentCategoryTree = diskData.categoryTree;
+      const existingData = await readJsonData<BlogData>("blog.json");
+      if (
+        existingData &&
+        Array.isArray(existingData.categoryTree) &&
+        existingData.categoryTree.length > 0
+      ) {
+        currentCategoryTree = existingData.categoryTree;
       }
     } catch {
-      // Use bundled default
+      // Fallback to default
     }
 
-    // Attach updated timestamp and normalized categoryTree (allow empty array [])
     const updatedData: BlogData = {
       categoryTree: Array.isArray(payload.categoryTree)
         ? payload.categoryTree
@@ -73,11 +74,11 @@ export async function POST(request: Request) {
       lastUpdated: new Date().toISOString(),
     };
 
-    const normalizedJson = JSON.stringify(updatedData, null, 2);
-    const persistResult = await persistDataPayload({
-      relativePath: "src/data/blogData.json",
-      content: normalizedJson,
-    });
+    const persistResult = await writeJsonData(
+      "blog.json",
+      updatedData,
+      "chore(cms): update blogData.json via Admin Studio"
+    );
 
     if (!persistResult.ok && persistResult.error) {
       return NextResponse.json(
@@ -93,6 +94,7 @@ export async function POST(request: Request) {
         categoryCount: updatedData.categoryTree.length,
         postCount: updatedData.posts.length,
         mode: persistResult.mode,
+        syncedToGithub: persistResult.syncedToGithub,
         message: persistResult.message,
         commitUrl: persistResult.commitUrl,
       },

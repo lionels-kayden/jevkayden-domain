@@ -13,12 +13,12 @@ export default function AdminHubPage() {
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/hub", { cache: "no-store" })
+    fetch("/api/site", { cache: "no-store" })
       .then((res) => (res.ok ? res.json() : null))
       .then((data: HubData | null) => {
         if (data && data.hero) setHubData(data);
       })
-      .catch((err) => console.warn("Could not fetch /api/hub:", err));
+      .catch((err) => console.warn("Could not fetch /api/site:", err));
   }, []);
 
   const handleSave = async () => {
@@ -26,7 +26,7 @@ export default function AdminHubPage() {
     setSaveStatus(null);
     try {
       const authCode = getAdminPasscode();
-      const res = await fetch("/api/hub", {
+      const res = await fetch("/api/site", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,9 +34,20 @@ export default function AdminHubPage() {
         },
         body: JSON.stringify({ passcode: authCode, data: hubData }),
       });
-      if (!res.ok) throw new Error((await res.json()).error || "Save failed");
-      setSaveStatus(`✔ ĐÃ ĐỒNG BỘ MAIN HUB [200 OK] — ${new Date().toLocaleTimeString()}`);
-      setTimeout(() => setSaveStatus(null), 3500);
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(result.error || "Save failed");
+
+      const timeStr = new Date().toLocaleTimeString();
+      if (result.mode === "GITHUB_COMMIT" || result.syncedToGithub) {
+        setSaveStatus(`✔ ĐÃ LƯU & COMMIT LÊN GITHUB CLOUD [200 OK] — ${timeStr}`);
+      } else if (result.mode === "VERCEL_INSTANT_CACHE") {
+        setSaveStatus(
+          `⚡ ĐÃ CẬP NHẬT TRỰC TIẾP TRÊN VERCEL (${timeStr}) — Thêm GITHUB_TOKEN vào Vercel Env để lưu vĩnh viễn lên GitHub`
+        );
+      } else {
+        setSaveStatus(`✔ ĐÃ LƯU CỤC BỘ (src/data/hubData.json) — ${timeStr}`);
+      }
+      setTimeout(() => setSaveStatus(null), 6000);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Sync error";
       setSaveStatus(`✖ LỖI ĐỒNG BỘ: ${msg}`);
@@ -59,4 +70,3 @@ export default function AdminHubPage() {
     </AdminShell>
   );
 }
-

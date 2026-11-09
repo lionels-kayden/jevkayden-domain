@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { siteConfig, Language } from "@/data/siteConfig";
+import { HubData } from "@/types/hub";
 import {
   Copy,
   Check,
@@ -61,18 +62,20 @@ const SocialMessageIcon: React.FC<{ className?: string }> = ({ className = "w-4 
 
 interface PagerContactProps {
   lang: Language;
+  hubData?: HubData;
   onScrollToTop: () => void;
   onOpenStandbyModal: () => void;
 }
 
 export const PagerContact: React.FC<PagerContactProps> = ({
   lang,
+  hubData,
   onScrollToTop,
   onOpenStandbyModal,
 }) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [pendingToast, setPendingToast] = useState<string | null>(null);
-  const emailAddress = siteConfig.profile.email;
+  const emailAddress = hubData?.pagerContact?.email || siteConfig.profile.email;
 
   const handleCopyEmail = async () => {
     try {

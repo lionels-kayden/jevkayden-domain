@@ -2,10 +2,19 @@
 
 import React from "react";
 import { siteConfig } from "@/data/siteConfig";
+import { HubData } from "@/types/hub";
 
-export const TechMarquee: React.FC = () => {
+interface TechMarqueeProps {
+  hubData?: HubData;
+}
+
+export const TechMarquee: React.FC<TechMarqueeProps> = ({ hubData }) => {
+  const baseStack =
+    hubData?.techMarquee && hubData.techMarquee.length > 0
+      ? hubData.techMarquee
+      : siteConfig.techStack;
   // Multiply array to guarantee seamless infinite scroll across all resolutions
-  const items = [...siteConfig.techStack, ...siteConfig.techStack, ...siteConfig.techStack];
+  const items = [...baseStack, ...baseStack, ...baseStack];
 
   const separators = ["///", "[★]", "::", "⚡", ">>", "▰"];
 

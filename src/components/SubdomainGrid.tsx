@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { siteConfig, SubdomainNode, resolveSubdomainUrl, Language } from "@/data/siteConfig";
+import { HubData } from "@/types/hub";
 import {
   ExternalLink,
   BookOpen,
@@ -19,6 +20,7 @@ import {
 
 interface SubdomainGridProps {
   lang: Language;
+  hubData?: HubData;
   isProductionRoute: boolean;
   isStandbyModalOpen: boolean;
   onOpenStandbyModal: () => void;
@@ -27,12 +29,24 @@ interface SubdomainGridProps {
 
 export const SubdomainGrid: React.FC<SubdomainGridProps> = ({
   lang,
+  hubData,
   isProductionRoute,
   isStandbyModalOpen,
   onOpenStandbyModal,
   onCloseStandbyModal,
 }) => {
   const router = useRouter();
+
+  const mergedSubdomains: SubdomainNode[] = siteConfig.subdomains.map((baseNode) => {
+    const override = hubData?.subdomains?.find((s) => s.id === baseNode.id);
+    if (!override) return baseNode;
+    return {
+      ...baseNode,
+      status: override.status || baseNode.status,
+      subdomain: override.subdomain || baseNode.subdomain,
+      description: override.description || baseNode.description,
+    };
+  });
 
   const getIcon = (iconName: string) => {
     switch (iconName) {
@@ -89,7 +103,7 @@ export const SubdomainGrid: React.FC<SubdomainGridProps> = ({
 
       {/* 3 Hardware Cartridge Cards - Strict Flexbox & Vertical Alignment */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-        {siteConfig.subdomains.map((node) => {
+        {mergedSubdomains.map((node) => {
           const isStandby = node.status === "STANDBY";
           const resolvedUrl = resolveSubdomainUrl(node, isProductionRoute);
 

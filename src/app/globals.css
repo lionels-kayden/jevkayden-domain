@@ -262,11 +262,14 @@ nextjs-portal {
   width: 100%;
 }
 
+:where(.a4-sheet) {
+  background-color: #ffffff;
+}
+
 .a4-sheet {
   width: 210mm;
   min-height: 297mm;
   height: 297mm;
-  background: #ffffff;
   position: relative;
   box-sizing: border-box;
   overflow: hidden;

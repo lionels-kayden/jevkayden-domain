@@ -147,6 +147,7 @@ export const AdminShell: React.FC<AdminShellProps> = ({
       const siteSnapshot = readLiveClientCache("jev_live_hub_data")?.data;
       const cvSnapshot = readLiveClientCache("jev_live_cv_data")?.data;
       const blogSnapshot = readLiveClientCache("jev_live_blog_data")?.data;
+      const appsSnapshot = readLiveClientCache("jev_live_apps_data")?.data;
 
       const res = await fetch(`/api/publish?t=${Date.now()}`, {
         method: "POST",
@@ -159,6 +160,7 @@ export const AdminShell: React.FC<AdminShellProps> = ({
           ...(siteSnapshot ? { siteData: siteSnapshot } : {}),
           ...(cvSnapshot ? { cvData: cvSnapshot } : {}),
           ...(blogSnapshot ? { blogData: blogSnapshot } : {}),
+          ...(appsSnapshot ? { appsData: appsSnapshot } : {}),
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -344,6 +346,15 @@ export const AdminShell: React.FC<AdminShellProps> = ({
                 }`}
             >
               02. BLOG
+            </Link>
+            <Link
+              href="/admin/app"
+              className={`px-2 py-0.5 font-bold transition-colors ${activeRoute === "app" || pathname === "/admin/app"
+                  ? "bg-amber-300 text-black font-black"
+                  : "text-zinc-400 hover:text-white"
+                }`}
+            >
+              03. APPS
             </Link>
           </nav>
 

@@ -38,6 +38,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // app.jevkayden.tech or app.localhost
+  if (host.startsWith("app.")) {
+    if (!pathname.startsWith("/app")) {
+      url.pathname = `/app${pathname === "/" ? "" : pathname}`;
+      return NextResponse.rewrite(url);
+    }
+    return NextResponse.next();
+  }
+
   // admin.jevkayden.tech or admin.localhost
   if (host.startsWith("admin.")) {
     if (!pathname.startsWith("/admin")) {

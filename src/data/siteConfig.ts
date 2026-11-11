@@ -262,40 +262,40 @@ export const siteConfig: SiteConfig = {
       id: "app",
       subdomain: "app.jevkayden.tech",
       name: {
-        en: "IOT LAB & EXPERIMENTAL TESTBED",
-        vi: "PHÒNG LAB IOT & THỬ NGHIỆM",
+        en: "L3 ENGINEERING BLADES & APP MATRIX",
+        vi: "MA TRẬN ỨNG DỤNG KỸ THUẬT & IOT LAB",
       },
-      status: "STANDBY",
+      status: "ONLINE",
       badge: {
-        en: "BUILDING... // STANDBY",
-        vi: "ĐANG XÂY DỰNG... // CHỜ",
+        en: "ACTIVE // 6 BLADES",
+        vi: "HOẠT ĐỘNG // 6 NODE",
       },
-      tech: "FastAPI + Streamlit / Docker Container",
+      tech: "Next.js + WebAssembly / L3 Blade Rack",
       category: {
-        en: "LABORATORY // DEV",
-        vi: "PHÒNG THỬ NGHIỆM",
+        en: "LABORATORY // APPS",
+        vi: "ỨNG DỤNG // LAB",
       },
       tagline: {
-        en: "Experimental IoT telemetry dashboards, hardware simulation tools & automation micro-apps.",
-        vi: "Bảng điều khiển đo đạc IoT, công cụ mô phỏng phần cứng và ứng dụng tự động hoá.",
+        en: "6 specialized engineering web apps: IoT Telemetry, RISC-V ALU, LabOps AI, PCB Calc, VNU-UET & QMK.",
+        vi: "6 ứng dụng kỹ thuật chuyên biệt: Viễn trắc IoT, Mô phỏng RISC-V ALU, LabOps AI, Mạch PCB, VNU-UET & QMK.",
       },
       description: {
-        en: "Sandbox playground for real-time sensor streams, MQTT protocol analyzers, semiconductor simulation workflows, and hardware telemetry.",
-        vi: "Không gian thử nghiệm luồng dữ liệu cảm biến thời gian thực, phân tích giao thức MQTT, mô phỏng bán dẫn và viễn trắc phần cứng.",
+        en: "L3 Horizontal Server Blade rack hosting 6 child subdomains (iot, alu, bot, pcb, uet, keeb) with IEEE datasheet specifications and 4 switchable themes.",
+        vi: "Hệ thống L3 Horizontal Server Blade vận hành 6 ứng dụng tên miền con (iot, alu, bot, pcb, uet, keeb) chuẩn bảng thông số IEEE Datasheet.",
       },
       subHeaderBanner: {
-        en: "ARCHITECTURE COMPILING // LOCKED",
-        vi: "HỆ THỐNG ĐANG BIÊN DỊCH // TẠM KHÓA",
+        en: "STATUS: ONLINE // 6 BLADES ACTIVE",
+        vi: "TRẠNG THÁI: TRỰC TUYẾN // 6 BLADE HOẠT ĐỘNG",
       },
       url: "https://app.jevkayden.tech",
-      fallbackUrl: "https://jevkayden-app.vercel.app",
+      fallbackUrl: "/app",
       accentColor: "#A78BFA", // Neo-Brutalist Purple
       borderColor: "#000000",
       badgeBg: "#EDE9FE",
       badgeText: "#5B21B6",
       iconName: "Cpu",
-      port: "PORT :3000 [COMPILING]",
-      pingMs: 999,
+      port: "PORT :3000 [L3-RACK]",
+      pingMs: 12,
     },
   ],
 
@@ -342,7 +342,7 @@ export const siteConfig: SiteConfig = {
     nodeEnv: "PRODUCTION // VERCEL-OPTIMIZED",
     protocolVersion: "TLS 1.3 // HTTP/3",
     baudRate: "115200 BAUD",
-    activeNodesCount: 2,
+    activeNodesCount: 3,
     totalNodesCount: 3,
   },
 
@@ -473,13 +473,21 @@ export function resolveSubdomainUrl(
   subdomain: SubdomainNode,
   useProductionDomain: boolean = true
 ): string {
+  const isLocalhost =
+    typeof window !== "undefined" &&
+    (window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1");
+
   if (subdomain.id === "cv") {
-    return useProductionDomain ? "https://cv.jevkayden.tech" : "/cv";
+    return useProductionDomain && !isLocalhost ? "https://cv.jevkayden.tech" : "/cv";
   }
   if (subdomain.id === "blog") {
-    return useProductionDomain ? "https://blog.jevkayden.tech" : "/blog";
+    return useProductionDomain && !isLocalhost ? "https://blog.jevkayden.tech" : "/blog";
   }
-  if (useProductionDomain) {
+  if (subdomain.id === "app") {
+    return useProductionDomain && !isLocalhost ? "https://app.jevkayden.tech" : "/app";
+  }
+  if (useProductionDomain && !isLocalhost) {
     return subdomain.url;
   }
   return subdomain.fallbackUrl;

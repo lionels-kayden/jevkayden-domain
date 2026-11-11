@@ -1,0 +1,272 @@
+{
+  "portalTitle": "JEV KAYDEN // L3 ENGINEERING APPLICATION BLADE MATRIX",
+  "portalSubtitle": "Hệ sinh thái 6 ứng dụng kỹ thuật chuyên biệt về Thiết kế Vi mạch (IC Design), Hệ thống Nhúng IoT, Tự động hóa Phòng Lab và Tính toán Phần cứng EDA.",
+  "documentCode": "IEEE-STD-JEV-2026 // REV 4.2",
+  "defaultStyle": "s4",
+  "lastUpdated": "2026-11-11T01:00:00.000Z",
+  "apps": [
+    {
+      "id": "iot",
+      "index": "01",
+      "icon": "Radio",
+      "code": "SYS-IOT-01",
+      "category": "IOT & EMBEDDED",
+      "name": "JEV-IoT Industrial Telemetry & MQTT Command Matrix",
+      "domain": "iot.jevkayden.tech",
+      "url": "https://iot.jevkayden.tech",
+      "repoUrl": "https://github.com/lionels-kayden/jev-iot-telemetry",
+      "status": "PRODUCTION",
+      "isLive": true,
+      "version": "v2.4.1-RT",
+      "latency": "11ms",
+      "tagline": "Hệ thống giám sát viễn trắc cảm biến công nghiệp thời gian thực qua giao thức MQTT/WSS và điều khiển OTA cho cụm nút mạng ESP32/STM32.",
+      "problemSolved": "Giải quyết bài toán độ trễ gói tin và mất đồng bộ trạng thái giữa các trạm cảm biến công nghiệp phân tán bằng cơ chế hàng đợi vòng (Ring-Buffer DMA) trên vi điều khiển kết hợp MQTT QoS-1 over TLS 1.3 và luồng WebSocket đẩy trực tiếp xuống trình duyệt.",
+      "architecture": [
+        "ESP32-S3 / STM32F4 Sensor Nodes (FreeRTOS + DMA ADC)",
+        "EMQX MQTT Broker Cluster (TLS 1.3 // Port 8883)",
+        "FastAPI Stream Ingestor & TimescaleDB Storage",
+        "Next.js Real-Time Oscilloscope & OTA Control Deck"
+      ],
+      "features": [
+        "Biểu đồ sóng cảm biến thời gian thực 60fps với độ trễ đầu-cuối < 15ms",
+        "Trình phân tích khung truyền MQTT/Modbus RTU trực tiếp trên giao diện web",
+        "Cập nhật Firmware từ xa (OTA) có kiểm tra chữ ký số SHA-256 & tự động rollback",
+        "Cảnh báo ngưỡng nhiệt/áp suất tức thời qua Pager Webhook & Telegram Daemon"
+      ],
+      "techStack": [
+        "C/C++",
+        "FreeRTOS",
+        "ESP-IDF",
+        "MQTT / WSS",
+        "FastAPI",
+        "TimescaleDB",
+        "Next.js",
+        "Tailwind CSS"
+      ],
+      "metrics": [
+        { "label": "THROUGHPUT", "value": "12,500", "unit": "msg/sec" },
+        { "label": "END-TO-END LATENCY", "value": "11.4", "unit": "ms" },
+        { "label": "ACTIVE NODES", "value": "32", "unit": "MCU Endpoints" },
+        { "label": "UPTIME SLA", "value": "99.94%", "unit": "Verified" }
+      ]
+    },
+    {
+      "id": "alu",
+      "index": "02",
+      "icon": "Cpu",
+      "code": "IC-ALU-02",
+      "category": "IC & SILICON",
+      "name": "RISC-V RV32I 5-Stage Pipeline & ALU RTL Visualizer",
+      "domain": "alu.jevkayden.tech",
+      "url": "https://alu.jevkayden.tech",
+      "repoUrl": "https://github.com/lionels-kayden/riscv-alu-visualizer",
+      "status": "ONLINE",
+      "isLive": true,
+      "version": "v1.9.0-RTL",
+      "latency": "4ms (WASM)",
+      "tagline": "Trình mô phỏng chu kỳ xung nhịp (Cycle-Accurate) kiến trúc vi xử lý RISC-V 32-bit, khối ALU và bộ giải quyết xung đột đường ống (Hazard Unit) trên WebAssembly.",
+      "problemSolved": "Loại bỏ rào cản cài đặt bộ công cụ EDA nặng nề (ModelSim/Vivado) khi kiểm thử tập lệnh RV32I và phân tích đường truyền tín hiệu (Datapath). Biên dịch trực tiếp mô hình Verilog RTL sang WebAssembly giúp sinh viên và kỹ sư quan sát từng thanh ghi IF/ID/EX/MEM/WB theo từng sườn xung clock.",
+      "architecture": [
+        "RISC-V RV32I Assembly / Machine Hex Input",
+        "Verilator C++ AST to WebAssembly Runtime Engine",
+        "5-Stage Pipeline Hazard & Forwarding State Machine",
+        "Interactive SVG Datapath & GTKWave-Style VCD Renderer"
+      ],
+      "features": [
+        "Mô phỏng chính xác từng chu kỳ xung nhịp 5 tầng đường ống (IF, ID, EX, MEM, WB)",
+        "Tô sáng trực tiếp đường đi tín hiệu Forwarding và cảnh báo Load-Use Stall",
+        "Trình biên dịch tức thời mã hợp ngữ RISC-V sang mã máy nhị phân/Hex 32-bit",
+        "Xuất giản đồ xung nhịp chuẩn VCD (Value Change Dump) ngay trên trình duyệt"
+      ],
+      "techStack": [
+        "SystemVerilog",
+        "Verilog HDL",
+        "Verilator",
+        "WebAssembly",
+        "RISC-V ISA",
+        "TypeScript",
+        "React SVG"
+      ],
+      "metrics": [
+        { "label": "MAX SIM FREQ", "value": "125", "unit": "MHz Target" },
+        { "label": "TEST VECTORS", "value": "50,000+", "unit": "Passed" },
+        { "label": "LOGIC GATES", "value": "14.2K", "unit": "NAND2 Eq." },
+        { "label": "WASM STEP TIME", "value": "0.18", "unit": "ms/cycle" }
+      ]
+    },
+    {
+      "id": "bot",
+      "index": "03",
+      "icon": "Bot",
+      "code": "AI-BOT-03",
+      "category": "AI & AUTOMATION",
+      "name": "LabOps Autonomous Hardware Dispatch & Spec Copilot",
+      "domain": "bot.jevkayden.tech",
+      "url": "https://bot.jevkayden.tech",
+      "repoUrl": "https://github.com/lionels-kayden/labops-bot-engine",
+      "status": "ONLINE",
+      "isLive": true,
+      "version": "v3.1.0-AI",
+      "latency": "18ms",
+      "tagline": "Trợ lý tự động hóa phòng Lab tra cứu Datasheet bán dẫn, sinh testbench SystemVerilog tự động và điều phối cảnh báo thiết bị qua đa kênh.",
+      "problemSolved": "Tăng tốc quá trình tra cứu hàng nghìn trang tài liệu Datasheet (STM32 Reference Manual, IEEE Standard, IC Pinout) bằng hệ thống RAG chuyên biệt cho kỹ thuật điện tử, kết hợp tác tử tự động sinh kịch bản kiểm thử (Testbench) và giám sát trạng thái máy chủ biên dịch.",
+      "architecture": [
+        "Datasheet PDF / Pinout Vector Ingestion Pipeline",
+        "Hybrid Semantic + Register-Address Indexer",
+        "LLM Verilog Testbench & Embedded Register Generator",
+        "Webhook Dispatcher (Telegram / Discord / Lab Pager)"
+      ],
+      "features": [
+        "Truy vấn tức thời bảng thanh ghi (Register Map) và cấu hình chân cắm MCU/FPGA",
+        "Tự động khởi tạo khung SystemVerilog Testbench & C HAL Driver chuẩn công nghiệp",
+        "Giám sát tiến trình tổng hợp mạch (Synthesis Job) và báo cáo lỗi Timing Slack",
+        "Tích hợp giao diện dòng lệnh (CLI) và REST API cho quy trình CI/CD phần cứng"
+      ],
+      "techStack": [
+        "Python",
+        "FastAPI",
+        "Vector RAG",
+        "SystemVerilog",
+        "Docker",
+        "Next.js",
+        "WebSockets"
+      ],
+      "metrics": [
+        { "label": "DATASHEETS INDEXED", "value": "420+", "unit": "IC Manuals" },
+        { "label": "QUERY LATENCY", "value": "180", "unit": "ms (P95)" },
+        { "label": "AUTO TESTBENCHES", "value": "1,280", "unit": "Generated" },
+        { "label": "REGISTER ACCURACY", "value": "99.2%", "unit": "Verified" }
+      ]
+    },
+    {
+      "id": "pcb",
+      "index": "04",
+      "icon": "CircuitBoard",
+      "code": "EDA-PCB-04",
+      "category": "EDA & PCB",
+      "name": "High-Speed PCB Impedance, Trace & PDN Calculator Suite",
+      "domain": "pcb.jevkayden.tech",
+      "url": "https://pcb.jevkayden.tech",
+      "repoUrl": "https://github.com/lionels-kayden/pcb-impedance-suite",
+      "status": "PRODUCTION",
+      "isLive": true,
+      "version": "v1.6.4-EDA",
+      "latency": "5ms (Local)",
+      "tagline": "Bộ công cụ tính toán trở kháng đường truyền vi dải (Microstrip/Stripline), độ rộng mạch in theo chuẩn IPC-2152 và phân tích sụt áp nguồn (PDN).",
+      "problemSolved": "Cung cấp công cụ tính toán nhanh, chính xác tuyệt đối theo tiêu chuẩn IPC-2152 và phương trình trường điện từ Wadell ngay trên trình duyệt cho kỹ sư thiết kế mạch tốc độ cao (USB 3.0, DDR, RF 2.4GHz), thay thế các bảng tính rời rạc dễ sai sót.",
+      "architecture": [
+        "Layer Stackup & Dielectric Parameter Input (FR-4 / Rogers)",
+        "IPC-2152 & Wadell Field-Solver Mathematical Kernel",
+        "Differential Pair & Via Inductance Analyzer",
+        "Interactive Cross-Sectional Stackup Blueprint Exporter"
+      ],
+      "features": [
+        "Tính toán trở kháng đơn (Single-Ended 50Ω) và vi sai (Differential 90Ω/100Ω)",
+        "Ước lượng nhiệt độ tăng trưởng và dòng tải tối đa trên đường đồng theo IPC-2152",
+        "Phân tích cảm kháng lỗ xuyên (Via Inductance) và tần số cộng hưởng tụ lọc nguồn",
+        "Xuất bảng thông số Stackup chuẩn định dạng Altium Designer & KiCad 8"
+      ],
+      "techStack": [
+        "TypeScript",
+        "IPC-2152 Math",
+        "RF Field Solver",
+        "KiCad / Altium",
+        "HTML5 Canvas",
+        "Next.js"
+      ],
+      "metrics": [
+        { "label": "IMPEDANCE TOLERANCE", "value": "±0.5", "unit": "Ohm (Ω)" },
+        { "label": "IPC STANDARD", "value": "IPC-2152", "unit": "Compliant" },
+        { "label": "STACKUP PRESETS", "value": "18", "unit": "2L to 8L PCB" },
+        { "label": "CALCULATION TIME", "value": "< 2", "unit": "ms" }
+      ]
+    },
+    {
+      "id": "uet",
+      "index": "05",
+      "icon": "GraduationCap",
+      "code": "EDU-UET-05",
+      "category": "ACADEMIC & HID",
+      "name": "VNU-UET FET Engineering Curriculum, GPA & Lab Portal",
+      "domain": "uet.jevkayden.tech",
+      "url": "https://uet.jevkayden.tech",
+      "repoUrl": "https://github.com/lionels-kayden/vnu-uet-fet-hub",
+      "status": "ONLINE",
+      "isLive": true,
+      "version": "v2.0.5-FET",
+      "latency": "14ms",
+      "tagline": "Cổng tra cứu lộ trình học phần Khoa Điện tử Viễn thông (VNU-UET), mô phỏng tích lũy tín chỉ GPA và kho tài liệu thực hành Điện tử - Vi mạch.",
+      "problemSolved": "Hệ thống hóa sơ đồ tiên quyết các học phần chuyên ngành Điện tử - Viễn thông & Thiết kế Vi mạch tại VNU-UET, giúp sinh viên hoạch định lộ trình tín chỉ, tính điểm GPA mục tiêu và truy cập nhanh tài liệu hướng dẫn thí nghiệm mạch số/tương tự.",
+      "architecture": [
+        "VNU-UET FET Coursework Dependency Graph Engine",
+        "GPA / Credit Weighting & Scholarship Predictor",
+        "Lab Report LaTeX & Spice Simulation Template Vault",
+        "Interactive Prerequisite Flowchart UI"
+      ],
+      "features": [
+        "Sơ đồ cây học phần tiên quyết tương tác cho định hướng Vi mạch (VLSI) & Nhúng",
+        "Máy tính dự phóng GPA tích lũy thang 4.0 và kiểm tra điều kiện học bổng KKHT",
+        "Kho mẫu báo cáo thực hành LaTeX chuẩn IEEE và thư viện linh kiện LTSpice/Proteus",
+        "Đồng bộ lịch học và danh mục đề tài nghiên cứu khoa học sinh viên"
+      ],
+      "techStack": [
+        "Next.js",
+        "TypeScript",
+        "Graph DAG",
+        "LaTeX / KaTeX",
+        "LTSpice",
+        "Tailwind CSS"
+      ],
+      "metrics": [
+        { "label": "FET COURSES MAPPED", "value": "68", "unit": "Subjects" },
+        { "label": "CREDIT TOTAL", "value": "135+", "unit": "Credits" },
+        { "label": "LAB TEMPLATES", "value": "45", "unit": "IEEE / Spice" },
+        { "label": "TARGET GPA", "value": "3.62+", "unit": "/ 4.0 Scale" }
+      ]
+    },
+    {
+      "id": "keeb",
+      "index": "06",
+      "icon": "Keyboard",
+      "code": "HID-KEEB-06",
+      "category": "ACADEMIC & HID",
+      "name": "QMK / ZMK Custom Mechanical Keyboard Matrix & HID Studio",
+      "domain": "keeb.jevkayden.tech",
+      "url": "https://keeb.jevkayden.tech",
+      "repoUrl": "https://github.com/lionels-kayden/keeb-qmk-studio",
+      "status": "BETA",
+      "isLive": true,
+      "version": "v1.3.0-HID",
+      "latency": "1.8ms (1kHz)",
+      "tagline": "Trình thiết kế ma trận quét phím (Diode Matrix), cấu hình Keymap QMK/ZMK và kiểm thử tốc độ phản hồi USB HID 1000Hz qua WebHID API.",
+      "problemSolved": "Kết nối trực tiếp bàn phím cơ tự chế (Custom PCB dùng RP2040 / STM32 / nRF52840) với trình duyệt qua chuẩn WebHID mà không cần phần mềm cài đặt, hỗ trợ kiểm tra hiện tượng bóng ma (Ghosting), đo thời gian chống dội phím (Debounce) và xuất cấu hình keymap.",
+      "architecture": [
+        "RP2040 / STM32F072 / nRF52840 Custom Keyboard PCB",
+        "QMK / ZMK Firmware with Raw-HID Telemetry Endpoint",
+        "Browser WebHID API 1000Hz Polling & Matrix Scanner",
+        "Visual Keymap Layer Editor & Klein Geometry Renderer"
+      ],
+      "features": [
+        "Kiểm tra ma trận phím thời gian thực và đo độ trễ chống dội (Switch Debounce Latency)",
+        "Thiết kế sơ đồ phân lớp phím (Layers, Mod-Tap, Rotary Encoder, OLED Screen)",
+        "Tự động sinh tệp cấu hình info.json / keymap.c cho QMK và .keymap cho ZMK",
+        "Phân tích mức tiêu thụ dòng điện pin LiPo cho bàn phím không dây tách đôi (Split BLE)"
+      ],
+      "techStack": [
+        "C (QMK)",
+        "Zephyr RTOS (ZMK)",
+        "WebHID API",
+        "RP2040 / ARM",
+        "KiCad PCB",
+        "TypeScript"
+      ],
+      "metrics": [
+        { "label": "USB POLLING RATE", "value": "1,000", "unit": "Hz (1ms)" },
+        { "label": "DEBOUNCE ALGO", "value": "Sym_Defer", "unit": "5ms Release" },
+        { "label": "KEYMAP LAYERS", "value": "8", "unit": "Dynamic" },
+        { "label": "BLE SLEEP CURRENT", "value": "18", "unit": "μA (nRF52)" }
+      ]
+    }
+  ]
+}
+

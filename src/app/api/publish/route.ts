@@ -12,10 +12,11 @@ import {
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const [siteData, cvData, blogData] = await Promise.all([
+  const [siteData, cvData, blogData, appsData] = await Promise.all([
     readJsonData("site.json"),
     readJsonData("cv.json"),
     readJsonData("blog.json"),
+    readJsonData("apps.json"),
   ]);
 
   return NextResponse.json(
@@ -27,6 +28,7 @@ export async function GET() {
       siteData,
       cvData,
       blogData,
+      appsData,
     },
     {
       status: 200,
@@ -58,6 +60,7 @@ export async function POST(request: Request) {
       const siteData = body?.siteData || body?.hubData || (await readJsonData("site.json"));
       const cvData = body?.cvData || (await readJsonData("cv.json"));
       const blogData = body?.blogData || (await readJsonData("blog.json"));
+      const appsData = body?.appsData || (await readJsonData("apps.json"));
 
       const timestamp = new Date().toLocaleString("vi-VN");
       const siteRes = await writeJsonData(
@@ -75,10 +78,15 @@ export async function POST(request: Request) {
         blogData,
         `chore(cms): sync blogData.json via Admin Studio (${timestamp})`
       );
+      const appsRes = await writeJsonData(
+        "apps.json",
+        appsData,
+        `chore(cms): sync apps.json via Admin Studio (${timestamp})`
+      );
 
-      if (!siteRes.ok || !cvRes.ok || !blogRes.ok) {
+      if (!siteRes.ok || !cvRes.ok || !blogRes.ok || !appsRes.ok) {
         const errText =
-          siteRes.error || cvRes.error || blogRes.error || "Lỗi đồng bộ GitHub API.";
+          siteRes.error || cvRes.error || blogRes.error || appsRes.error || "Lỗi đồng bộ GitHub API.";
         return NextResponse.json(
           {
             ok: false,
@@ -91,7 +99,7 @@ export async function POST(request: Request) {
       }
 
       const allCommitted = Boolean(
-        siteRes.githubCommitted && cvRes.githubCommitted && blogRes.githubCommitted
+        siteRes.githubCommitted && cvRes.githubCommitted && blogRes.githubCommitted && appsRes.githubCommitted
       );
 
       if (allCommitted) {
@@ -100,8 +108,8 @@ export async function POST(request: Request) {
           status: "PUSHED",
           syncedToGithub: true,
           githubCommitted: true,
-          commitUrl: blogRes.commitUrl || cvRes.commitUrl || siteRes.commitUrl,
-          message: `✓ Đã đồng bộ & commit toàn bộ dữ liệu (Hub, CV, Blog) trực tiếp lên GitHub Cloud (${GITHUB_OWNER}/${GITHUB_REPO}@${GITHUB_BRANCH})! Vercel đang tự động cập nhật bản triển khai.`,
+          commitUrl: appsRes.commitUrl || blogRes.commitUrl || cvRes.commitUrl || siteRes.commitUrl,
+          message: `✓ Đã đồng bộ & commit toàn bộ dữ liệu (Hub, CV, Blog, Apps) trực tiếp lên GitHub Cloud (${GITHUB_OWNER}/${GITHUB_REPO}@${GITHUB_BRANCH})! Vercel đang tự động cập nhật bản triển khai.`,
         });
       }
 

@@ -71,11 +71,11 @@
     {
       "id": "app",
       "name": "03 // APP LAB",
-      "status": "STANDBY",
+      "status": "ONLINE",
       "subdomain": "app.jevkayden.tech",
       "description": {
-        "vi": "Phòng thí nghiệm ứng dụng vi điều khiển, mô phỏng logic số và công cụ EDA web.",
-        "en": "Micro-applications lab, logic simulation suite, and Web-EDA hardware tools."
+        "vi": "Hệ thống L3 Horizontal Server Blade vận hành 6 ứng dụng kỹ thuật chuyên biệt (iot, alu, bot, pcb, uet, keeb) chuẩn bảng thông số IEEE Datasheet.",
+        "en": "L3 Horizontal Server Blade matrix hosting 6 engineering child web apps (iot, alu, bot, pcb, uet, keeb) with 4 switchable themes."
       }
     }
   ],

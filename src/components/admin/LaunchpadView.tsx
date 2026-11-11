@@ -339,9 +339,9 @@ export const LaunchpadView: React.FC<LaunchpadViewProps> = ({
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-[10px] font-black text-zinc-500">NODE 03</span>
-                  <span className="font-sans font-black text-xs text-black">APP LAB</span>
-                  <span className="px-1.5 py-0.2 bg-amber-100 border border-amber-600 text-amber-900 font-mono text-[9px] font-black">
-                    STANDBY
+                  <span className="font-sans font-black text-xs text-black">APP BLADES</span>
+                  <span className="px-1.5 py-0.2 bg-emerald-100 border border-emerald-700 text-emerald-900 font-mono text-[9px] font-black">
+                    {subdomainStatuses.app || "ONLINE"} // 6 APPS
                   </span>
                 </div>
                 <span className="font-mono text-[11px] text-zinc-600">app.jevkayden.tech</span>

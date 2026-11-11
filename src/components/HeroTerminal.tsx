@@ -227,11 +227,12 @@ export const HeroTerminal: React.FC<HeroTerminalProps> = ({
       responseLines = [
         {
           id: `out-${Date.now()}-1`,
-          type: "error",
-          text: "ALERT: Lab node app.jevkayden.tech is in STANDBY compiling mode.",
+          type: "success",
+          text: "Opening L3 ENGINEERING BLADE MATRIX (app.jevkayden.tech)...",
         },
       ];
-      onOpenStandbyModal();
+      const appTarget = window.location.hostname.includes("localhost") ? "/app" : siteConfig.subdomains[2].url;
+      window.open(appTarget, "_blank");
     } else {
       responseLines = [
         {

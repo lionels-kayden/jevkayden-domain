@@ -96,7 +96,7 @@ export const SubdomainGrid: React.FC<SubdomainGridProps> = ({
             BUS ARCHITECTURE: 3-BAY
           </span>
           <span className="bg-emerald-100 text-emerald-950 px-2.5 py-1 border-2 border-black">
-            2 / 3 ACTIVE
+            {mergedSubdomains.filter((n) => n.status === "ONLINE").length} / 3 ACTIVE
           </span>
         </div>
       </div>
@@ -167,13 +167,21 @@ export const SubdomainGrid: React.FC<SubdomainGridProps> = ({
                   </div>
                 )}
 
-                {node.id === "app" && (
-                  <div className="h-8 hazard-stripes-purple border-b-2 border-black px-3 flex items-center justify-center">
-                    <span className="bg-purple-950 text-purple-200 text-[10px] font-mono font-black px-2 py-0.5 border border-purple-400/40">
-                      ⚠ {node.subHeaderBanner[lang]}
-                    </span>
-                  </div>
-                )}
+                {node.id === "app" &&
+                  (isStandby ? (
+                    <div className="h-8 hazard-stripes-purple border-b-2 border-black px-3 flex items-center justify-center">
+                      <span className="bg-purple-950 text-purple-200 text-[10px] font-mono font-black px-2 py-0.5 border border-purple-400/40">
+                        ⚠ {node.subHeaderBanner[lang]}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="h-8 bg-purple-100 border-b-2 border-black px-3 flex items-center justify-center font-mono text-[10px] font-black text-purple-950">
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse border border-black"></span>
+                        {node.subHeaderBanner[lang]}
+                      </span>
+                    </div>
+                  ))}
 
                 {/* 3. Main Cartridge Info Area */}
                 <div className="p-5 flex flex-col space-y-4">

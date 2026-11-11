@@ -267,13 +267,12 @@ export const PagerContact: React.FC<PagerContactProps> = ({
             cv.{siteConfig.baseDomain}
           </a>
           <span>·</span>
-          <button
-            onClick={onOpenStandbyModal}
-            type="button"
-            className="hover:text-black underline font-extrabold cursor-pointer text-purple-900"
+          <a
+            href={siteConfig.subdomains[2].fallbackUrl || "/app"}
+            className="hover:text-black underline font-extrabold text-purple-900"
           >
-            app.{siteConfig.baseDomain} [STANDBY]
-          </button>
+            app.{siteConfig.baseDomain} [L3 BLADES]
+          </a>
         </div>
 
         <div className="text-zinc-600 text-[11px] font-bold">

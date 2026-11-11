@@ -3,7 +3,8 @@
 export type LiveCacheKey =
   | "jev_live_cv_data"
   | "jev_live_hub_data"
-  | "jev_live_blog_data";
+  | "jev_live_blog_data"
+  | "jev_live_apps_data";
 
 export interface LiveCacheEnvelope<T = unknown> {
   updatedAt: number;
@@ -215,7 +216,7 @@ export function pickFreshestData<T>(
  * Fetches cache-busted API data and merges with the freshest local/cookie snapshot.
  */
 export async function fetchFreshestData<T>(
-  apiEndpoint: "/api/cv" | "/api/site" | "/api/blog",
+  apiEndpoint: "/api/cv" | "/api/site" | "/api/blog" | "/api/apps",
   key: LiveCacheKey,
   fallbackData: T
 ): Promise<T> {
@@ -239,7 +240,7 @@ export async function fetchFreshestData<T>(
  */
 export function subscribeToLiveSync<T>(
   key: LiveCacheKey,
-  apiEndpoint: "/api/cv" | "/api/site" | "/api/blog",
+  apiEndpoint: "/api/cv" | "/api/site" | "/api/blog" | "/api/apps",
   fallbackData: T,
   onUpdate: (freshest: T) => void
 ): () => void {

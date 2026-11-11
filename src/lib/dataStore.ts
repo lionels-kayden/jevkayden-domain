@@ -3,6 +3,7 @@ import path from "path";
 import defaultHubData from "@/data/hubData.json";
 import defaultCvData from "@/data/cvData.json";
 import defaultBlogData from "@/data/blogData.json";
+import defaultAppsData from "@/data/apps.json";
 
 export const GITHUB_OWNER = process.env.GITHUB_OWNER || "lionels-kayden";
 export const GITHUB_REPO = (
@@ -14,14 +15,17 @@ export type DataStoreFilename =
   | "site.json"
   | "cv.json"
   | "blog.json"
+  | "apps.json"
   | "hubData.json"
   | "cvData.json"
-  | "blogData.json";
+  | "blogData.json"
+  | "appsData.json";
 
 export type CanonicalDataFilename =
   | "hubData.json"
   | "cvData.json"
-  | "blogData.json";
+  | "blogData.json"
+  | "apps.json";
 
 const FILE_MAP: Record<DataStoreFilename, CanonicalDataFilename> = {
   "site.json": "hubData.json",
@@ -30,12 +34,15 @@ const FILE_MAP: Record<DataStoreFilename, CanonicalDataFilename> = {
   "cvData.json": "cvData.json",
   "blog.json": "blogData.json",
   "blogData.json": "blogData.json",
+  "apps.json": "apps.json",
+  "appsData.json": "apps.json",
 };
 
 const BUNDLED_DEFAULTS: Record<CanonicalDataFilename, unknown> = {
   "hubData.json": defaultHubData,
   "cvData.json": defaultCvData,
   "blogData.json": defaultBlogData,
+  "apps.json": defaultAppsData,
 };
 
 export interface CacheEntry {
